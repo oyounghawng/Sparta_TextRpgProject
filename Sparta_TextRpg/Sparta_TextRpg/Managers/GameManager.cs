@@ -20,16 +20,14 @@ namespace Sparta_TextRpg
         public GameManager()
         {
             Instance = this;
+            int SceneNum = System.Enum.GetValues(typeof(SceneName)).Length;
+            scenes = new BaseScene[SceneNum];
 
-            scenes = new BaseScene[4];
+            scenes[(int)SceneName.StartScene] = new StartScene();
+            scenes[(int)SceneName.StatusScene] = new StatusScene();
+            scenes[(int)SceneName.BattleScene] = new BattleScne_oyoung();
 
-            scenes[0] = new StartScene();
-            scenes[1] = new StatusScene();
-            scenes[2] = new InventoryScene();
-            scenes[3] = new StoreScene();
-
-
-            ChangeScene(0);
+            ChangeScene(SceneName.StartScene);
             Excute();
         }
         public void Excute()
@@ -41,6 +39,10 @@ namespace Sparta_TextRpg
                     curScene.Excute();
                 }
             }
+        }
+        public void LoadPreScene()
+        {
+            ChangeScene(preScene.sceneName);
         }
         public void ChangeScene(SceneName sceneName)
         {

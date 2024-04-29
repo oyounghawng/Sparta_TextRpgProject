@@ -15,6 +15,7 @@ namespace Sparta_TextRpg
     {
         public override void Enter()
         {
+            sceneName = SceneName.StatusScene;
             ViewMenu();
         }
         public override void Excute()
@@ -38,6 +39,26 @@ namespace Sparta_TextRpg
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
 
+
+            var key = Console.ReadKey(true).Key;
+            switch (key)
+            {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    Console.Clear();
+                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
+                    break;
+                case ConsoleKey.D0:
+                case ConsoleKey.NumPad0:
+                    Console.Clear();
+                    GameManager.Instance.LoadPreScene();
+                    break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("잘못된 입력입니다.");
+                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    break;
+            }
         }
 
     }

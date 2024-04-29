@@ -21,7 +21,7 @@ namespace Sparta_TextRpg
         public PlayerJob _job;
         public float _attack;
         public int _defence;
-        public int _Maxhp;
+        public int _maxhp;
         public int _currnthp;
         public int _gold;
 
@@ -37,11 +37,16 @@ namespace Sparta_TextRpg
             _job = Job;
             _attack = Attack;
             _defence = Defence;
-            _Maxhp = Hp;
+            _maxhp = Hp;
             _currnthp = Hp;
             _gold = Gold;
             _inventory = new List<Item>();
             _needlevelexp = [1, 2, 3, 4];
+        }
+        public int HP
+        {
+            get { return _currnthp; }
+            set { _currnthp -= value; }
         }
         public void AddInventory(Item item)
         {

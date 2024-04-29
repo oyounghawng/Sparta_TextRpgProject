@@ -10,6 +10,7 @@ namespace Sparta_TextRpg
     {
         public override void Enter()
         {
+            Enemy enemy = DataManager.Enemys[0];
             ViewMenu();
         }
 

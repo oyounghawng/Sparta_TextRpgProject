@@ -14,12 +14,16 @@ namespace Sparta_TextRpg
     {
         public static DataManager Instance = new DataManager();
         public static List<Item> Items { get; private set; }
+        public static List<Enemy> Enemys { get; private set;}
 
         static DataManager()
         {
             Items = new List<Item>
             {
             };
+
+            Enemys = new List<Enemy>();
+            Enemys.Add(new Enemy());
         }
     }
 }

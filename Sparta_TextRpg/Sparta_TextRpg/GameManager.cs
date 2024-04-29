@@ -4,6 +4,7 @@ namespace Sparta_TextRpg
 {
     internal class GameManager
     {
+
         static void Main(string[] args)
         {
             GameManager gameManager = new GameManager();
@@ -27,6 +28,16 @@ namespace Sparta_TextRpg
             scenes[1] = new StatusScene();
             scenes[2] = new InventoryScene();
             scenes[3] = new StoreScene();
+
+
+            Instance = this;
+            int SceneNum = System.Enum.GetValues(typeof(SceneName)).Length;
+            scenes = new BaseScene[SceneNum];
+            scenes[(int)SceneName.StartScene] = new StartScene();
+            scenes[(int)SceneName.StatusScene] = new StatusScene();
+            scenes[(int)SceneName.BattleScene] = new DohyunBattle();
+            ChangeScene(SceneName.StartScene);
+            Excute();
 
 
             ChangeScene(0);

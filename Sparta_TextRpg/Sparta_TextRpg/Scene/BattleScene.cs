@@ -10,6 +10,7 @@ namespace Sparta_TextRpg
     {
         public override void Enter()
         {
+            sceneName = SceneName.BattleScene;
             Enemy enemy = DataManager.Enemys[0];
             ViewMenu();
         }
@@ -20,6 +21,7 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
+
             //행동 선택
             var key = Console.ReadKey(true).Key;
             switch (key)

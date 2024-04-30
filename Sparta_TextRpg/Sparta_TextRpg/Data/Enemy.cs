@@ -10,17 +10,17 @@ namespace Sparta_TextRpg
     internal class Enemy
     {
         public string name;
-        public int level = 0;
-        public int hp = 100;
-        public int atk = 10;
-        public int def = 5;
-        public int exp = 0;
+        public int level;
+        public int hp;
+        public int atk;
+        public int def;
+        public int exp;
 
         public bool isDie = false;
         public Enemy()
         {
             name = "슬라임";
-            level = 0;
+            level = 1;
             hp = 100;
             atk = 10;
             def = 5;

@@ -36,6 +36,10 @@ namespace Sparta_TextRpg
             Console.WriteLine("방어력 " + _player._defence + offset);
             Console.WriteLine("체력 " + _player._currenthp);
             Console.WriteLine("골드 " + _player._gold + "\n");
+
+            //Console.WriteLine($"보유중인 아이템은 {_player._inventory.Count} 입니다");
+            //Console.WriteLine($"보유중인 아이템: {_player._inventory[]}");
+
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
 

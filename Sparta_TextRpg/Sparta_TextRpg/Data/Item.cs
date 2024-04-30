@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 public enum ItemType
 {
     WEAPON,
-    ARMOR
+    ARMOR,
+    POTION,
+    GOLD        
 }
 
 
@@ -23,8 +25,9 @@ namespace Sparta_TextRpg
         public bool _isequip;
         public bool _isbuy;
         public int _price;
+        public int _gold;
 
-        public Item(string name, ItemType type, int statvalue, string description, int price, bool isequip = false, bool isbuy = false)
+        public Item(string name, ItemType type, int statvalue, string description, int price, int gold = 0, bool isequip = false, bool isbuy = false)
         {
             _name = name;
             _itemtype = type;
@@ -32,7 +35,10 @@ namespace Sparta_TextRpg
             _description = description;
             _isequip = isequip;
             _price = price;
+            _gold = gold;
+                                    
         }
+
 
     }
 }

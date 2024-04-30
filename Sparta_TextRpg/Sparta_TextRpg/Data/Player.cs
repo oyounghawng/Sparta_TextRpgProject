@@ -28,7 +28,7 @@ namespace Sparta_TextRpg
         public int _currentmp;
 
         public int _gold;
-
+        
         public List<Item> _inventory;
         public int[] _needlevelexp;
         public Item _weapon;

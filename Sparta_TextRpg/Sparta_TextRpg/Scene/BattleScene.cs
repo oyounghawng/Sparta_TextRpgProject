@@ -118,6 +118,9 @@ namespace Sparta_TextRpg
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
 
+            Console.WriteLine();
+            Reward();
+
             foreach(Enemy enemy in enemies)
             {
                 player._exp += enemy.exp;
@@ -185,7 +188,7 @@ namespace Sparta_TextRpg
 
             Console.WriteLine("Battle!!\n");
             Console.WriteLine(player._name + " 의 공격!");
-            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
+            Console.WriteLine($"Lv.{enemies[2].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
 
             Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name}");
             string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
@@ -225,6 +228,8 @@ namespace Sparta_TextRpg
             }
 
         }
+
+
         private void EnemyAttack()
         {
             Random random = new Random();
@@ -296,6 +301,35 @@ namespace Sparta_TextRpg
             player._attack += 0.5f; // 공격력 0.5 증가
             player._defence += 1; // 방어력 1 증가
             Console.WriteLine($"레벨업! 현재 레벨: {player._level}, 공격력: {player._attack}, 방어력: {player._defence}");
+        }
+        private void Reward()
+        {
+            Random random = new Random();
+
+            
+
+
+            foreach (Enemy enemy in enemies)
+            {
+                int rand = random.Next(1, 101);
+                if (rand < 90) // 90프로 확률로 골드 획득
+                {
+                    int rewardGold = random.Next(10, 101);
+
+                    player._gold += rewardGold;
+                    Console.WriteLine($"골드 {rewardGold}를 획득 하였습니다");
+                    Console.WriteLine($"보유 골드: {player._gold}");
+                }
+                rand = random.Next(1, 101);
+                if (rand > 5) // 5프로 확률로 아이템 획득
+                {
+                    int randomIndex = random.Next(DataManager.Items.Count);
+                    Item randomItem = DataManager.Items[randomIndex];
+                    player._inventory.Add(randomItem);
+
+                    Console.WriteLine($"아이템 {randomItem._name}를 획득하였습니다");
+                }
+            }
         }
     }
 }

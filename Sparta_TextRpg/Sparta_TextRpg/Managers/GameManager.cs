@@ -16,7 +16,7 @@ namespace Sparta_TextRpg
         BaseScene[] scenes;
         BaseScene preScene;
         BaseScene curScene;
-
+        
         public GameManager()
         {
             Instance = this;

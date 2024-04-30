@@ -11,7 +11,7 @@ namespace Sparta_TextRpg
         public override void Enter()
         {
             sceneName = SceneName.BattleScene;
-            Enemy enemy = DataManager.Enemys[0];
+            Enemy enemy = DataManager.Enemys[0];      
             ViewMenu();
         }
 

@@ -11,7 +11,7 @@ namespace Sparta_TextRpg
         }
 
         public static GameManager Instance;
-        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500);
+        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500, 0);
         public DataManager datamanager;
         BaseScene[] scenes;
         BaseScene preScene;

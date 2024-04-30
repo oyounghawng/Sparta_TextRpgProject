@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,10 +20,10 @@ namespace Sparta_TextRpg
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currnthp;
             Enemy enemy1 = new Enemy();
-            // Enemy enemy2 = new Enemy();
+            //Enemy enemy2 = new Enemy();
             //Enemy enemy3 = new Enemy();
             enemies.Add(enemy1);
-            // enemies.Add(enemy2);
+            //enemies.Add(enemy2);
             //enemies.Add(enemy3);
 
             ViewMenu();
@@ -48,6 +49,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("0. 도망가기");
             //행동 선택
             var key = Console.ReadKey(true).Key;
+            
             switch (key)
             {
                 case ConsoleKey.D1:
@@ -68,10 +70,39 @@ namespace Sparta_TextRpg
             }
         }
         private void ViewBattleVictoryResult()
-        {         
+        {
             Console.WriteLine("\nBattle!! - Result\n");
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
+
+
+
+            player._exp += enemies[0].exp;
+
+            Console.WriteLine($"캐릭터 르탄이 경험치 {enemies[0].exp}를 획득했습니다");
+
+
+            if (player._exp >= player._needlevelexp[player._level - 1])
+            {
+                while (player._exp >= player._needlevelexp[player._level - 1])
+                {
+                    player._exp -= player._needlevelexp[player._level - 1];
+                    player._level++;
+                    Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
+                    IncreaseStats();
+                    if (player._level - 1 >= player._needlevelexp.Length)
+                    {
+                        Console.WriteLine("더 이상 레벨업할 수 없습니다");
+                        break;
+                    }
+                    else if (player._exp < player._needlevelexp[player._level - 1])
+                    {
+                        Console.WriteLine($"현재 경험치 {player._exp} / 필요 경험치 {player._needlevelexp[player._level - 1]}");   
+                    }
+                }
+            }                 
+
+
             Console.Write("Lv. " + player._level.ToString("D2"));
             Console.WriteLine($"   Chad.( {player._job})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
@@ -109,9 +140,14 @@ namespace Sparta_TextRpg
             foreach (Enemy enemy in enemies)
             {
                 if (!enemy.isDie)
+                {
                     isEndBattle = false;
+                }                
                 else
+                {
                     isEndBattle = true;
+                }
+
 
             }
             //모든 적의 사망확인
@@ -134,11 +170,11 @@ namespace Sparta_TextRpg
                         break;
                 }
             }
-                
+
         }
         private void EnemyAttack()
         {
-            for (int i = 0;i < enemies.Count;i++)
+            for (int i = 0; i < enemies.Count; i++)
             {
                 Console.WriteLine("Battle!!\n");
                 Console.WriteLine($"Lv.{enemies[0].level} {enemies[0].name} 의 공격!");
@@ -164,5 +200,17 @@ namespace Sparta_TextRpg
                 }
             }
         }
+        // 스탯 증가 메서드
+        private void IncreaseStats()
+        {
+            player._attack += 0.5f; // 공격력 0.5 증가
+            player._defence += 1; // 방어력 1 증가
+            Console.WriteLine($"레벨업! 현재 레벨: {player._level}, 공격력: {player._attack}, 방어력: {player._defence}");
+        }
+
+
+
+
+
     }
 }

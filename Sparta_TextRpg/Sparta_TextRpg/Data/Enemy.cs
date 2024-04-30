@@ -20,7 +20,7 @@ namespace Sparta_TextRpg
         {
             name = "슬라임";
             level = 0;
-            hp = 100;
+            hp = 1000;
             atk = 10;
             def = 5;
             isDie = false;

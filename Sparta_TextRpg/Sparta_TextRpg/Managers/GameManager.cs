@@ -25,7 +25,7 @@ namespace Sparta_TextRpg
 
             scenes[(int)SceneName.StartScene] = new StartScene();
             scenes[(int)SceneName.StatusScene] = new StatusScene();
-            scenes[(int)SceneName.BattleScene] = new BattleScne_oyoung();
+            scenes[(int)SceneName.BattleScene] = new BattleScene();
 
             datamanager = new DataManager();
             ChangeScene(SceneName.StartScene);

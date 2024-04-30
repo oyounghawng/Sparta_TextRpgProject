@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,14 +23,18 @@ namespace Sparta_TextRpg
         public float _attack;
         public int _defence;
         public int _maxhp;
-        public int _currnthp;
+        public int _currenthp;
+        public int _maxmp;
+        public int _currentmp;
+
         public int _gold;
 
         public List<Item> _inventory;
         public int[] _needlevelexp;
         public Item _weapon;
         public Item _armor;
-        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold)
+
+        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold, int _exp)
         {
             _level = Level;
             _exp = 0;
@@ -38,15 +43,15 @@ namespace Sparta_TextRpg
             _attack = Attack;
             _defence = Defence;
             _maxhp = Hp;
-            _currnthp = Hp;
+            _currenthp = Hp;
             _gold = Gold;
             _inventory = new List<Item>();
             _needlevelexp = [1, 2, 3, 4];
         }
         public int HP
         {
-            get { return _currnthp; }
-            set { _currnthp -= value; }
+            get { return _currenthp; }
+            set { _currenthp -= value; }
         }
         public void AddInventory(Item item)
         {

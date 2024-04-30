@@ -11,12 +11,12 @@ namespace Sparta_TextRpg
         }
 
         public static GameManager Instance;
-        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500);
+        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500, 0);
         public DataManager datamanager;
         BaseScene[] scenes;
         BaseScene preScene;
         BaseScene curScene;
-
+        
         public GameManager()
         {
             Instance = this;
@@ -25,7 +25,7 @@ namespace Sparta_TextRpg
 
             scenes[(int)SceneName.StartScene] = new StartScene();
             scenes[(int)SceneName.StatusScene] = new StatusScene();
-            scenes[(int)SceneName.BattleScene] = new BattleScne_oyoung();
+            scenes[(int)SceneName.BattleScene] = new BattleScene();
 
             datamanager = new DataManager();
             ChangeScene(SceneName.StartScene);

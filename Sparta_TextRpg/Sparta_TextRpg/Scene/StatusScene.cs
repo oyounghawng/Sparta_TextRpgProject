@@ -34,7 +34,7 @@ namespace Sparta_TextRpg
             Console.WriteLine($"Chad.( {_player._job})");
             Console.WriteLine("공격력. " + _player._attack + offset);  
             Console.WriteLine("방어력 " + _player._defence + offset);
-            Console.WriteLine("체력 " + _player._currnthp);
+            Console.WriteLine("체력 " + _player._currenthp);
             Console.WriteLine("골드 " + _player._gold + "\n");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");

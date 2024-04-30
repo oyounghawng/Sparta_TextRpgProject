@@ -14,6 +14,7 @@ namespace Sparta_TextRpg
         public int hp = 100;
         public int atk = 10;
         public int def = 5;
+        public int exp = 0;
 
         public bool isDie = false;
         public Enemy()
@@ -23,6 +24,7 @@ namespace Sparta_TextRpg
             hp = 100;
             atk = 10;
             def = 5;
+            exp = 5;
             isDie = false;
         }
         public int HP

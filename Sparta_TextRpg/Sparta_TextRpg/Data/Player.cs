@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Sparta_TextRpg
         public int[] _needlevelexp;
         public Item _weapon;
         public Item _armor;
-        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold)
+        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold, int _exp)
         {
             _level = Level;
             _exp = 0;

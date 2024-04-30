@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Sparta_TextRpg.Scene;
+using System.Numerics;
 
 namespace Sparta_TextRpg
 {
@@ -7,7 +8,7 @@ namespace Sparta_TextRpg
         static void Main(string[] args)
         {
             GameManager gameManager = new GameManager();
-            gameManager.ChangeScene(SceneName.StartScene);
+           
         }
 
         public static GameManager Instance;
@@ -23,12 +24,14 @@ namespace Sparta_TextRpg
             int SceneNum = System.Enum.GetValues(typeof(SceneName)).Length;
             scenes = new BaseScene[SceneNum];
 
+            scenes[(int)SceneName.LoginScene] = new LoginScene();
+            scenes[(int)SceneName.SelectCharScene] = new SelectCharScene();
             scenes[(int)SceneName.StartScene] = new StartScene();
             scenes[(int)SceneName.StatusScene] = new StatusScene();
             scenes[(int)SceneName.BattleScene] = new BattleScne_oyoung();
 
             datamanager = new DataManager();
-            ChangeScene(SceneName.StartScene);
+            ChangeScene(SceneName.LoginScene);
 
             Excute();
         }

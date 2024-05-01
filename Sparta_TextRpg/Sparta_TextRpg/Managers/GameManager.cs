@@ -8,11 +8,10 @@ namespace Sparta_TextRpg
         static void Main(string[] args)
         {
             GameManager gameManager = new GameManager();
-           
         }
 
         public static GameManager Instance;
-        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500, 0);
+        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500, 0,100);
         public DataManager datamanager;
         BaseScene[] scenes;
         BaseScene preScene;
@@ -29,6 +28,10 @@ namespace Sparta_TextRpg
             scenes[(int)SceneName.StartScene] = new StartScene();
             scenes[(int)SceneName.StatusScene] = new StatusScene();
             scenes[(int)SceneName.BattleScene] = new BattleScene();
+            scenes[(int)SceneName.StoreScene] = new StoreScene();
+            scenes[(int)SceneName.InventoryScene] = new InventoryScene();
+            scenes[(int)SceneName.DungeonScene] = new DungeonScene();
+            scenes[(int)SceneName.RestScene] = new RestScene();
 
             datamanager = new DataManager();
             ChangeScene(SceneName.LoginScene);

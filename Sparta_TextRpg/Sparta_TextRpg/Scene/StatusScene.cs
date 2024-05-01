@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 
 namespace Sparta_TextRpg
 {
-
-
-    
     internal class StatusScene : BaseScene
     {
         public override void Enter()
@@ -36,9 +33,9 @@ namespace Sparta_TextRpg
             Console.WriteLine("방어력 " + _player._defence + offset);
             Console.WriteLine("체력 " + _player._currenthp);
             Console.WriteLine("골드 " + _player._gold + "\n");
+            Console.WriteLine("1. 인벤토리\n");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
-
 
             var key = Console.ReadKey(true).Key;
             switch (key)
@@ -46,17 +43,17 @@ namespace Sparta_TextRpg
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
+                    GameManager.Instance.ChangeScene(SceneName.InventoryScene);
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
                     Console.Clear();
-                    GameManager.Instance.LoadPreScene();
+                    GameManager.Instance.ChangeScene(SceneName.StartScene);
                     break;
                 default:
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
                     break;
             }
         }

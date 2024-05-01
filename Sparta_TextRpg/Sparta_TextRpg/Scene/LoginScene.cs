@@ -23,16 +23,10 @@ namespace Sparta_TextRpg.Scene
         {
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("원하시는 이름을 설정해주세요.");
-            Console.WriteLine(">>");
+            Console.Write(">> ");
             string playerName = Console.ReadLine();
-
-
             GameManager.Instance.player._name = playerName;
             GameManager.Instance.ChangeScene(SceneName.SelectCharScene);
-
-
-
-
         }
     }
 }

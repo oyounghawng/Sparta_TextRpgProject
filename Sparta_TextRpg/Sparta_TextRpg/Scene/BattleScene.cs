@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +18,10 @@ namespace Sparta_TextRpg
             enemies = new List<Enemy>();
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currenthp;
-            Enemy enemy1 = new Enemy();
-            Enemy enemy2 = new Enemy();
-            //Enemy enemy3 = new Enemy();
+            Enemy enemy1 = new Enemy("스켈레톤");
+            Enemy enemy2 = new Enemy("슬라임");
             enemies.Add(enemy1);
             enemies.Add(enemy2);
-            //enemies.Add(enemy3);
             ViewMenu();
         }
         public override void Excute()
@@ -118,11 +116,14 @@ namespace Sparta_TextRpg
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
 
-            foreach(Enemy enemy in enemies)
+            Console.WriteLine();
+            Reward();
+
+            foreach (Enemy enemy in enemies)
             {
                 player._exp += enemy.exp;
                 Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
-            }   
+            }
 
             if (player._exp >= player._needlevelexp[player._level - 1])
             {
@@ -178,8 +179,6 @@ namespace Sparta_TextRpg
             if (critic == true)
             {
                 offsetdamage = (int)MathF.Round(1.6f * (offsetdamage));
-
-
             }
             enemies[idx].HP = offsetdamage;
 
@@ -192,6 +191,9 @@ namespace Sparta_TextRpg
             Console.WriteLine($"HP {preEnemiseHp} ->{isDieString} \n");
             Console.WriteLine("적의 공격 턴입니다.\n");
             Console.WriteLine("0. 다음");
+            Console.Write("Lv. " + player._level.ToString("D2"));
+            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
 
             bool isEndBattle = true;
             //전투 종료 판단
@@ -264,7 +266,6 @@ namespace Sparta_TextRpg
 
                 if (i == enemies.Count - 1)
                     break;
-
                 var key = Console.ReadKey(true).Key;
                 switch (key)
                 {
@@ -296,6 +297,131 @@ namespace Sparta_TextRpg
             player._attack += 0.5f; // 공격력 0.5 증가
             player._defence += 1; // 방어력 1 증가
             Console.WriteLine($"레벨업! 현재 레벨: {player._level}, 공격력: {player._attack}, 방어력: {player._defence}");
+        }
+        private void Reward()
+        {
+            Random random = new Random();
+
+            foreach (Enemy enemy in enemies)
+            {
+                int rand = random.Next(1, 101);
+                if (rand < 90) // 90프로 확률로 골드 획득
+                {
+                    int rewardGold = random.Next(10, 101);
+
+                    player._gold += rewardGold;
+                    Console.WriteLine($"골드 {rewardGold}를 획득 하였습니다");
+                    Console.WriteLine($"보유 골드: {player._gold}");
+                }
+                rand = random.Next(1, 101);
+                if (rand > 50) // 5프로 확률로 아이템 획득
+                {
+                    //int randomIndex = random.Next(DataManager.Items.Count);
+                    //Item randomItem = DataManager.Items[randomIndex];
+                    //player._inventory.Add(randomItem);
+
+                    rand = random.Next(1, 101);
+                    List<Item> filterItem;
+
+                    if (rand < 70) // 70프로 확률로 물약 획득
+                    {
+                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.POTION).ToList();
+                    }
+                    else // 나머지 30프로 확률로 아이템 획득
+                    {
+                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.WEAPON).ToList();
+                    }
+
+                    if (filterItem.Count > 0)
+                    {
+                        int randomIndex = random.Next(0, filterItem.Count);
+
+                        /*
+                        1~10
+                            1~6 >노말
+                            7>9 >중급
+                        */
+                        Item randomItem = filterItem[randomIndex];
+                        player._inventory.Add(randomItem);
+
+                        Console.WriteLine($"아이템 {randomItem._name}를 획득하였습니다");
+                    }
+                }
+            }
+        }
+        private void Skill()
+        {
+            Console.WriteLine("Battle!!\n");
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                Console.WriteLine($" Lv.{enemies[i].level} {enemies[i].name} HP{enemies[i].hp}");
+            }
+
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv. {player._level}  Chad ({player._job})");
+            Console.WriteLine($"HP {player._currenthp}/{player._maxhp}");
+            Console.WriteLine($"MP {player._currentmp}/{player._maxmp}\n");
+            Console.WriteLine("1. 알파 스트라이크 - MP 10");
+            Console.WriteLine("   공격력 * 2 로 하나의 적을 공격합니다.");
+            Console.WriteLine("2. 더블 스트라이크 - MP 15");
+            Console.WriteLine("   공격력 * 1.5 로 2명의 적을 랜덤으로 공격합니다.");
+            Console.WriteLine("0. 취소");
+
+            Console.WriteLine("\n원하시는 행동을 입력해주세요.");
+            var key = Console.ReadKey(true).Key;
+            switch (key)
+            {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    Console.Clear();
+                    if (player._currentmp >= 10)
+                    {
+                        // 알파 스트라이크
+                        player._currentmp -= 10;
+                        if (enemies.Count > 0)
+                        {
+                            enemies[0].HP = (int)MathF.Round(2 * player._attack);
+                            Console.WriteLine("알파 스트라이크 사용!");
+                        }
+                        EnemyAttack();
+                    }
+                    else
+                    {
+                        Console.WriteLine("MP가 부족합니다.");
+                    }
+                    break;
+                case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
+                    Console.Clear();
+                    if (player._currentmp >= 15)
+                    {
+                        // 더블 스트라이크
+                        player._currentmp -= 15;
+                        // 랜덤으로 2명의 적 공격
+                        int hitCount = 0;
+                        foreach (var enemy in enemies)
+                        {
+                            if (hitCount >= 2) break;
+                            enemy.HP = (int)MathF.Round(1.5f * player._attack);
+                            hitCount++;
+                            Console.WriteLine("더블 스트라이크 사용!");
+                        }
+                        EnemyAttack();
+                    }
+                    else
+                    {
+                        Console.WriteLine("MP가 부족합니다.");
+                    }
+                    break;
+                case ConsoleKey.D0:
+                case ConsoleKey.NumPad0:
+                    Console.Clear();
+                    // 취소
+                    return; // 메인 메뉴로 복귀
+                default:
+                    Console.WriteLine("잘못된 입력입니다.");
+                    break;
+            }
         }
     }
 }

@@ -133,25 +133,19 @@ namespace Sparta_TextRpg
 
             }
 
-            if (player._level <= player._needlevelexp.Length)
+            if (player._level < player._needlevelexp.Length)
             {
-                if (player._exp >= player._needlevelexp[player._level - 1])
+                while (player._exp >= player._needlevelexp[player._level - 1])
                 {
-                    while (player._exp >= player._needlevelexp[player._level - 1])
+                    player._exp -= player._needlevelexp[player._level - 1];
+                    player._level++;
+                    Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
+
+
+                    if (player._level - 1 >= player._needlevelexp.Length)
                     {
-                        player._exp -= player._needlevelexp[player._level - 1];
-                        player._level++;
-                        Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
-                        IncreaseStats();
-                        if (player._level - 1 >= player._needlevelexp.Length)
-                        {
-                            Console.WriteLine("더 이상 레벨업할 수 없습니다");
-                            break;
-                        }
-                        else if (player._exp < player._needlevelexp[player._level - 1])
-                        {
-                            Console.WriteLine($"현재 경험치 {player._exp} / 필요 경험치 {player._needlevelexp[player._level - 1]}");
-                        }
+                        Console.WriteLine("더 이상 레벨업할 수 없습니다");
+                        break;
                     }
                 }
             }

@@ -45,19 +45,22 @@ namespace Sparta_TextRpg
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     Console.Clear();
+                    GameManager.Instance.ChangeScene(SceneName.StoreScene);
                     break;
                 case ConsoleKey.D4:
                 case ConsoleKey.NumPad4:
                     Console.Clear();
+                    GameManager.Instance.ChangeScene(SceneName.DungeonScene);
                     break;
                 case ConsoleKey.D5:
                 case ConsoleKey.NumPad5:
                     Console.Clear();
+                    GameManager.Instance.ChangeScene(SceneName.RestScene);
                     break;
                 default:
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    ViewMenu();
                     break;
 
             }

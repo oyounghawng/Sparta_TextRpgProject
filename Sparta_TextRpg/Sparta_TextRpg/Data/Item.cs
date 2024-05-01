@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 public enum ItemType
 {
     WEAPON,
-    ARMOR
+    HELMET,
+    ARMOR,
+    SHOES
 }
-
-
 namespace Sparta_TextRpg
 {
     internal class Item
@@ -24,6 +24,10 @@ namespace Sparta_TextRpg
         public bool _isbuy;
         public int _price;
 
+        public Item()
+        {
+
+        }
         public Item(string name, ItemType type, int statvalue, string description, int price, bool isequip = false, bool isbuy = false)
         {
             _name = name;

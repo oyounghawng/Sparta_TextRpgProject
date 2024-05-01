@@ -31,8 +31,7 @@ namespace Sparta_TextRpg
 
         public List<Item> _inventory;
         public int[] _needlevelexp;
-        public Item _weapon;
-        public Item _armor;
+        public Dictionary<ItemType,Item> equipItem;
 
         public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold, int _exp)
         {
@@ -47,6 +46,20 @@ namespace Sparta_TextRpg
             _gold = Gold;
             _inventory = new List<Item>();
             _needlevelexp = [1, 2, 3, 4];
+            equipItem = new Dictionary<ItemType,Item>();
+
+            AddEquip();
+        }
+        private void AddEquip()
+        {
+            Item item1 = new Item();
+            equipItem.Add(ItemType.WEAPON, item1);
+            Item item2 = new Item();
+            equipItem.Add(ItemType.HELMET, item2);
+            Item item3 = new Item();
+            equipItem.Add(ItemType.ARMOR, item3);
+            Item item4 = new Item();
+            equipItem.Add(ItemType.SHOES, item4);
         }
         public int HP
         {
@@ -55,7 +68,7 @@ namespace Sparta_TextRpg
         }
         public void AddInventory(Item item)
         {
-            _inventory.Add(item);
+            equipItem[item._itemtype] = item;
         }
     }
 }

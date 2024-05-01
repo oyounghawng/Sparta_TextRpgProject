@@ -57,7 +57,6 @@ namespace Sparta_TextRpg.Scene
                     ViewMenu();
                     break;
             }
-
         }
         /*
         private void DoDungeon()

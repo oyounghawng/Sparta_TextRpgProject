@@ -12,6 +12,7 @@ namespace Sparta_TextRpg
         private Player player;
         private int playerpreBattleHp;
         private bool IsBattle = false;
+
         public override void Enter()
         {
             sceneName = SceneName.BattleScene;
@@ -105,30 +106,23 @@ namespace Sparta_TextRpg
         }
         private void ViewBattleVictoryResult()
         {
-            Console.WriteLine("\nBattle!! - Result\n");
-            Console.WriteLine("Victory\n");
-            Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
-            Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
-            Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
+            Console.Clear();
+
 
             Console.WriteLine("\nBattle!! - Result\n");
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
 
-            Console.WriteLine();
-            Reward();
 
             foreach (Enemy enemy in enemies)
             {
                 if (player._level <= player._needlevelexp.Length)
                 {
                     player._exp += enemy.exp;
-                    Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
                 }
                 else
                 {
-                    Console.WriteLine("최대 레벨에 도달하여 경험치를 획득할 수 없습니다"); // 근데 한번만 뜨게 하고 싶음.
+                    Console.WriteLine("\n최대 레벨에 도달하여 경험치를 획득할 수 없습니다"); // 근데 한번만 뜨게 하고 싶음.
                 }
 
             }
@@ -139,9 +133,6 @@ namespace Sparta_TextRpg
                 {
                     player._exp -= player._needlevelexp[player._level - 1];
                     player._level++;
-                    Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
-
-
                     if (player._level - 1 >= player._needlevelexp.Length)
                     {
                         Console.WriteLine("더 이상 레벨업할 수 없습니다");
@@ -150,12 +141,14 @@ namespace Sparta_TextRpg
                 }
             }
 
+            Console.WriteLine("[캐릭터 정보]");
+            Console.WriteLine($"LV. " + player._level.ToString("D2"));
+            Console.WriteLine($"    (직업) ({player._job})");
+            Console.WriteLine($"HP {player._maxhp} -> {player._currenthp}");
+            Console.WriteLine("\n[획득 아이템]");
+            Reward();
 
-            Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
-            Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
-
-            Console.WriteLine($"0. 로비로");
+            Console.WriteLine($"\n0. 로비로");
             var key = Console.ReadKey(true).Key;
             switch (key)
             {
@@ -167,8 +160,7 @@ namespace Sparta_TextRpg
                 default:
                     Console.WriteLine("잘못된 입력입니다.");
                     break;
-            }
-            
+            }            
         }
         private void GameOver()
         {
@@ -315,10 +307,11 @@ namespace Sparta_TextRpg
         }
         private void IncreaseStats()
         {
-            player._attack += 0.5f; // 공격력 0.5 증가
-            player._defence += 1; // 방어력 1 증가
-            Console.WriteLine($"레벨업! 현재 레벨: {player._level}, 공격력: {player._attack}, 방어력: {player._defence}");
+            player._attack += 3.0f; // 공격력 3 증가
+            player._defence += 2; // 방어력 2 증가
         }
+
+ 
         private void Reward()
         {
             Random random = new Random();
@@ -326,50 +319,70 @@ namespace Sparta_TextRpg
             foreach (Enemy enemy in enemies)
             {
                 int rand = random.Next(1, 101);
-                if (rand < 90) // 90프로 확률로 골드 획득
+
+                if (rand <= 90) // 90프로 확률로 골드 획득
                 {
                     int rewardGold = random.Next(10, 101);
-
                     player._gold += rewardGold;
-                    Console.WriteLine($"골드 {rewardGold}를 획득 하였습니다");
-                    Console.WriteLine($"보유 골드: {player._gold}");
+                    Console.WriteLine($"[골드]을(를) {rewardGold} 획득하였습니다");
                 }
-                rand = random.Next(1, 101);
-                if (rand > 50) // 5프로 확률로 아이템 획득
-                {
-                    //int randomIndex = random.Next(DataManager.Items.Count);
-                    //Item randomItem = DataManager.Items[randomIndex];
-                    //player._inventory.Add(randomItem);
 
+
+                rand = random.Next(1, 101);
+                if (rand <= 20) // 20프로 확률로 아이템 획득
+                {
                     rand = random.Next(1, 101);
                     List<Item> filterItem;
+                    ItemRating rating;
 
-                    if (rand < 70) // 70프로 확률로 물약 획득
+                    if (rand <= 70) // 70프로 확률로 물약 획득
                     {
-                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.POTION).ToList();
+                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.POTION).ToList();           
                     }
                     else // 나머지 30프로 확률로 아이템 획득
                     {
                         filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.WEAPON).ToList();
                     }
+                    rand = random.Next(1, 101);
+                    if (rand <= 70)
+                    {
+                        rating = ItemRating.COMMON;
+                    }
+                    else if (rand >= 71 && rand <= 90)
+                    {
+                        rating = ItemRating.RARE;
+                    }                    
+                    else if (rand >= 91 && rand <= 99)
+                    {
+                        rating = ItemRating.UNIQUE;
+                    }
+                    else
+                    {
+                        if (filterItem.Any(item => item._itemtype == ItemType.WEAPON))
+                        {
+                            rating = ItemRating.LEGEND;                            
+                        }  
+                        else
+                        {
+                            rating = ItemRating.COMMON;
+                        }
+                    }
+
+                    filterItem = filterItem.Where(item => item._itemrating == rating).ToList();
 
                     if (filterItem.Count > 0)
                     {
                         int randomIndex = random.Next(0, filterItem.Count);
-
-                        /*
-                        1~10
-                            1~6 >노말
-                            7>9 >중급
-                        */
                         Item randomItem = filterItem[randomIndex];
                         player._inventory.Add(randomItem);
+                        
 
-                        Console.WriteLine($"아이템 {randomItem._name}를 획득하였습니다");
+                        Console.WriteLine($"[{randomItem._name}]을(를) 획득하였습니다");
                     }
                 }
             }
         }
+
         private void Skill()
         {
             Console.WriteLine("Battle!!\n");

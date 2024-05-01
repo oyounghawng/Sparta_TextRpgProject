@@ -24,7 +24,7 @@ namespace Sparta_TextRpg
             hp = 100;
             atk = 10;
             def = 5;
-            exp = 5;
+            exp = 1000;
             isDie = false;
         }
         public int HP

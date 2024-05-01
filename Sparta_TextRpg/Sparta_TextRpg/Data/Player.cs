@@ -12,6 +12,7 @@ namespace Sparta_TextRpg
     {
         public int _level;
         public int _exp;
+        public int _currentexp;
         public string _name; 
         public float _attack;
         public int _defence;

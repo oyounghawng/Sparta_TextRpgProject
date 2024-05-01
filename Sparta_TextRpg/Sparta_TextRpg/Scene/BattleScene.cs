@@ -1,4 +1,4 @@
-﻿//using System;
+//using System;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
@@ -169,6 +169,54 @@
 //            {
 //                critic = true;
 
+//            foreach(Enemy enemy in enemies)
+//            {
+//                player._exp += enemy.exp;
+//                Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
+//            }   
+
+//            if (player._exp >= player._needlevelexp[player._level - 1])
+//            {
+//                while (player._exp >= player._needlevelexp[player._level - 1])
+//                {
+//                    player._exp -= player._needlevelexp[player._level - 1];
+//                    player._level++;
+//                    Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
+//                    IncreaseStats();
+//                    if (player._level - 1 >= player._needlevelexp.Length)
+//                    {
+//                        Console.WriteLine("더 이상 레벨업할 수 없습니다");
+//                        break;
+//                    }
+//                    else if (player._exp < player._needlevelexp[player._level - 1])
+//                    {
+//                        Console.WriteLine($"현재 경험치 {player._exp} / 필요 경험치 {player._needlevelexp[player._level - 1]}");
+//                    }
+//                }
+//            }
+
+//            Console.Write("Lv. " + player._level.ToString("D2"));
+//            Console.WriteLine($"   Chad.( {player._job})");
+//            Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
+//        }
+//        private void GameOver()
+//        {
+//            Console.WriteLine("Battle!! - Result\n");
+//            Console.WriteLine("You Lose\n");
+//            Console.Write("Lv. " + player._level.ToString("D2"));
+//            Console.WriteLine($"   Chad.( {player._job})");
+//            Console.WriteLine($"HP {player._currenthp} -> 0 \n");
+//            return; //다시할수도?
+//        }
+//        private void PlayerAttack(int idx)
+//        {
+//            bool critic = false;
+//            Random random = new Random();
+//            int critical = random.Next(1, 101);// 치명타
+//            if (critical <= 15)
+//            {
+//                critic = true;
+
 //            }
 //            else
 //            {
@@ -229,6 +277,46 @@
 
 //        }
 
+
+//        private void EnemyAttack()
+//        {
+//            Random random = new Random();
+//            for (int i = 0; i < enemies.Count; i++)
+//            {
+//                Console.Clear();
+//                Console.WriteLine("적의 공격 턴입니다.");
+//                Console.WriteLine("Battle!!\n");
+//                Console.WriteLine($"{i + 1}번쨰 Lv.{enemies[i].level} {enemies[i].name} 의 공격!");
+//                //체력 감소
+
+//                bool avoidance = false;
+//                int eatk = enemies[i].atk;
+//                int avoid = random.Next(1, 101);// 회피
+//                if (avoid <= 10)
+//                {
+//                    avoidance = true;
+//                }
+//                else
+//                {
+//                    avoidance = false;
+//                }
+
+//                if (avoidance == true)
+//                {
+//                    eatk = 0 * (enemies[0].atk);
+//                    Console.Write("회피하였습니다. ");
+//                    avoidance = false;
+//                }
+//                int preEnemyAttackHp = player.HP;
+//                player.HP = eatk;
+
+//                Console.WriteLine($"[데미지 : {eatk}]");
+//                Console.WriteLine($"HP {preEnemyAttackHp} ->{player.HP} \n");
+//                Console.WriteLine(player._name + "을(를) 맞췄습니다.");
+//                Console.WriteLine("0. 다음");
+
+//                if (i == enemies.Count - 1)
+//                    break;
 
 //        private void EnemyAttack()
 //        {

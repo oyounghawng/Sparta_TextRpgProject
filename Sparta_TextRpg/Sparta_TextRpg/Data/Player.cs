@@ -33,7 +33,7 @@ namespace Sparta_TextRpg
         public int[] _needlevelexp;
         public Dictionary<ItemType,Item> equipItem;
 
-        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold, int _exp)
+        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold, int _exp,int Mp)
         {
             _level = Level;
             _exp = 0;
@@ -43,6 +43,8 @@ namespace Sparta_TextRpg
             _defence = Defence;
             _maxhp = Hp;
             _currenthp = Hp;
+            _maxmp = Mp;
+            _currentmp = Mp;
             _gold = Gold;
             _inventory = new List<Item>();
             _needlevelexp = [1, 2, 3, 4];

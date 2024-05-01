@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sparta_TextRpg
@@ -24,11 +25,27 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
-         //   Console.WriteLine("반갑습니다! " + playerName + ".");
-            Console.WriteLine("1. 전사");
-            Console.WriteLine("2. 마법사");
-            Console.WriteLine("3. 궁수");
+          
+
+            Playerjobs[] PlayerJobs = 
+            {   
+                Playerjobs.PlayerJobList.Warrior,
+                Playerjobs.PlayerJobList.Magician,
+                Playerjobs.PlayerJobList.Archer
+            };
+
+            for (int i = 0; i < PlayerJobs.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {PlayerJobs[i]._job.ToString()}");
+                Console.WriteLine($"공격력: {PlayerJobs[i]._attack}");
+                Console.WriteLine($"방어력: {PlayerJobs[i]._defence}");
+                Console.WriteLine($"체력: {PlayerJobs[i]._maxhp}");
+                Console.WriteLine($"마나: {PlayerJobs[i]._maxmp}\n");
+            }
+            Console.WriteLine("0. 뒤로가기\n");
             Console.WriteLine("원하시는 캐릭터를 입력해주세요.");
+
+            
 
             var key = Console.ReadKey(true).Key;
             switch (key)
@@ -48,9 +65,14 @@ namespace Sparta_TextRpg
                     Console.Clear();
                     GameManager.Instance.ChangeScene(SceneName.StartScene);
                     break;
+                case ConsoleKey.D0:
+                case ConsoleKey.NumPad0:
+                    Console.Clear();
+                    GameManager.Instance.ChangeScene(SceneName.LoginScene);
+                    break;
 
                 default:
-                    Console.Clear();
+                    
                     Console.WriteLine("잘못된 입력입니다.");
                     GameManager.Instance.ChangeScene(SceneName.SelectCharScene);
                     break;

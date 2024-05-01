@@ -121,29 +121,41 @@ namespace Sparta_TextRpg
 
             foreach (Enemy enemy in enemies)
             {
-                player._exp += enemy.exp;
-                Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
+                if (player._level <= player._needlevelexp.Length)
+                {
+                    player._exp += enemy.exp;
+                    Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
+                }
+                else
+                {
+                    Console.WriteLine("최대 레벨에 도달하여 경험치를 획득할 수 없습니다"); // 근데 한번만 뜨게 하고 싶음.
+                }
+
             }
 
-            if (player._exp >= player._needlevelexp[player._level - 1])
+            if (player._level <= player._needlevelexp.Length)
             {
-                while (player._exp >= player._needlevelexp[player._level - 1])
+                if (player._exp >= player._needlevelexp[player._level - 1])
                 {
-                    player._exp -= player._needlevelexp[player._level - 1];
-                    player._level++;
-                    Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
-                    IncreaseStats();
-                    if (player._level - 1 >= player._needlevelexp.Length)
+                    while (player._exp >= player._needlevelexp[player._level - 1])
                     {
-                        Console.WriteLine("더 이상 레벨업할 수 없습니다");
-                        break;
-                    }
-                    else if (player._exp < player._needlevelexp[player._level - 1])
-                    {
-                        Console.WriteLine($"현재 경험치 {player._exp} / 필요 경험치 {player._needlevelexp[player._level - 1]}");
+                        player._exp -= player._needlevelexp[player._level - 1];
+                        player._level++;
+                        Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
+                        IncreaseStats();
+                        if (player._level - 1 >= player._needlevelexp.Length)
+                        {
+                            Console.WriteLine("더 이상 레벨업할 수 없습니다");
+                            break;
+                        }
+                        else if (player._exp < player._needlevelexp[player._level - 1])
+                        {
+                            Console.WriteLine($"현재 경험치 {player._exp} / 필요 경험치 {player._needlevelexp[player._level - 1]}");
+                        }
                     }
                 }
             }
+
 
             Console.Write("Lv. " + player._level.ToString("D2"));
             Console.WriteLine($"   Chad.( {player._job})");

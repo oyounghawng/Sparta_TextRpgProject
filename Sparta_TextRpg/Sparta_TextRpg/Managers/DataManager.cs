@@ -19,6 +19,17 @@ namespace Sparta_TextRpg
         public DataManager()
         {
             Items = new List<Item>();
+            Items = new List<Item>
+            {
+
+                new Item("하급 포션(HP)", ItemType.POTION, 10, "작은 회복", 50),
+                //new Item("중급 포션(HP)", ItemType.POTION, 20, "중간 회복", 150),
+                new Item("상급 포션(HP)", ItemType.POTION, 30, "큰 회복", 250),
+                new Item("하급 포션(MP)", ItemType.POTION, 10, "작은 회복", 50),
+                //new Item("중급 포션(MP)", ItemType.POTION, 20, "작은 회복", 150),
+                new Item("상급 포션(MP)", ItemType.POTION, 30, "큰 회복", 250)
+            };
+
             Enemys = new List<Enemy>();
             Enemys.Add(new Enemy());
 
@@ -34,6 +45,13 @@ namespace Sparta_TextRpg
             Items.Add(item2);
             Items.Add(item3);
             Items.Add(item4);
+
+            Items.Add(new Item("하급 체력 포션", ItemType.POTION, 10, "작은 회복", 50))
+            Items.Add(new Item("중급 체력 포션", ItemType.POTION, 20, "중간 회복", 150))
+            Items.Add(new Item("상급 체력 포션", ItemType.POTION, 30, "큰 회복", 250))
+            Items.Add(new Item("하급 마나 포션", ItemType.POTION, 10, "작은 회복", 50))
+            Items.Add(new Item("중급 마나 포션(MP)", ItemType.POTION, 20, "작은 회복", 150))
+            Items.Add(new Item("상급 마나 포션(MP)", ItemType.POTION, 30, "큰 회복", 250))
         }
     }
 }

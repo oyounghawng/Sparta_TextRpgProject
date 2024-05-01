@@ -37,7 +37,6 @@ namespace Sparta_TextRpg
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
 
-
             var key = Console.ReadKey(true).Key;
             switch (key)
             {

@@ -10,6 +10,8 @@ public enum ItemType
     HELMET,
     ARMOR,
     SHOES
+    ARMOR,
+    POTION     
 }
 namespace Sparta_TextRpg
 {
@@ -23,6 +25,7 @@ namespace Sparta_TextRpg
         public bool _isequip;
         public bool _isbuy;
         public int _price;
+        public int _gold;
 
         public Item()
         {
@@ -36,7 +39,8 @@ namespace Sparta_TextRpg
             _description = description;
             _isequip = isequip;
             _price = price;
+            _gold = gold;
+                                    
         }
-
     }
 }

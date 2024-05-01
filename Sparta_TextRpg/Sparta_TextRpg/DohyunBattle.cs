@@ -6,7 +6,7 @@
 
 //namespace Sparta_TextRpg
 //{
-//    internal class BattleScene : BaseScene
+//    internal class DohyunBattle : BaseScene
 //    {
 //        private List<Enemy> enemies;
 //        private Player player;
@@ -188,7 +188,7 @@
 
 //            Console.WriteLine("Battle!!\n");
 //            Console.WriteLine(player._name + " 의 공격!");
-//            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
+//            Console.WriteLine($"Lv.{enemies[].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
 
 //            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name}");
 //            string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
@@ -343,7 +343,7 @@
 //                        player._inventory.Add(randomItem);
 
 //                        Console.WriteLine($"아이템 {randomItem._name}를 획득하였습니다");
-//                    }
+//                    } 
 //                }
 //            }
 //        }

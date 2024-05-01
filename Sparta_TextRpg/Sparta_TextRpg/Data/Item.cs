@@ -8,8 +8,7 @@ public enum ItemType
 {
     WEAPON,
     ARMOR,
-    POTION,
-    GOLD        
+    POTION     
 }
 
 

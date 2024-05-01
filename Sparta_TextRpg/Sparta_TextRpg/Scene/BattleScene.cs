@@ -121,11 +121,11 @@
 //            Console.WriteLine();
 //            Reward();
 
-//            foreach(Enemy enemy in enemies)
+//            foreach (Enemy enemy in enemies)
 //            {
 //                player._exp += enemy.exp;
 //                Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
-//            }   
+//            }
 
 //            if (player._exp >= player._needlevelexp[player._level - 1])
 //            {
@@ -188,7 +188,7 @@
 
 //            Console.WriteLine("Battle!!\n");
 //            Console.WriteLine(player._name + " 의 공격!");
-//            Console.WriteLine($"Lv.{enemies[].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
+//            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
 
 //            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name}");
 //            string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
@@ -305,7 +305,7 @@
 //        private void Reward()
 //        {
 //            Random random = new Random();
-                      
+
 //            foreach (Enemy enemy in enemies)
 //            {
 //                int rand = random.Next(1, 101);
@@ -318,13 +318,32 @@
 //                    Console.WriteLine($"보유 골드: {player._gold}");
 //                }
 //                rand = random.Next(1, 101);
-//                if (rand > 5) // 5프로 확률로 아이템 획득
+//                if (rand > 50) // 5프로 확률로 아이템 획득
 //                {
-//                    int randomIndex = random.Next(DataManager.Items.Count);
-//                    Item randomItem = DataManager.Items[randomIndex];
-//                    player._inventory.Add(randomItem);
+//                    //int randomIndex = random.Next(DataManager.Items.Count);
+//                    //Item randomItem = DataManager.Items[randomIndex];
+//                    //player._inventory.Add(randomItem);
 
-//                    Console.WriteLine($"아이템 {randomItem._name}를 획득하였습니다");
+//                    rand = random.Next(1, 101);
+//                    List<Item> filterItem;
+
+//                    if (rand < 70) // 70프로 확률로 물약 획득
+//                    {
+//                        filterItem = DataManager.Items.Where(item => item._itemtype == ItemType.POTION).ToList();
+//                    }
+//                    else // 나머지 30프로 확률로 아이템 획득
+//                    {
+//                        filterItem = DataManager.Items.Where(item => item._itemtype == ItemType.WEAPON).ToList();
+//                    }
+
+//                    if (filterItem.Count > 0)
+//                    {
+//                        int randomIndex = random.Next(0, filterItem.Count);
+//                        Item randomItem = filterItem[randomIndex];
+//                        player._inventory.Add(randomItem);
+
+//                        Console.WriteLine($"아이템 {randomItem._name}를 획득하였습니다");
+//                    }
 //                }
 //            }
 //        }

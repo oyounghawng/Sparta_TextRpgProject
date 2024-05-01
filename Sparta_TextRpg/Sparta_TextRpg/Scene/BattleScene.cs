@@ -148,6 +148,21 @@ namespace Sparta_TextRpg
             Console.Write("Lv. " + player._level.ToString("D2"));
             Console.WriteLine($"   Chad.( {player._job})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
+
+            Console.WriteLine($"0. 로비로");
+            var key = Console.ReadKey(true).Key;
+            switch (key)
+            {
+                case ConsoleKey.D0:
+                case ConsoleKey.NumPad0:
+                    Console.Clear();
+                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    break;
+                default:
+                    Console.WriteLine("잘못된 입력입니다.");
+                    break;
+            }
+            
         }
         private void GameOver()
         {

@@ -34,7 +34,7 @@ namespace Sparta_TextRpg
 
             for (int i = 0; i < PlayerJobs.Length; i++)
             {
-                Console.WriteLine($"{i + 1}. {PlayerJobs[i]._job.ToString()}");
+                Console.WriteLine($"{i + 1}. {PlayerJobs[i]._playerjob.ToString()}");
                 Console.WriteLine($"공격력: {PlayerJobs[i]._attack}");
                 Console.WriteLine($"방어력: {PlayerJobs[i]._defence}");
                 Console.WriteLine($"체력: {PlayerJobs[i]._maxhp}");

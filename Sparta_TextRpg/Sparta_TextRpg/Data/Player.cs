@@ -44,11 +44,12 @@ namespace Sparta_TextRpg
                 _currenthp = value;
             }
         }
-        public Player(int Level, string Name, int Gold, int _exp,int Mp)
+        public Player(int Level, string Name, int Gold)
         {
             _level = Level;
             _exp = 0;
             _name = Name;
+            _attack = 15;
             _gold = Gold;
             _inventory = new List<Item>();
             _needlevelexp = [1, 2, 3, 4];

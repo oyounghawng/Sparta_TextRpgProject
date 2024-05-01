@@ -27,12 +27,9 @@ namespace Sparta_TextRpg
             Item Shoes = player.equipItem[ItemType.SHOES];
             ViewMenu();
         }
-
         public override void Excute()
         {
-
         }
-
         public override void ViewMenu()
         {
             Console.WriteLine("인벤토리");

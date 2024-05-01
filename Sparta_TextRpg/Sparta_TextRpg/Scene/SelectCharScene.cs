@@ -25,8 +25,6 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
-          
-
             Playerjobs[] PlayerJobs = 
             {   
                 Playerjobs.PlayerJobList.Warrior,
@@ -42,10 +40,7 @@ namespace Sparta_TextRpg
                 Console.WriteLine($"체력: {PlayerJobs[i]._maxhp}");
                 Console.WriteLine($"마나: {PlayerJobs[i]._maxmp}\n");
             }
-            Console.WriteLine("0. 뒤로가기\n");
             Console.WriteLine("원하시는 캐릭터를 입력해주세요.");
-
-            
 
             var key = Console.ReadKey(true).Key;
             switch (key)
@@ -65,18 +60,10 @@ namespace Sparta_TextRpg
                     Console.Clear();
                     GameManager.Instance.ChangeScene(SceneName.StartScene);
                     break;
-                case ConsoleKey.D0:
-                case ConsoleKey.NumPad0:
-                    Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.LoginScene);
-                    break;
-
                 default:
-                    
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.SelectCharScene);
+                    ViewMenu();
                     break;
-
             }
         }
     }

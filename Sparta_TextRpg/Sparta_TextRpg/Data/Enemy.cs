@@ -17,9 +17,9 @@ namespace Sparta_TextRpg
         public int exp;
 
         public bool isDie = false;
-        public Enemy()
+        public Enemy(string _name)
         {
-            name = "슬라임";
+            name = _name;
             level = 1;
             hp = 100;
             atk = 10;

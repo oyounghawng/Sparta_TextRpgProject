@@ -18,12 +18,10 @@ namespace Sparta_TextRpg
             enemies = new List<Enemy>();
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currenthp;
-            Enemy enemy1 = new Enemy();
-            Enemy enemy2 = new Enemy();
-            //Enemy enemy3 = new Enemy();
+            Enemy enemy1 = new Enemy("스켈레톤");
+            Enemy enemy2 = new Enemy("슬라임");
             enemies.Add(enemy1);
             enemies.Add(enemy2);
-            //enemies.Add(enemy3);
             ViewMenu();
         }
         public override void Excute()
@@ -337,6 +335,12 @@ namespace Sparta_TextRpg
                     if (filterItem.Count > 0)
                     {
                         int randomIndex = random.Next(0, filterItem.Count);
+
+                        /*
+                        1~10
+                            1~6 >노말
+                            7>9 >중급
+                        */
                         Item randomItem = filterItem[randomIndex];
                         player._inventory.Add(randomItem);
 
@@ -347,13 +351,9 @@ namespace Sparta_TextRpg
         }
         private void Skill()
         {
-
             Console.WriteLine("Battle!!\n");
-
             for (int i = 0; i < enemies.Count; i++)
             {
-
-
                 Console.WriteLine($" Lv.{enemies[i].level} {enemies[i].name} HP{enemies[i].hp}");
             }
 
@@ -361,7 +361,6 @@ namespace Sparta_TextRpg
             Console.WriteLine($"Lv. {player._level}  Chad ({player._job})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}");
             Console.WriteLine($"MP {player._currentmp}/{player._maxmp}\n");
-
             Console.WriteLine("1. 알파 스트라이크 - MP 10");
             Console.WriteLine("   공격력 * 2 로 하나의 적을 공격합니다.");
             Console.WriteLine("2. 더블 스트라이크 - MP 15");
@@ -424,4 +423,5 @@ namespace Sparta_TextRpg
                     break;
             }
         }
+    }
 }

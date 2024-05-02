@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sparta_TextRpg
 {
-    internal class BattleSceneoyoung : BaseScene
+    internal class seongsu : BaseScene
     {
         private List<Enemy> enemies;
         private Player player;

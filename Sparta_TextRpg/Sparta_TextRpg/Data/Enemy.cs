@@ -34,7 +34,10 @@ namespace Sparta_TextRpg
             {
                 hp -= value;
                 if (hp <= 0)
+                {
                     isDie = true;
+                    hp = 0;
+                }
             }
         }
         public string PrintEnemy(Enemy enemy)

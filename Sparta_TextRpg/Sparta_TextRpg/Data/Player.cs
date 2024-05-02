@@ -25,6 +25,8 @@ namespace Sparta_TextRpg
         public int _gold;
         
         public List<Item> _inventory;
+        public List<Quest> _quest;
+
         public int[] _needlevelexp;
         public Dictionary<ItemType,Item> equipItem;
 
@@ -52,6 +54,7 @@ namespace Sparta_TextRpg
             _attack = 15;
             _gold = Gold;
             _inventory = new List<Item>();
+            _quest = new List<Quest>();
             _needlevelexp = [1, 2, 3, 4];
             equipItem = new Dictionary<ItemType,Item>();
 
@@ -60,18 +63,13 @@ namespace Sparta_TextRpg
         }
         private void InitEquip()
         {
-            Item item1 = new Item();
-            equipItem.Add(ItemType.WEAPON, item1);
+            equipItem.Add(ItemType.WEAPON, null);
             Item item2 = new Item();
             equipItem.Add(ItemType.HELMET, item2);
             Item item3 = new Item();
             equipItem.Add(ItemType.ARMOR, item3);
             Item item4 = new Item();
             equipItem.Add(ItemType.SHOES, item4);
-        }
-        public void AddInventory(Item item)
-        {
-            equipItem[item._itemtype] = item;
         }
     }
 }

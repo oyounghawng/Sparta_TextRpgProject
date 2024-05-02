@@ -27,6 +27,7 @@ namespace Sparta_TextRpg
             Console.Clear();
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.WriteLine("이름 : "+_player._name);
             Console.WriteLine("Lv. " + _player._level.ToString("D2"));
             Console.WriteLine($"Chad.( {_player._job})");
             Console.WriteLine("공격력. " + _player._attack + offset);  
@@ -53,7 +54,7 @@ namespace Sparta_TextRpg
                 default:
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
+                    ViewMenu();
                     break;
             }
         }

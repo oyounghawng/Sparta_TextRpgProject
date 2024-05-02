@@ -15,12 +15,12 @@ namespace Sparta_TextRpg
         public static DataManager Instance = new DataManager();
         public List<Item> Items { get; private set; }
         public List<Enemy> Enemys { get; private set;}
-
+        public List<Quest> Quests { get; private set; }
         public DataManager()
         {
             Items = new List<Item>();
             Enemys = new List<Enemy>();
-            
+            Quests = new List<Quest>();
 
             Init();
         }
@@ -45,6 +45,10 @@ namespace Sparta_TextRpg
             Enemys.Add(new Enemy("슬라임"));
             Enemys.Add(new Enemy("스켈레톤"));
             Enemys.Add(new Enemy("오크"));
+
+            Quests.Add(new Quest());
+            Quests[0].Init(new Item("나무칼", ItemType.WEAPON, 5, "나무로 만든칼", 500), new Enemy("슬라임"));
+  
         }
     }
 }

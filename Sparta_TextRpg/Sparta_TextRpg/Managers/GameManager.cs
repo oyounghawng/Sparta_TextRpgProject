@@ -27,8 +27,9 @@ namespace Sparta_TextRpg
             scenes[(int)SceneName.SelectCharScene] = new SelectCharScene();
             scenes[(int)SceneName.StartScene] = new StartScene();
             scenes[(int)SceneName.StatusScene] = new StatusScene();
-            scenes[(int)SceneName.BattleScene] = new BattleScene();
+            scenes[(int)SceneName.BattleScene] = new BattleSceneoyoung();
             scenes[(int)SceneName.StoreScene] = new StoreScene();
+            scenes[(int)SceneName.QuestScene] = new QuestScene();
             scenes[(int)SceneName.InventoryScene] = new InventoryScene();
             scenes[(int)SceneName.DungeonScene] = new DungeonScene();
             scenes[(int)SceneName.RestScene] = new RestScene();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sparta_TextRpg.Data
+namespace Sparta_TextRpg
 {
     internal class PlayerSkill
     {

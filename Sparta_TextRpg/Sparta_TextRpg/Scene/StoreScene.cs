@@ -139,7 +139,7 @@ namespace Sparta_TextRpg.Scene
                     player._gold -= temp._price;
                     temp._isbuy = true;
                     itemdata[idx] = temp;
-                    player.AddInventory(temp);
+                    player._inventory.Add(temp);
                     Console.Clear();
                     Console.WriteLine("구매를 완료했습니다.");
                 }

@@ -12,6 +12,14 @@ public enum ItemType
     SHOES,
     POTION     
 }
+
+public enum ItemRating
+{
+    LEGEND,
+    UNIQUE,
+    RARE,
+    COMMON
+}
 namespace Sparta_TextRpg
 {
     internal class Item
@@ -20,6 +28,8 @@ namespace Sparta_TextRpg
         public ItemType _itemtype;
         public int _statvalue;
         public string _description;
+        public ItemRating _itemrating;
+        
 
         public bool _isbuy;
         public int _price;
@@ -31,6 +41,7 @@ namespace Sparta_TextRpg
         {
             _name = name;
             _itemtype = type;
+            _itemrating = rType;
             _statvalue = statvalue;
             _description = description;
             _price = price;                           

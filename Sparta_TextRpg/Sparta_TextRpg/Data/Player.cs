@@ -54,8 +54,7 @@ namespace Sparta_TextRpg
             _attack = 15;
             _gold = Gold;
             _inventory = new List<Item>();
-            _quest = new List<Quest>();
-            _needlevelexp = [1, 2, 3, 4];
+            _needlevelexp = [10, 25, 55, 100, 155, 225, 310, 410, 525];
             equipItem = new Dictionary<ItemType,Item>();
 
             //jobs 클래스 > 

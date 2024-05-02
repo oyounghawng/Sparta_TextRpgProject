@@ -19,15 +19,12 @@ namespace Sparta_TextRpg
         public int _currenthp;
         public int _maxmp;
         public int _currentmp;
-
-        public Playerjobs _job;
-
         public int _gold;
-        
+        public int[] _needlevelexp;
+        public Playerjobs _playerjobs;
+
         public List<Item> _inventory;
         public List<Quest> _quest;
-
-        public int[] _needlevelexp;
         public Dictionary<ItemType,Item> equipItem;
 
         public int HP
@@ -57,7 +54,7 @@ namespace Sparta_TextRpg
             _needlevelexp = [10, 25, 55, 100, 155, 225, 310, 410, 525];
             equipItem = new Dictionary<ItemType,Item>();
 
-            //jobs 클래스 > 
+            _playerjobs = new Playerjobs(); 
             InitEquip();
         }
         private void InitEquip()

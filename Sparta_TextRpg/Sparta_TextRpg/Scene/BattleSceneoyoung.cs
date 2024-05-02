@@ -36,7 +36,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("");
             Console.WriteLine("[내정보]");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}\n");
             Console.WriteLine("1. 공격");
             Console.WriteLine("0. 도망가기");
@@ -72,7 +72,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("");
             Console.WriteLine("[내정보]");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}\n");
 
             for (int i = 0; i < enemies.Count; i++)
@@ -112,7 +112,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
 
             Console.WriteLine("\nBattle!! - Result\n");
@@ -149,7 +149,7 @@ namespace Sparta_TextRpg
             }
 
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
 
             Console.WriteLine($"0. 로비로");
@@ -172,7 +172,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("Battle!! - Result\n");
             Console.WriteLine("You Lose\n");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp} -> 0 \n");
             return; //다시할수도?
         }
@@ -209,7 +209,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("적의 공격 턴입니다.\n");
             Console.WriteLine("0. 다음");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
 
             bool isEndBattle = true;
@@ -374,7 +374,7 @@ namespace Sparta_TextRpg
             }
 
             Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv. {player._level}  Chad ({player._job})");
+            Console.WriteLine($"Lv. {player._level}  Chad ({player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}");
             Console.WriteLine($"MP {player._currentmp}/{player._maxmp}\n");
             Console.WriteLine("1. 알파 스트라이크 - MP 10");

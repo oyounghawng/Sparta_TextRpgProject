@@ -47,7 +47,7 @@ namespace Sparta_TextRpg
             Enemys.Add(new Enemy("오크"));
 
             Quests.Add(new Quest());
-            Quests[0].Init(new Item("나무칼", ItemType.WEAPON, 5, "나무로 만든칼", 500), new Enemy("슬라임"));
+            Quests[0].Init(new Item("나무칼", ItemType.WEAPON, ItemRating.COMMON, 5, "나무로 만든칼", 500), new Enemy("슬라임"));
   
         }
     }

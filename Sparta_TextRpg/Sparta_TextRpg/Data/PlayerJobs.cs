@@ -19,13 +19,19 @@ namespace Sparta_TextRpg
     internal class Playerjobs
     {
         public PlayerJob _playerjob;
-        public PlayerSkill _playerskill;
         public float _attack;
         public int _defence;
         public int _maxhp;
         public int _maxmp;
 
+        public string Skill1_Name;
+        public string Skill2_Name;
 
+        public Playerjobs()
+        {
+            Skill1_Name = "베쉬";
+            Skill2_Name = "볼링베쉬";
+        }
         public Playerjobs(PlayerJob Job, int Attack, int Defence, int Hp, int Mp)
         {
             _playerjob = Job;
@@ -33,6 +39,8 @@ namespace Sparta_TextRpg
             _defence = Defence;
             _maxhp = Hp;
             _maxmp = Mp;
+            Skill1_Name = "베쉬";
+            Skill2_Name = "볼링베쉬";
         }
 
         internal static class PlayerJobList

@@ -14,6 +14,7 @@ namespace Sparta_TextRpg
         StatusScene,
         BattleScene,
         StoreScene,
+        QuestScene,
         InventoryScene,
         DungeonScene,
         RestScene,

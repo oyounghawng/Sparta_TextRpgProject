@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sparta_TextRpg.Scene;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,29 +10,28 @@ namespace Sparta_TextRpg
 {
     internal class SelectCharScene : BaseScene
     {
-        
-
+        Playerjobs playerjobs;
         public override void Enter()
         {
             sceneName = SceneName.SelectCharScene;
+            playerjobs = GameManager.Instance.player._playerjobs;
             ViewMenu();
         }
 
         public override void Excute()
         {
 
-            
+
 
         }
         public override void ViewMenu()
         {
-            Playerjobs[] PlayerJobs = 
-            {   
-                Playerjobs.PlayerJobList.Warrior,
-                Playerjobs.PlayerJobList.Magician,
-                Playerjobs.PlayerJobList.Archer
+            Playerjobs[] PlayerJobs =
+            {
+                playerjobs.playerjoblist.Warrior,
+                playerjobs.playerjoblist.Magician,
+                playerjobs.playerjoblist.Archer
             };
-
             for (int i = 0; i < PlayerJobs.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {PlayerJobs[i]._playerjob.ToString()}");
@@ -40,6 +40,7 @@ namespace Sparta_TextRpg
                 Console.WriteLine($"체력: {PlayerJobs[i]._maxhp}");
                 Console.WriteLine($"마나: {PlayerJobs[i]._maxmp}\n");
             }
+
             Console.WriteLine("원하시는 캐릭터를 입력해주세요.");
 
             var key = Console.ReadKey(true).Key;
@@ -48,23 +49,29 @@ namespace Sparta_TextRpg
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    GameManager.Instance.player.SetJobStat(playerjobs.playerjoblist.Warrior);
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
                     Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    GameManager.Instance.player.SetJobStat(playerjobs.playerjoblist.Magician);
                     break;
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    GameManager.Instance.player.SetJobStat(playerjobs.playerjoblist.Archer);
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
                     ViewMenu();
                     break;
             }
+            Console.Clear();
+            GameManager.Instance.ChangeScene(SceneName.StartScene);
         }
-    }
+    }   
 }
+
+
+

@@ -10,9 +10,11 @@ namespace Sparta_TextRpg
 {
     internal class StatusScene : BaseScene
     {
+        Player _player;
         public override void Enter()
         {
             sceneName = SceneName.StatusScene;
+            _player = GameManager.Instance.player;
             ViewMenu();
         }
         public override void Excute()
@@ -23,15 +25,19 @@ namespace Sparta_TextRpg
         public override void ViewMenu()
         {
             string offset = string.Empty;
-            Player _player = GameManager.Instance.player;
+            
+            
+
             Console.Clear();
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.WriteLine("이름 : "+_player._name);
             Console.WriteLine("Lv. " + _player._level.ToString("D2"));
-            Console.WriteLine($"Chad.( {_player._job})");
+            Console.WriteLine($"Chad.( {_player._playerjobs._playerjob})");
             Console.WriteLine("공격력. " + _player._attack + offset);  
             Console.WriteLine("방어력 " + _player._defence + offset);
-            Console.WriteLine("체력 " + _player._currenthp);
+            Console.WriteLine($"체력  {_player._currenthp} / {_player._maxhp}"  );
+            Console.WriteLine($"마나 {_player._currentmp} / {_player._maxmp}");
             Console.WriteLine("골드 " + _player._gold + "\n");
             Console.WriteLine("1. 인벤토리\n");
             Console.WriteLine("0. 나가기\n");
@@ -53,7 +59,7 @@ namespace Sparta_TextRpg
                 default:
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
+                    ViewMenu();
                     break;
             }
         }

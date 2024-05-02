@@ -1,5 +1,7 @@
 ﻿using Sparta_TextRpg.Scene;
 using System.Numerics;
+using System.Reflection.Emit;
+using System.Xml.Linq;
 
 namespace Sparta_TextRpg
 {
@@ -11,15 +13,18 @@ namespace Sparta_TextRpg
         }
 
         public static GameManager Instance;
-        public Player player = new Player(1, "르탄", 1500);
+        public Player player;
         public DataManager datamanager;
         BaseScene[] scenes;
         BaseScene preScene;
         BaseScene curScene;
-        
+
         public GameManager()
         {
             Instance = this;
+            player = new Player();
+            datamanager = new DataManager();
+
             int SceneNum = System.Enum.GetValues(typeof(SceneName)).Length;
             scenes = new BaseScene[SceneNum];
 
@@ -29,11 +34,13 @@ namespace Sparta_TextRpg
             scenes[(int)SceneName.StatusScene] = new StatusScene();
             scenes[(int)SceneName.BattleScene] = new BattleScene();
             scenes[(int)SceneName.StoreScene] = new StoreScene();
+            scenes[(int)SceneName.QuestScene] = new QuestScene();
             scenes[(int)SceneName.InventoryScene] = new InventoryScene();
             scenes[(int)SceneName.DungeonScene] = new DungeonScene();
             scenes[(int)SceneName.RestScene] = new RestScene();
 
-            datamanager = new DataManager();
+            
+
             ChangeScene(SceneName.LoginScene);
 
             Excute();

@@ -18,7 +18,6 @@ namespace Sparta_TextRpg
         public override void Enter()
         {
             sceneName = SceneName.InventoryScene;
-            inventory = new List<Item>();
             inventory = GameManager.Instance.player._inventory;
             player = GameManager.Instance.player;
             Item Weapon = player.equipItem[ItemType.WEAPON];
@@ -56,7 +55,7 @@ namespace Sparta_TextRpg
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
                     Console.Clear();
-                    GameManager.Instance.LoadPreScene();
+                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
                     break;
                 default:
                     Console.Clear();
@@ -75,7 +74,7 @@ namespace Sparta_TextRpg
             foreach (Item item in inventory)
             {
                 string equip = string.Empty;
-                if (item.Equals(Weapon) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
+                if (item.Equals(Helmet) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
                     equip = "[E]";
                 Console.WriteLine($"-{cnt} {equip}{item._name}     | {item._itemtype} +{item._statvalue}  | {item._description}");
                 cnt++;
@@ -108,13 +107,18 @@ namespace Sparta_TextRpg
         private void Equip(int idx)
         {
             Item temp = inventory[idx];
+            Console.WriteLine(Weapon);
+            Console.WriteLine(Helmet);
+            Console.WriteLine(Shoes);
+            Console.WriteLine(Armor);
+            Console.WriteLine(temp._itemtype);
             switch (temp._itemtype)
             {
                 case ItemType.WEAPON:
                     //아무것도 장착하지 않았다면
-                    if (Weapon.Equals(null))
+                    if (player.equipItem.ContainsKey(ItemType.WEAPON))
                     {
-                        player.equipItem[ItemType.WEAPON] = temp;
+                        Console.WriteLine("장착완료1");
                     }
                     //장착한 상태라면
                     else
@@ -125,8 +129,9 @@ namespace Sparta_TextRpg
                             Console.WriteLine("이미 장착중인 무기입니다.");
                         }
                         else
-                        {
-                            player.equipItem[ItemType.WEAPON] = temp; ;
+                        { 
+                            player.equipItem[ItemType.WEAPON] = temp;
+                            Console.WriteLine("장착완료2");
                         }
                     }
                     break;

@@ -41,6 +41,7 @@ namespace Sparta_TextRpg
         }
         public void SetJobStat(Playerjobs playerjob)
         {
+            _playerjobs = playerjob;
             _attack = playerjob._attack;
             _defence = playerjob._defence;
             _maxhp = playerjob._maxhp;

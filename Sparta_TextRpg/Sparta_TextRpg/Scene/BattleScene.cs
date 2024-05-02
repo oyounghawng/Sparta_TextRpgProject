@@ -18,6 +18,7 @@ namespace Sparta_TextRpg
             enemies = new List<Enemy>();
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currenthp;
+            player._attack = 100;
             Enemy enemy1 = new Enemy("스켈레톤");
             Enemy enemy2 = new Enemy("슬라임");
             enemies.Add(enemy1);
@@ -41,8 +42,7 @@ namespace Sparta_TextRpg
             Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}");
             Console.WriteLine($"MP {player._currentmp}/{player._maxmp}\n");
-            Console.WriteLine("1. 공격");
-            Console.WriteLine("2. 스킬");
+            Console.WriteLine("1. 전투시작");
             Console.WriteLine("0. 도망가기");
             //행동 선택
             var key = Console.ReadKey(true).Key;
@@ -53,18 +53,15 @@ namespace Sparta_TextRpg
                     Console.Clear();
                     AttackMenu();
                     break;
-                case ConsoleKey.D2:
-                case ConsoleKey.NumPad2:
-                    Console.Clear();
-                    Skill();
-                    break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
                     Console.Clear();
                     GameManager.Instance.LoadPreScene();
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
+                    ViewMenu();
                     break;
             }
         }
@@ -88,6 +85,7 @@ namespace Sparta_TextRpg
             {
                 Console.WriteLine($"{i + 1}. 공격");
             }
+            Console.WriteLine("A. 스킬사용하기");
             var key = Console.ReadKey(true).Key;
             if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + enemies.Count)
             {
@@ -105,7 +103,18 @@ namespace Sparta_TextRpg
             {
                 Console.Clear();
                 int idx = (int)(key - 97);
-                PlayerAttack(idx);
+                if (!enemies[idx].isDie)
+                    PlayerAttack(idx);
+                else
+                {
+                    Console.WriteLine("이미 죽은 몬스터입니다. 다른 몬스터를 선택해 주세요");
+                    AttackMenu();
+                }
+            }
+            else if (key == ConsoleKey.A)
+            {
+                Console.Clear();
+                Skill();
             }
             else
             {
@@ -117,9 +126,6 @@ namespace Sparta_TextRpg
         }
         private void ViewBattleVictoryResult()
         {
-            Console.Clear();
-
-
             Console.WriteLine("\nBattle!! - Result\n");
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
@@ -178,69 +184,6 @@ namespace Sparta_TextRpg
             Console.WriteLine($"HP {player._currenthp} -> 0 \n");
             return; //다시할수도?
         }
-        private void PlayerAttack(int idx)
-        {
-            bool critic = false;
-            Random random = new Random();
-            int critical = random.Next(1, 101);// 치명타
-            if (critical <= 15)
-            {
-                critic = true;
-
-            }
-            else
-            {
-                critic = false;
-            }
-            float damage = player._attack;
-            float offset = MathF.Round(damage * 0.1f);
-            int offsetdamage = random.Next((int)(damage - offset), (int)(damage + offset + 1));
-            int preEnemiseHp = enemies[0].HP;
-            if (critic == true)
-            {
-                offsetdamage = (int)MathF.Round(1.6f * (offsetdamage));
-            }
-            enemies[idx].HP = offsetdamage;
-
-            Console.WriteLine("Battle!!\n");
-            Console.WriteLine(player._name + " 의 공격!");
-            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
-
-            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name}");
-            string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
-            Console.WriteLine($"HP {preEnemiseHp} ->{isDieString} \n");
-            Console.WriteLine("적의 공격 턴입니다.\n");
-            Console.WriteLine("0. 다음");
-            Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
-            Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
-
-            bool isEndBattle = true;
-            //전투 종료 판단
-            foreach (Enemy enemy in enemies)
-            {
-                if (!enemy.isDie)
-                    isEndBattle = false;
-                else
-                    isEndBattle = true;
-            }
-            //모든 적의 사망확인
-            if (isEndBattle)
-                ViewBattleVictoryResult();
-            else
-            {
-                foreach (Enemy enemy in enemies) { }
-                var key = Console.ReadKey(true).Key;
-                while (key != ConsoleKey.D0 && key != ConsoleKey.NumPad0)
-                {
-                    key = Console.ReadKey(true).Key;
-                    Console.WriteLine("잘못된 입력입니다.");
-                }
-                Console.Clear();
-                EnemyAttack();
-            }
-
-        }
         private void EnemyAttack()
         {
             Random random = new Random();
@@ -251,6 +194,8 @@ namespace Sparta_TextRpg
                 Console.WriteLine("Battle!!\n");
                 Console.WriteLine($"{i + 1}번쨰 Lv.{enemies[i].level} {enemies[i].name} 의 공격!");
                 //체력 감소
+                if (enemies[i].isDie)
+                    continue;
 
                 bool avoidance = false;
                 int eatk = enemies[i].atk;
@@ -331,11 +276,13 @@ namespace Sparta_TextRpg
                     ItemRating rating;
 
                     #region Quest
+                    /*
                     //Quest 처리
                     if (player._quest[0].enemy.name == enemies[0].name)
                     {
                         player._quest[0].curcnt++;
                     }
+                    */
                     #endregion
                     #region Item
                     if (rand <= 70) // 70프로 확률로 물약 획득
@@ -386,24 +333,58 @@ namespace Sparta_TextRpg
                 }
             }
         }
+        private void PlayerAttack(int idx)
+        {
+            bool critic = false;
+            Random random = new Random();
+            int critical = random.Next(1, 101);// 치명타
+            if (critical <= 15)
+            {
+                critic = true;
+
+            }
+            else
+            {
+                critic = false;
+            }
+            float damage = player._attack;
+            float offset = MathF.Round(damage * 0.1f);
+            int offsetdamage = random.Next((int)(damage - offset), (int)(damage + offset + 1));
+            int preEnemiseHp = enemies[0].HP;
+            if (critic == true)
+            {
+                offsetdamage = (int)MathF.Round(1.6f * (offsetdamage));
+            }
+            enemies[idx].HP = offsetdamage;
+
+            Console.WriteLine("Battle!!\n");
+            Console.WriteLine(player._name + " 의 공격!");
+            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
+            Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name}");
+            string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
+            Console.WriteLine($"HP {preEnemiseHp} ->{isDieString} \n");
+            IsEndBattle();
+        }
         private void Skill()
         {
             Console.WriteLine("Battle!!\n");
-            for (int i = 0; i < enemies.Count; i++)
+            int cnt = 1;
+            foreach (Enemy enemy in enemies)
             {
-                Console.WriteLine($" Lv.{enemies[i].level} {enemies[i].name} HP{enemies[i].hp}");
+                Console.Write(cnt + " ");
+                Console.WriteLine(enemy.PrintEnemy(enemy));
+                cnt++;
             }
 
-            Console.WriteLine("[내정보]");
+            Console.WriteLine("\n[내정보]");
             Console.WriteLine($"Lv. {player._level}  Chad ({player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}");
             Console.WriteLine($"MP {player._currentmp}/{player._maxmp}\n");
             Console.WriteLine($"1. {player._playerjobs.Skill1_Name}  - MP 10");
             Console.WriteLine("   공격력 * 2 로 하나의 적을 공격합니다.");
-            Console.WriteLine($"2. {player._playerjobs.Skill1_Name}- MP 15");
+            Console.WriteLine($"2. {player._playerjobs.Skill2_Name}- MP 15");
             Console.WriteLine("   공격력 * 1.5 로 2명의 적을 랜덤으로 공격합니다.");
             Console.WriteLine("0. 취소");
-
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             var key = Console.ReadKey(true).Key;
             switch (key)
@@ -418,14 +399,18 @@ namespace Sparta_TextRpg
                         if (enemies.Count > 0)
                         {
                             int damage = (int)MathF.Round(2 * player._attack);
+                            int preEnemyhp = enemies[0].HP;
                             enemies[0].HP = damage;
-                            Console.WriteLine($"알파 스트라이크 사용!{damage}를 입혔습니다!");
+                            string isDieString = !enemies[0].isDie ? enemies[0].HP.ToString() : "Dead";
+                            Console.WriteLine($"{player._playerjobs.Skill1_Name} 사용!\n");
+                            Console.WriteLine($"Lv.{enemies[0].level} {enemies[0].name} 을(를) 맞췄습니다. [데미지 : {damage}]");
+                            Console.WriteLine($"HP {preEnemyhp} ->{isDieString}\n");
                         }
-
                     }
                     else
                     {
                         Console.WriteLine("MP가 부족합니다.");
+                        AttackMenu();
                     }
                     break;
                 case ConsoleKey.D2:
@@ -434,20 +419,24 @@ namespace Sparta_TextRpg
                     Random random = new Random();
                     if (player._currentmp >= 15)
                     {
-                        // 더블 스트라이크
+                        Console.WriteLine($"{player._playerjobs.Skill2_Name} 사용!\n");
                         player._currentmp -= 15;
                         // 랜덤으로 2명의 적 공격
                         for (int i = 0; i < 2 && enemies.Count > 0; i++)
                         {
                             Enemy enemy = enemies[random.Next(enemies.Count)];
                             int damage = (int)MathF.Round(1.5f * player._attack);
+                            int preEnemyhp = enemy.HP;
                             enemy.HP = damage;
-                            Console.WriteLine($"더블 스트라이크 사용! {damage} 데미지를 입혔습니다!");
+                            string isDieString = !enemy.isDie ? enemy.HP.ToString() : "Dead";
+                            Console.WriteLine($"Lv.{enemy.level} {enemy.name} 을(를) 맞췄습니다. [데미지 : {damage}]");
+                            Console.WriteLine($"HP {preEnemyhp} ->{isDieString}\n");
                         }
                     }
                     else
                     {
                         Console.WriteLine("MP가 부족합니다.");
+                        AttackMenu();
                     }
                     break;
                 case ConsoleKey.D0:
@@ -458,6 +447,43 @@ namespace Sparta_TextRpg
                 default:
                     Console.WriteLine("잘못된 입력입니다.");
                     break;
+            }
+            IsEndBattle();
+        }
+        private void IsEndBattle()
+        {
+            Console.WriteLine("적의 공격 턴입니다.\n");
+            Console.WriteLine("0. 다음");
+            Console.Write("Lv. " + player._level.ToString("D2"));
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
+            Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
+
+            bool isEndBattle = true;
+            //전투 종료 판단
+            foreach (Enemy enemy in enemies)
+            {
+                if (!enemy.isDie)
+                {
+                    isEndBattle = false;
+                    break;
+                }
+                else
+                    isEndBattle = true;
+            }
+            //모든 적의 사망확인
+            if (isEndBattle)
+                ViewBattleVictoryResult();
+            else
+            {
+                foreach (Enemy enemy in enemies) { }
+                var key = Console.ReadKey(true).Key;
+                while (key != ConsoleKey.D0 && key != ConsoleKey.NumPad0)
+                {
+                    key = Console.ReadKey(true).Key;
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+                Console.Clear();
+                EnemyAttack();
             }
         }
     }

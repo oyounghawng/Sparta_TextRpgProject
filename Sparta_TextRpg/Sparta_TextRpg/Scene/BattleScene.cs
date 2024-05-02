@@ -81,22 +81,27 @@ namespace Sparta_TextRpg
             Console.WriteLine("");
             Console.WriteLine("[내정보]");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._playerjobs})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}\n");
 
             for (int i = 0; i < enemies.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. 공격");
             }
-            Console.WriteLine("0. 도망가기");
             var key = Console.ReadKey(true).Key;
-            if (key >= ConsoleKey.D1 && key <= ConsoleKey.D1 + enemies.Count)
+            if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + enemies.Count)
             {
                 Console.Clear();
                 int idx = (int)(key - 49);
-                PlayerAttack(idx);
+                if (!enemies[idx].isDie)
+                    PlayerAttack(idx);
+                else
+                {
+                    Console.WriteLine("이미 죽은 몬스터입니다. 다른 몬스터를 선택해 주세요");
+                    AttackMenu();
+                }
             }
-            else if (key >= ConsoleKey.NumPad1 && key <= ConsoleKey.NumPad1 + enemies.Count)
+            else if (key >= ConsoleKey.NumPad1 && key < ConsoleKey.NumPad1 + enemies.Count)
             {
                 Console.Clear();
                 int idx = (int)(key - 97);
@@ -106,7 +111,7 @@ namespace Sparta_TextRpg
             {
                 Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
-                ViewMenu();
+                AttackMenu();
             }
 
         }
@@ -207,7 +212,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("적의 공격 턴입니다.\n");
             Console.WriteLine("0. 다음");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._playerjobs})");
+            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
 
             bool isEndBattle = true;
@@ -226,19 +231,13 @@ namespace Sparta_TextRpg
             {
                 foreach (Enemy enemy in enemies) { }
                 var key = Console.ReadKey(true).Key;
-                switch (key)
+                while (key != ConsoleKey.D0 && key != ConsoleKey.NumPad0)
                 {
-                    case ConsoleKey.D0:
-                    case ConsoleKey.NumPad0:
-                        Console.Clear();
-                        EnemyAttack();
-                        break;
-                    default:
-                        Console.Clear();
-                        Console.WriteLine("잘못된 입력입니다.");
-                        AttackMenu();
-                        break;
+                    key = Console.ReadKey(true).Key;
+                    Console.WriteLine("잘못된 입력입니다.");
                 }
+                Console.Clear();
+                EnemyAttack();
             }
 
         }
@@ -294,18 +293,13 @@ namespace Sparta_TextRpg
             }
             Console.WriteLine("모든 적의 공격이 끝났습니다.");
             var key2 = Console.ReadKey(true).Key;
-            switch (key2)
+            while (key2 != ConsoleKey.D0 && key2 != ConsoleKey.NumPad0)
             {
-                case ConsoleKey.D0:
-                case ConsoleKey.NumPad0:
-                    Console.Clear();
-                    AttackMenu();
-                    break;
-                default:
-                    Console.Clear();
-                    Console.WriteLine("잘못된 입력입니다.");
-                    break;
+                key2 = Console.ReadKey(true).Key;
+                Console.WriteLine("잘못된 입력입니다.");
             }
+            Console.Clear();
+            AttackMenu();
         }
         private void IncreaseStats()
         {

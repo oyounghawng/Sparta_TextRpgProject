@@ -10,11 +10,11 @@ namespace Sparta_TextRpg
 {
     internal class SelectCharScene : BaseScene
     {
-
-
+        Playerjobs playerjobs;
         public override void Enter()
         {
             sceneName = SceneName.SelectCharScene;
+            playerjobs = GameManager.Instance.player._playerjobs;
             ViewMenu();
         }
 
@@ -26,15 +26,12 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
-
-
             Playerjobs[] PlayerJobs =
             {
-                Playerjobs.PlayerJobList.Warrior,
-                Playerjobs.PlayerJobList.Magician,
-                Playerjobs.PlayerJobList.Archer
+                playerjobs.playerjoblist.Warrior,
+                playerjobs.playerjoblist.Magician,
+                playerjobs.playerjoblist.Archer
             };
-
             for (int i = 0; i < PlayerJobs.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {PlayerJobs[i]._playerjob.ToString()}");
@@ -46,66 +43,35 @@ namespace Sparta_TextRpg
 
             Console.WriteLine("원하시는 캐릭터를 입력해주세요.");
 
-
-
             var key = Console.ReadKey(true).Key;
-            Player selectedPlayer = null;
-
             switch (key)
             {
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    selectedPlayer = CreatePlayer(PlayerJobs[0]);
+                    GameManager.Instance.player.SetJobStat(playerjobs.playerjoblist.Warrior);
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
                     Console.Clear();
-                    selectedPlayer = CreatePlayer(PlayerJobs[1]);
+                    GameManager.Instance.player.SetJobStat(playerjobs.playerjoblist.Magician);
                     break;
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     Console.Clear();
-                    selectedPlayer = CreatePlayer(PlayerJobs[2]);
+                    GameManager.Instance.player.SetJobStat(playerjobs.playerjoblist.Archer);
                     break;
-
-
                 default:
-
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-
-                    
+                    ViewMenu();
                     break;
             }
-            if (selectedPlayer != null)
-            {
-                Console.Clear();
-                GameManager.Instance.player = selectedPlayer;
-                GameManager.Instance.ChangeScene(SceneName.StartScene);
-            }
-
+            Console.Clear();
+            GameManager.Instance.ChangeScene(SceneName.StartScene);
         }
-        private Player CreatePlayer(Playerjobs selectedJob)
-        {
-
-
-            string jobName = selectedJob._job;
-
-            return new Player
-                (
-                1,
-                "", 
-                selectedJob._job,
-                Convert.ToInt32(selectedJob._attack), 
-                selectedJob._defence, 
-                selectedJob._maxhp, 
-                selectedJob._maxmp, 
-                0 
-                );
-
-        }
-    }
+    }   
 }
 
-    
- 
+
+

@@ -4,13 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Sparta_TextRpg.Playerjobs;
 
+enum Playerjob
+{
+    전사,
+    궁수,
+    마법사
+}
 
 namespace Sparta_TextRpg
 {
     internal class Playerjobs
     {
-        public PlayerJob _playerjob;
+        public Playerjob _playerjob;
         public float _attack;
         public int _defence;
         public int _maxhp;
@@ -19,33 +26,48 @@ namespace Sparta_TextRpg
         public string Skill1_Name;
         public string Skill2_Name;
 
+        public PlayerJobList playerjoblist;
+
         public Playerjobs()
         {
-            Skill1_Name = "베쉬";
-            Skill2_Name = "볼링베쉬";
+            playerjoblist = new PlayerJobList();
         }
-        public Playerjobs(PlayerJob Job, int Attack, int Defence, int Hp, int Mp)
+        public Playerjobs Setjob(Playerjob playerjob)
         {
-            _playerjob = Job;
-            _attack = Attack;
-            _defence = Defence;
-            _maxhp = Hp;
-            _maxmp = Mp;
-            Skill1_Name = "베쉬";
-            Skill2_Name = "볼링베쉬";
-        }
-
-        internal static class PlayerJobList
-        {
-            public static Playerjobs Warrior { get; private set; }
-            public static Playerjobs Magician { get; private set; }
-            public static Playerjobs Archer { get; private set; }
-
-            static PlayerJobList()
+            switch (playerjob)
             {
-                Warrior = new Playerjobs("전사", 10, 5, 150, 50);
-                Magician = new Playerjobs("마법사", 10, 5, 100, 100);
-                Archer = new Playerjobs("궁수", 15, 5, 100, 50);
+                case Playerjob.전사:
+                    return playerjoblist.Warrior;
+                case Playerjob.마법사:
+                    return playerjoblist.Warrior;
+                case Playerjob.궁수:
+                    return playerjoblist.Warrior;
+                default:
+                    return new Playerjobs();
+            }
+        }
+        private Playerjobs(int attack, int defence, int hp, int mp, string skill1, string skill2)
+        {
+            _attack = attack;
+            _defence = defence;
+            _maxhp = hp;
+            _maxmp = mp;
+            Skill1_Name = skill1;
+            Skill2_Name = skill2;
+        }
+
+        //>> LIST
+        public class PlayerJobList
+        {
+            public Playerjobs Warrior { get; private set; }
+            public Playerjobs Magician { get; private set; }
+            public Playerjobs Archer { get; private set; }
+
+            public PlayerJobList()
+            {
+                Warrior = new Playerjobs(10, 5, 150, 50, "베쉬", "볼링베쉬");
+                Magician = new Playerjobs(10, 5, 100, 100, "파이어볼", "메테오");
+                Archer = new Playerjobs(15, 5, 100, 50, "집중사격", "멀티에로우");
             }
         }
     }

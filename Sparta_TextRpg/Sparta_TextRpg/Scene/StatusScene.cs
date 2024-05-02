@@ -10,9 +10,11 @@ namespace Sparta_TextRpg
 {
     internal class StatusScene : BaseScene
     {
+        Player _player;
         public override void Enter()
         {
             sceneName = SceneName.StatusScene;
+            _player = GameManager.Instance.player;
             ViewMenu();
         }
         public override void Excute()
@@ -23,8 +25,8 @@ namespace Sparta_TextRpg
         public override void ViewMenu()
         {
             string offset = string.Empty;
-            string playerName = GameManager.Instance.player._name;
-            Player player = GameManager.Instance.player;
+            
+            
 
             Console.Clear();
             Console.WriteLine("상태 보기");
@@ -34,7 +36,8 @@ namespace Sparta_TextRpg
             Console.WriteLine($"Chad.( {_player._playerjobs._playerjob})");
             Console.WriteLine("공격력. " + _player._attack + offset);  
             Console.WriteLine("방어력 " + _player._defence + offset);
-            Console.WriteLine("체력 " + _player._currenthp);
+            Console.WriteLine($"체력  {_player._currenthp} / {_player._maxhp}"  );
+            Console.WriteLine($"마나 {_player._currentmp} / {_player._maxmp}");
             Console.WriteLine("골드 " + _player._gold + "\n");
             Console.WriteLine("1. 인벤토리\n");
             Console.WriteLine("0. 나가기\n");

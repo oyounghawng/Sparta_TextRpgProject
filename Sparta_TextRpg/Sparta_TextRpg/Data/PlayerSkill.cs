@@ -38,61 +38,177 @@ namespace Sparta_TextRpg.Data
             Console.WriteLine("0. 취소");
 
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
+            if (player._job==Player.job.전사)
+            { 
             var key = Console.ReadKey(true).Key;
-            switch (key)
-            {
-                case ConsoleKey.D1:
-                case ConsoleKey.NumPad1:
-                    Console.Clear();
-                    if (player._currentmp >= 10)
-                    {
-                        // 알파 스트라이크
-                        player._currentmp -= 10;
-                        if (enemies.Count > 0)
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        Console.Clear();
+                        if (player._currentmp >= 10)
                         {
-                            int damage = (int)MathF.Round(2 * player._attack);
-                            enemies[0].HP = damage;
-                            Console.WriteLine($"알파 스트라이크 사용!{damage}를 입혔습니다!");
-                        }
+                          
+                            player._currentmp -= 10;
+                            if (enemies.Count > 0)
+                            {
+                                int damage = (int)MathF.Round(2 * player._attack);
+                                enemies[0].HP = damage;
+                                Console.WriteLine($"베쉬 사용!{damage}를 입혔습니다!");
+                            }
 
-                    }
-                    else
-                    {
-                        Console.WriteLine("MP가 부족합니다.");
-                    }
-                    break;
-                case ConsoleKey.D2:
-                case ConsoleKey.NumPad2:
-                    Console.Clear();
-                    Random random = new Random();
-                    if (player._currentmp >= 15)
-                    {
-                        // 더블 스트라이크
-                        player._currentmp -= 15;
-                        // 랜덤으로 2명의 적 공격
-                        for (int i = 0; i < 2 && enemies.Count > 0; i++)
-                        {
-                            Enemy enemy = enemies[random.Next(enemies.Count)]; 
-                            int damage = (int)MathF.Round(1.5f * player._attack);
-                            enemy.HP = damage; 
-                            Console.WriteLine($"더블 스트라이크 사용! {damage} 데미지를 입혔습니다!");
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("MP가 부족합니다.");
-                    }
-                    break;
-                case ConsoleKey.D0:
-                case ConsoleKey.NumPad0:
-                    Console.Clear();
-                    // 취소
-                    return; // 메인 메뉴로 복귀
-                default:
-                    Console.WriteLine("잘못된 입력입니다.");
-                    break;
+                        else
+                        {
+                            Console.WriteLine("MP가 부족합니다.");
+                        }
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.Clear();
+                        Random random = new Random();
+                        if (player._currentmp >= 15)
+                        {
+                            
+                            player._currentmp -= 15;
+                            // 랜덤으로 2명의 적 공격
+                            for (int i = 0; i < 2 && enemies.Count > 0; i++)
+                            {
+                                Enemy enemy = enemies[random.Next(enemies.Count)];
+                                int damage = (int)MathF.Round(1.5f * player._attack);
+                                enemy.HP = damage;
+                                Console.WriteLine($"볼링 베쉬 사용! {damage} 데미지를 입혔습니다!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("MP가 부족합니다.");
+                        }
+                        break;
+                    case ConsoleKey.D0:
+                    case ConsoleKey.NumPad0:
+                        Console.Clear();
+                        // 취소
+                        return; // 메인 메뉴로 복귀
+                    default:
+                        Console.WriteLine("잘못된 입력입니다.");
+                        break;
+                }
             }
+           else if (player._job == Player.Job.궁수)
+            {
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        Console.Clear();
+                        if (player._currentmp >= 10)
+                        {
+                            
+                            player._currentmp -= 10;
+                            if (enemies.Count > 0)
+                            {
+                                int damage = (int)MathF.Round(2 * player._attack);
+                                enemies[0].HP = damage;
+                                Console.WriteLine($"집중사격 사용!{damage}를 입혔습니다!");
+                            }
 
+                        }
+                        else
+                        {
+                            Console.WriteLine("MP가 부족합니다.");
+                        }
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.Clear();
+                        Random random = new Random();
+                        if (player._currentmp >= 15)
+                        {
+                            
+                            player._currentmp -= 15;
+                            // 랜덤으로 2명의 적 공격
+                            for (int i = 0; i < 2 && enemies.Count > 0; i++)
+                            {
+                                Enemy enemy = enemies[random.Next(enemies.Count)];
+                                int damage = (int)MathF.Round(1.5f * player._attack);
+                                enemy.HP = damage;
+                                Console.WriteLine($"멀티에로우 사용! {damage} 데미지를 입혔습니다!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("MP가 부족합니다.");
+                        }
+                        break;
+                    case ConsoleKey.D0:
+                    case ConsoleKey.NumPad0:
+                        Console.Clear();
+                        // 취소
+                        return; // 메인 메뉴로 복귀
+                    default:
+                        Console.WriteLine("잘못된 입력입니다.");
+                        break;
+                }
+            }
+            else if (player._job == Player.Job.마법사)
+            {
+                var key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        Console.Clear();
+                        if (player._currentmp >= 10)
+                        {
+                            
+                            player._currentmp -= 10;
+                            if (enemies.Count > 0)
+                            {
+                                int damage = (int)MathF.Round(2 * player._attack);
+                                enemies[0].HP = damage;
+                                Console.WriteLine($"파이어볼 사용!{damage}를 입혔습니다!");
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("MP가 부족합니다.");
+                        }
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        Console.Clear();
+                        Random random = new Random();
+                        if (player._currentmp >= 15)
+                        {
+                            
+                            player._currentmp -= 15;
+                            // 랜덤으로 2명의 적 공격
+                            for (int i = 0; i < 2 && enemies.Count > 0; i++)
+                            {
+                                Enemy enemy = enemies[random.Next(enemies.Count)];
+                                int damage = (int)MathF.Round(1.5f * player._attack);
+                                enemy.HP = damage;
+                                Console.WriteLine($"메테오 사용! {damage} 데미지를 입혔습니다!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("MP가 부족합니다.");
+                        }
+                        break;
+                    case ConsoleKey.D0:
+                    case ConsoleKey.NumPad0:
+                        Console.Clear();
+                        // 취소
+                        return; // 메인 메뉴로 복귀
+                    default:
+                        Console.WriteLine("잘못된 입력입니다.");
+                        break;
+                }
+            }
         }
     }
 }

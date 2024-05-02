@@ -5,12 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-enum PlayerJobs
-{
-    전사,
-    마법사,
-    궁수,
-}
+
 
 namespace Sparta_TextRpg
 {
@@ -19,7 +14,7 @@ namespace Sparta_TextRpg
         public int _level;
         public int _exp;
         public string _name;
-        public PlayerJob _job;
+        public string _job;
         public float _attack;
         public int _defence;
         public int _maxhp;
@@ -34,12 +29,12 @@ namespace Sparta_TextRpg
         public Item _weapon;
         public Item _armor;
 
-        public Player(int Level, string Name, PlayerJob Job, int Attack, int Defence, int Hp, int Gold, int _exp)
+        public Player(int Level, string Name, string JobName , int Attack, int Defence, int Hp, int Gold, int _exp)
         {
             _level = Level;
             _exp = 0;
             _name = Name;
-            _job = Job;
+            _job = JobName;
             _attack = Attack;
             _defence = Defence;
             _maxhp = Hp;

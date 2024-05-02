@@ -12,11 +12,12 @@ namespace Sparta_TextRpg
         private Player player;
         private int playerpreBattleHp;
         private bool IsBattle = false;
+
         public override void Enter()
         {
             sceneName = SceneName.BattleScene;
             enemies = new List<Enemy>();
-            player = GameManager.Instance.player;
+            player = GameManager.Instance.player;            
             playerpreBattleHp = player._currenthp;
             Enemy enemy1 = new Enemy();
             Enemy enemy2 = new Enemy();
@@ -30,8 +31,10 @@ namespace Sparta_TextRpg
         {
 
         }
+
         public override void ViewMenu()
         {
+            string playerName = GameManager.Instance.player._name;
             Console.WriteLine("Battle!!\n");
             foreach (Enemy enemy in enemies)
             {
@@ -40,7 +43,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("");
             Console.WriteLine("[내정보]");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   {playerName}.( {player._job})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}\n");
             Console.WriteLine("1. 공격");
             Console.WriteLine("0. 도망가기");
@@ -65,6 +68,8 @@ namespace Sparta_TextRpg
         }
         private void AttackMenu()
         {
+            //string playerName = GameManager.Instance.player._name;
+            string playerName = player._name;
             Console.WriteLine("Battle!!\n");
             int cnt = 1;
             foreach (Enemy enemy in enemies)
@@ -76,7 +81,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("");
             Console.WriteLine("[내정보]");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   {playerName}.( {player._job})");
             Console.WriteLine($"HP {player._currenthp}/{player._maxhp}\n");
 
             for (int i = 0; i < enemies.Count; i++)
@@ -107,11 +112,13 @@ namespace Sparta_TextRpg
         }
         private void ViewBattleVictoryResult()
         {
+            //string playerName = GameManager.Instance.player._name;
+            string playerName = player._name;
             Console.WriteLine("\nBattle!! - Result\n");
             Console.WriteLine("Victory\n");
             Console.WriteLine($"던전에서 몬스터 {enemies.Count}마리를 잡았습니다.\n");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   {playerName}.( {player._job})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
 
             Console.WriteLine("\nBattle!! - Result\n");
@@ -121,7 +128,7 @@ namespace Sparta_TextRpg
             foreach(Enemy enemy in enemies)
             {
                 player._exp += enemy.exp;
-                Console.WriteLine($"캐릭터 르탄이 경험치 {enemy.exp}를 획득했습니다");
+                Console.WriteLine($"캐릭터 {playerName}이 경험치 {enemy.exp}를 획득했습니다");
             }   
 
             if (player._exp >= player._needlevelexp[player._level - 1])
@@ -130,7 +137,7 @@ namespace Sparta_TextRpg
                 {
                     player._exp -= player._needlevelexp[player._level - 1];
                     player._level++;
-                    Console.WriteLine($"캐릭터 르탄이의 레벨이 {player._level}가 되었습니다");
+                    Console.WriteLine($"캐릭터 {playerName}이의 레벨이 {player._level}가 되었습니다");
                     IncreaseStats();
                     if (player._level - 1 >= player._needlevelexp.Length)
                     {
@@ -145,20 +152,23 @@ namespace Sparta_TextRpg
             }
 
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"    {playerName} .( {player._job})");
             Console.WriteLine($"HP {playerpreBattleHp}-> {player.HP} \n");
         }
         private void GameOver()
         {
+            string playerName = player._name;
             Console.WriteLine("Battle!! - Result\n");
             Console.WriteLine("You Lose\n");
             Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._job})");
+            Console.WriteLine($"   {playerName}.( {player._job})");
             Console.WriteLine($"HP {player._currenthp} -> 0 \n");
             return; //다시할수도?
         }
         private void PlayerAttack(int idx)
         {
+            //string playerName = GameManager.Instance.player._name;
+            string playerName = player._name;
             bool critic = false;
             Random random = new Random();
             int critical = random.Next(1, 101);// 치명타
@@ -184,7 +194,7 @@ namespace Sparta_TextRpg
             enemies[idx].HP = offsetdamage;
 
             Console.WriteLine("Battle!!\n");
-            Console.WriteLine(player._name + " 의 공격!");
+            Console.WriteLine(playerName + " 의 공격!");
             Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {offsetdamage}]\n");
 
             Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name}");

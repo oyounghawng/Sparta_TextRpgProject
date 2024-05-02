@@ -5,14 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-enum PlayerJob
-{
-    전사,
-    마법사,
-    궁수,
-}
-
-
 
 namespace Sparta_TextRpg
 {
@@ -51,9 +43,9 @@ namespace Sparta_TextRpg
 
             static PlayerJobList()
             {
-                Warrior = new Playerjobs(PlayerJob.전사, 10, 5, 150, 50);
-                Magician = new Playerjobs(PlayerJob.마법사, 10, 5, 100, 100);
-                Archer = new Playerjobs(PlayerJob.궁수, 15, 5, 100, 50);
+                Warrior = new Playerjobs("전사", 10, 5, 150, 50);
+                Magician = new Playerjobs("마법사", 10, 5, 100, 100);
+                Archer = new Playerjobs("궁수", 15, 5, 100, 50);
             }
         }
     }

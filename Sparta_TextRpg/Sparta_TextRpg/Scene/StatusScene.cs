@@ -23,7 +23,9 @@ namespace Sparta_TextRpg
         public override void ViewMenu()
         {
             string offset = string.Empty;
-            Player _player = GameManager.Instance.player;
+            string playerName = GameManager.Instance.player._name;
+            Player player = GameManager.Instance.player;
+
             Console.Clear();
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");

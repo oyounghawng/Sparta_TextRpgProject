@@ -1,4 +1,4 @@
-﻿using Sparta_TextRpg.Scene;
+using Sparta_TextRpg.Scene;
 using System.Numerics;
 using System.Reflection.Emit;
 using System.Xml.Linq;

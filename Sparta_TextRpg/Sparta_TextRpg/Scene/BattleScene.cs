@@ -93,7 +93,8 @@ namespace Sparta_TextRpg
                 Console.WriteLine($"{i + 1}. 공격");
             }
             Console.WriteLine("A. 스킬사용하기");
-            Console.WriteLine("B. 물약사용하기");
+            Console.WriteLine("S. 물약사용하기");
+
             var key = Console.ReadKey(true).Key;
             if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + enemies.Count)
             {
@@ -124,7 +125,7 @@ namespace Sparta_TextRpg
                 Console.Clear();
                 Skill();
             }
-            else if (key == ConsoleKey.B)
+            else if (key == ConsoleKey.S)
             {
                 Console.Clear();
                 Console.WriteLine("[보유중인 물약]");
@@ -150,10 +151,8 @@ namespace Sparta_TextRpg
 
                 }
 
+                ViewPotion();
             }
-
-
-
             else
             {
                 Console.Clear();
@@ -563,6 +562,20 @@ namespace Sparta_TextRpg
         }
         #endregion
         private void ItemHeal()
+
+        private void ViewPotion()
+        {
+            List<Item> inventory = player._inventory.Where(item => item._itemtype == ItemType.POTION).ToList();
+
+            Console.WriteLine("[보유중인 물약]");
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {inventory[i]._name} 회복량 : {inventory[i]._statvalue} 보유갯수 : {inventory[i]._statvalue}");
+            }
+
+        }
+
+        private void PotionHeal()
         {
             List<Item> potions = new List<Item>();
             foreach (Item item in player._inventory)

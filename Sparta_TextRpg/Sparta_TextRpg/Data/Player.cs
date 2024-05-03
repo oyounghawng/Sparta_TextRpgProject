@@ -24,6 +24,9 @@ namespace Sparta_TextRpg
         public int[] _needlevelexp;
         public Playerjobs _playerjobs;
 
+        public int critical;
+        public int dodge;
+
         public List<Item> _inventory;
         public List<Quest> _quest;
         public Dictionary<ItemType, Item> equipItem;
@@ -37,7 +40,6 @@ namespace Sparta_TextRpg
             _needlevelexp = [10, 25, 55, 100, 155, 225, 310, 410, 525];
             equipItem = new Dictionary<ItemType, Item>();
             _playerjobs = new Playerjobs();
-            InitEquip();
         }
         public void SetJobStat(Playerjobs playerjob)
         {
@@ -50,16 +52,23 @@ namespace Sparta_TextRpg
             _currenthp = _maxhp;
             _currentmp = _maxmp;
         }
-        private void InitEquip()
+        public void EquipItem(ItemType type, Item item)
         {
-            equipItem.Add(ItemType.WEAPON, null);
-            Item item2 = new Item();
-            equipItem.Add(ItemType.HELMET, item2);
-            Item item3 = new Item();
-            equipItem.Add(ItemType.ARMOR, item3);
-            Item item4 = new Item();
-            equipItem.Add(ItemType.SHOES, item4);
+            if(!equipItem.ContainsKey(type))
+            {
+                equipItem.Add(type, item);
+            }
+            else
+            {
+                equipItem[type] = item;
+            }
+            ModiferStat();
         }
+        private void ModiferStat()
+        {
+
+        }
+
         public int HP
         {
             get { return _currenthp; }

@@ -25,11 +25,17 @@ namespace Sparta_TextRpg
             Init();
         }
         private void Init()
-        {
+        {   
+            /*
             Item item1 = new Item("나무칼", ItemType.WEAPON, ItemRating.COMMON , 5, "나무로 만든칼", 500);
             Item item2 = new Item("돌칼", ItemType.WEAPON, ItemRating.RARE, 5, "돌로 만든칼", 500);
             Item item3 = new Item("구리칼", ItemType.WEAPON, ItemRating.UNIQUE, 5, "구리로 만든칼", 500);
             Item item4 = new Item("다이아칼", ItemType.WEAPON, ItemRating.LEGEND, 5, "다이아로 만든칼", 500);
+            */
+            Item item1 = new Item("나무칼", ItemType.WEAPON, ItemRating.COMMON, 1, "나무로 만든칼", 100);
+            Item item2 = new Item("나무투구", ItemType.HELMET, ItemRating.RARE, 1, "돌로 만든칼", 100);
+            Item item3 = new Item("나무갑옷", ItemType.ARMOR, ItemRating.UNIQUE, 5, "구리로 만든칼", 100);
+            Item item4 = new Item("나무신발", ItemType.SHOES, ItemRating.LEGEND, 5, "다이아로 만든칼", 100);
             Items.Add(item1);
             Items.Add(item2);
             Items.Add(item3);

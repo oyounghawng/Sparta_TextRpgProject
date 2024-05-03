@@ -10,11 +10,15 @@ namespace Sparta_TextRpg
 {
     internal class StatusScene : BaseScene
     {
-        Player _player;
+        Player player;
+        Item Weapon;
+        Item Helmet;
+        Item Armor;
+        Item Shoes;
         public override void Enter()
         {
             sceneName = SceneName.StatusScene;
-            _player = GameManager.Instance.player;
+            player = GameManager.Instance.player;
             ViewMenu();
         }
         public override void Excute()
@@ -24,21 +28,25 @@ namespace Sparta_TextRpg
 
         public override void ViewMenu()
         {
-            string offset = string.Empty;
-            
-            
+            CheckEquipItem();
 
             Console.Clear();
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-            Console.WriteLine("이름 : "+_player._name);
-            Console.WriteLine("Lv. " + _player._level.ToString("D2"));
-            Console.WriteLine($"Chad.( {_player._playerjobs._playerjob})");
-            Console.WriteLine("공격력. " + _player._attack + offset);  
-            Console.WriteLine("방어력 " + _player._defence + offset);
-            Console.WriteLine($"체력  {_player._currenthp} / {_player._maxhp}"  );
-            Console.WriteLine($"마나 {_player._currentmp} / {_player._maxmp}");
-            Console.WriteLine("골드 " + _player._gold + "\n");
+            Console.WriteLine("이름 : "+player._name);
+            Console.WriteLine("Lv. " + player._level.ToString("D2"));
+            Console.WriteLine($"Chad.( {player._playerjobs._playerjob})");
+
+            string weaponStat = Weapon != null ? $"( +{Weapon._statvalue } )" : string.Empty;
+            Console.WriteLine("공격력. " + player._attack + weaponStat);
+            int totalValue = 0;
+            string HelmetStat = Helmet != null ? $"( { Helmet._name} : +{Helmet._statvalue} )" : string.Empty;
+            string ArmorStat = Armor != null ? $"( { Armor._name} : +{Armor._statvalue} )" : string.Empty;
+            string ShoesStat = Shoes != null ? $"( { Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
+            Console.WriteLine("방어력 " + player._defence + HelmetStat + ArmorStat + ShoesStat);
+            Console.WriteLine($"체력  {player._currenthp} / {player._maxhp}"  );
+            Console.WriteLine($"마나 {player._currentmp} / {player._maxmp}");
+            Console.WriteLine("골드 " + player._gold + "\n");
             Console.WriteLine("1. 인벤토리\n");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
@@ -62,6 +70,26 @@ namespace Sparta_TextRpg
                     ViewMenu();
                     break;
             }
+        }
+
+        private void CheckEquipItem()
+        {
+            if (player.equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player.equipItem[ItemType.WEAPON];
+            else
+                Weapon = null;
+            if (player.equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player.equipItem[ItemType.HELMET];
+            else
+                Helmet = null;
+            if (player.equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player.equipItem[ItemType.ARMOR];
+            else
+                Armor = null;
+            if (player.equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player.equipItem[ItemType.SHOES];
+            else
+                Shoes = null;
         }
 
     }

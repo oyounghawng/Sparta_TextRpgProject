@@ -21,11 +21,6 @@ namespace Sparta_TextRpg.Scene
             sceneName = SceneName.StoreScene;
             player = GameManager.Instance.player;
             itemdata = DataManager.Instance.Items;
-            Item Weapon = player.equipItem[ItemType.WEAPON];
-            Item Helmet = player.equipItem[ItemType.HELMET];
-            Item Armor = player.equipItem[ItemType.ARMOR];
-            Item Shoes = player.equipItem[ItemType.SHOES];
-
             ViewMenu();
         }
 

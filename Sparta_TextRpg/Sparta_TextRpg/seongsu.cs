@@ -159,7 +159,7 @@ namespace Sparta_TextRpg
             Console.WriteLine($"HP {player._maxhp} -> {player._currenthp}");
             Console.WriteLine($"exp: {player._exp} / {player._needlevelexp[player._level - 1]}");
             Console.WriteLine("\n[획득 아이템]");
-            Reward();
+            //Reward();
 
             Console.WriteLine($"\n0. 로비로");
             var key = Console.ReadKey(true).Key;
@@ -252,6 +252,7 @@ namespace Sparta_TextRpg
             player._defence += 1; // 방어력 1 증가
             Console.WriteLine($"레벨업! 현재 레벨: {player._level}, 공격력: {player._attack}, 방어력: {player._defence}");
         }
+        /*
         private void Reward()
         {
             Random random = new Random();
@@ -275,16 +276,13 @@ namespace Sparta_TextRpg
                     List<Item> filterItem;
                     ItemRating rating;
 
-                    #region Quest
-                    /*
+
                     //Quest 처리
                     if (player._quest[0].enemy.name == enemies[0].name)
                     {
                         player._quest[0].curcnt++;
                     }
-                    */
-                    #endregion
-                    #region Item
+                    
                     if (rand <= 70) // 70프로 확률로 물약 획득
                     {
                         filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.POTION).ToList();
@@ -332,7 +330,8 @@ namespace Sparta_TextRpg
                     #endregion
                 }
             }
-        }
+        } 
+        */
         private void PlayerAttack(int idx)
         {
             bool critic = false;

@@ -24,8 +24,13 @@ namespace Sparta_TextRpg
         public int[] _needlevelexp;
         public Playerjobs _playerjobs;
 
-        public int critical;
-        public int dodge;
+        public int _critical;
+        public int _dodge;
+
+        private int modifierCritical;
+        private int modifierDodge;
+        private float modifierattck;
+        private int modifierdefence;
 
         public List<Item> _inventory;
         public List<Quest> _quest;
@@ -36,6 +41,8 @@ namespace Sparta_TextRpg
             _level = 1;
             _exp = 0;
             _gold = 1500;
+            _critical = 15;
+            _dodge = 10;
             _inventory = new List<Item>();
             _needlevelexp = [10, 25, 55, 100, 155, 225, 310, 410, 525];
             equipItem = new Dictionary<ItemType, Item>();
@@ -54,7 +61,7 @@ namespace Sparta_TextRpg
         }
         public void EquipItem(ItemType type, Item item)
         {
-            if(!equipItem.ContainsKey(type))
+            if (!equipItem.ContainsKey(type))
             {
                 equipItem.Add(type, item);
             }
@@ -66,9 +73,75 @@ namespace Sparta_TextRpg
         }
         private void ModiferStat()
         {
-
+            modifierattck = 0;
+            modifierdefence = 0;
+            modifierDodge = 0;
+            if (equipItem.ContainsKey(ItemType.WEAPON))
+            {
+                switch (equipItem[ItemType.WEAPON]._itemrating)
+                {
+                    case ItemRating.RARE:
+                        modifierCritical = 10;
+                        break;
+                    case ItemRating.UNIQUE:
+                        modifierCritical = 20;
+                        break;
+                    case ItemRating.LEGEND:
+                        modifierCritical = 30;
+                        break;
+                }
+                modifierCritical = equipItem[ItemType.WEAPON]._statvalue;
+                modifierattck += equipItem[ItemType.WEAPON]._statvalue;
+            }
+            if (equipItem.ContainsKey(ItemType.HELMET))
+            {
+                switch (equipItem[ItemType.HELMET]._itemrating)
+                {
+                    case ItemRating.RARE:
+                        modifierDodge += 5;
+                        break;
+                    case ItemRating.UNIQUE:
+                        modifierDodge += 10;
+                        break;
+                    case ItemRating.LEGEND:
+                        modifierDodge += 15;
+                        break;
+                }
+                modifierdefence += equipItem[ItemType.HELMET]._statvalue;
+            }
+            if (equipItem.ContainsKey(ItemType.ARMOR))
+            {
+                switch (equipItem[ItemType.ARMOR]._itemrating)
+                {
+                    case ItemRating.RARE:
+                        modifierDodge += 5;
+                        break;
+                    case ItemRating.UNIQUE:
+                        modifierDodge += 10;
+                        break;
+                    case ItemRating.LEGEND:
+                        modifierDodge += 15;
+                        break;
+                }
+                modifierdefence += equipItem[ItemType.ARMOR]._statvalue;
+            }
+            if (equipItem.ContainsKey(ItemType.SHOES))
+            {
+                switch (equipItem[ItemType.SHOES]._itemrating)
+                {
+                    case ItemRating.RARE:
+                        modifierDodge += 5;
+                        break;
+                    case ItemRating.UNIQUE:
+                        modifierDodge += 10;
+                        break;
+                    case ItemRating.LEGEND:
+                        modifierDodge += 15;
+                        break;
+                }
+                modifierdefence += equipItem[ItemType.SHOES]._statvalue;
+            }
         }
-
         public int HP
         {
             get { return _currenthp; }
@@ -85,6 +158,40 @@ namespace Sparta_TextRpg
                 _currenthp = value;
             }
         }
+        public float Attack
+        {
+            get
+            {
+                return _attack + modifierattck;
+            }
+            private set { }
+        }
+        public int Deffence
+        {
+            get
+            {
+                return _defence + modifierdefence;
+            }
+            private set { }
+        }
+        public int Critical
+        {
+            get
+            {
+                return _critical + modifierCritical;
+            }
+            private set { }
+        }
+
+        public int Dodge
+        {
+            get
+            {
+                return _dodge + modifierDodge;
+            }
+            private set { }
+        }
+
         public string Name
         {
             get

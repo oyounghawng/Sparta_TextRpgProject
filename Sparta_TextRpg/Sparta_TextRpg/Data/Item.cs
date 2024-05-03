@@ -28,10 +28,9 @@ namespace Sparta_TextRpg
         public int _statvalue;
         public string _description;
         public ItemRating _itemrating;
-        
-
         public bool _isbuy;
         public int _price;
+        public int _cnt;
         public Item()
         {
 
@@ -43,7 +42,8 @@ namespace Sparta_TextRpg
             _itemrating = rType;
             _statvalue = statvalue;
             _description = description;
-            _price = price;                           
+            _price = price;
+            _cnt = 0;
         }
     }
 }

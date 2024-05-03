@@ -35,18 +35,9 @@ namespace Sparta_TextRpg.Scene
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
             Console.WriteLine("[보유 골드]");
             Console.WriteLine(player._gold + " G ");
-            foreach (Item item in itemdata)
-            { 
-                string isBuy = string.Empty;
-                if (item._isbuy)
-                    isBuy = "구매완료";
-                else
-                    isBuy = item._price.ToString();
-
-                Console.WriteLine($"- {item._name}     | {item._itemtype} +{item._statvalue}  | {item._description}    | {isBuy}");
-            }
-            Console.WriteLine("\n1. 아이템 구매");
-            Console.WriteLine("2. 아이템 판매");
+            Console.WriteLine("\n1. 장비 아이템 구매");
+            Console.WriteLine("2. 소비 아이템 구매");
+            Console.WriteLine("3. 보유 아이템 판매");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
             var key = Console.ReadKey(true).Key;
@@ -55,10 +46,15 @@ namespace Sparta_TextRpg.Scene
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    BuyStore();
+                    BuyGearItem();
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
+                    Console.Clear();
+                    BuyconsumableItem();
+                    break;
+                case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
                     Console.Clear();
                     SellStore();
                     break;
@@ -74,7 +70,7 @@ namespace Sparta_TextRpg.Scene
                     break;
             }
         }
-        private void BuyStore()
+        private void BuyGearItem()
         {
             Console.WriteLine("상점 - 아이템 구매");
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
@@ -104,19 +100,61 @@ namespace Sparta_TextRpg.Scene
             else if ((key > ConsoleKey.D0 && key <= (ConsoleKey.D0 + itemdata.Count)))
             {
                 BuyItem((int)(key - 49));
-                BuyStore();
+                BuyGearItem();
             }
             else if ((key > ConsoleKey.NumPad0 && key <= (ConsoleKey.NumPad0 + itemdata.Count)))
             {
                 BuyItem((int)(key - 97));
-                BuyStore();
+                BuyGearItem();
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
-                BuyStore();
+                BuyGearItem();
             }
+        }
+        private void BuyconsumableItem()
+        {
+            Console.WriteLine("상점");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine(player._gold + " G ");
+
+            List<Item> filterItem = itemdata.Where(item => item._itemtype == ItemType.POTION).ToList();
+            int cnt = 1;
+            foreach (Item item in filterItem)
+            {
+                string isBuy = string.Empty;
+                Console.WriteLine($"-{cnt}. {item._name}     | {item._itemtype} + {item._statvalue}  | {item._description} | {item._price}");
+                cnt++;
+            }
+
+            Console.WriteLine("\n0. 나가기");
+            //구매코드
+            var key = Console.ReadKey(true).Key;
+            if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + filterItem.Count)
+            {
+                Console.Clear();
+                BuyconsumableItem();
+            }
+            else if (key >= ConsoleKey.NumPad1 && key < ConsoleKey.NumPad1 + filterItem.Count)
+            {
+                Console.Clear();
+                BuyconsumableItem();
+            }
+            else if (key == ConsoleKey.D0 || key == ConsoleKey.NumPad0)
+            {
+                Console.Clear();
+                ViewMenu();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("잘못된 입력입니다.");
+                BuyconsumableItem();
+            }
+
         }
         private void BuyItem(int idx)
         {

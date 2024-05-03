@@ -200,7 +200,7 @@ namespace Sparta_TextRpg
                 bool avoidance = false;
                 int eatk = enemies[i].atk;
                 int avoid = random.Next(1, 101);// 회피
-                if (avoid <= 10)
+                if (avoid <= player._dodge)
                 {
                     avoidance = true;
                 }
@@ -337,7 +337,7 @@ namespace Sparta_TextRpg
             bool critic = false;
             Random random = new Random();
             int critical = random.Next(1, 101);// 치명타
-            if (critical <= 15)
+            if (critical <= player._critical)
             {
                 critic = true;
 
@@ -353,6 +353,7 @@ namespace Sparta_TextRpg
             if (critic == true)
             {
                 offsetdamage = (int)MathF.Round(1.6f * (offsetdamage));
+                Console.WriteLine("치명타가 떴습니다!!\n");
             }
             enemies[idx].HP = offsetdamage;
             Console.WriteLine("Battle!!\n");

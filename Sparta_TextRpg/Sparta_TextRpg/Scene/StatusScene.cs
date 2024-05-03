@@ -48,7 +48,7 @@ namespace Sparta_TextRpg
             Console.WriteLine($"마나 {player._currentmp} / {player._maxmp}");
             Console.WriteLine("골드 " + player._gold + "\n");
             Console.WriteLine("크리티컬 확률 : " + player.Critical);
-            Console.WriteLine("회피 확률 : " + player.Dodge + );
+            Console.WriteLine("회피 확률 : " + player.Dodge );
             Console.WriteLine("1. 인벤토리\n");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");

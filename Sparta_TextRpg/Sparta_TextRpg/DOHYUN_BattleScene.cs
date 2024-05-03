@@ -307,7 +307,7 @@ namespace Sparta_TextRpg
             player._defence += 2; // 방어력 2 증가
         }
 
- /*
+/*
         private void Reward()
         {
             Random random = new Random();

@@ -20,10 +20,6 @@ namespace Sparta_TextRpg
             sceneName = SceneName.InventoryScene;
             inventory = GameManager.Instance.player._inventory;
             player = GameManager.Instance.player;
-            Item Weapon = player.equipItem[ItemType.WEAPON];
-            Item Helmet = player.equipItem[ItemType.HELMET];
-            Item Armor = player.equipItem[ItemType.ARMOR];
-            Item Shoes = player.equipItem[ItemType.SHOES];
             ViewMenu();
         }
         public override void Excute()
@@ -34,6 +30,7 @@ namespace Sparta_TextRpg
             Console.WriteLine("인벤토리");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템목록]");
+            CheckEquipItem();
             foreach (Item item in inventory)
             {
                 string equip = string.Empty;
@@ -70,11 +67,13 @@ namespace Sparta_TextRpg
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템목록]");
 
+            CheckEquipItem();
+
             int cnt = 1;
             foreach (Item item in inventory)
             {
                 string equip = string.Empty;
-                if (item.Equals(Helmet) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
+                if (item.Equals(Weapon) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
                     equip = "[E]";
                 Console.WriteLine($"-{cnt} {equip}{item._name}     | {item._itemtype} +{item._statvalue}  | {item._description}");
                 cnt++;
@@ -107,96 +106,64 @@ namespace Sparta_TextRpg
         private void Equip(int idx)
         {
             Item temp = inventory[idx];
-            Console.WriteLine(Weapon);
-            Console.WriteLine(Helmet);
-            Console.WriteLine(Shoes);
-            Console.WriteLine(Armor);
-            Console.WriteLine(temp._itemtype);
+            CheckEquipItem();
             switch (temp._itemtype)
             {
                 case ItemType.WEAPON:
-                    //아무것도 장착하지 않았다면
-                    if (player.equipItem.ContainsKey(ItemType.WEAPON))
-                    {
-                        Console.WriteLine("장착완료1");
-                    }
-                    //장착한 상태라면
-                    else
-                    {
-                        Console.Clear();
-                        if (Weapon.Equals(temp))
-                        {
-                            Console.WriteLine("이미 장착중인 무기입니다.");
-                        }
-                        else
-                        { 
-                            player.equipItem[ItemType.WEAPON] = temp;
-                            Console.WriteLine("장착완료2");
-                        }
-                    }
+                    EquipItem(ItemType.WEAPON, temp);
                     break;
                 case ItemType.HELMET:
-                    if (Helmet.Equals(null))
-                    {
-                        player.equipItem[ItemType.HELMET] = temp;
-                    }
-                    //장착한 상태라면
-                    else
-                    {
-                        Console.Clear();
-                        if (Helmet.Equals(temp))
-                        {
-                            Console.WriteLine("이미 장착중인 무기입니다.");
-                        }
-                        else
-                        {
-                            player.equipItem[ItemType.HELMET] = temp;
-                        }
-                    }
+                    EquipItem(ItemType.HELMET, temp);
                     break;
                 case ItemType.ARMOR:
-                    if (Armor.Equals(null))
-                    {
-                        player.equipItem[ItemType.ARMOR] = temp;
-                    }
-                    //장착한 상태라면
-                    else
-                    {
-                        Console.Clear();
-                        if (Armor.Equals(temp))
-                        {
-                            Console.WriteLine("이미 장착중인 무기입니다.");
-                        }
-                        else
-                        {
-                            player.equipItem[ItemType.ARMOR] = temp;
-                        }
-                    }
+                    EquipItem(ItemType.ARMOR, temp);
                     break;
                 case ItemType.SHOES:
-                    if (Shoes.Equals(null))
-                    {
-                        player.equipItem[ItemType.SHOES] = temp;
-                    }
-                    //장착한 상태라면
-                    else
-                    {
-                        Console.Clear();
-                        if (Shoes.Equals(temp))
-                        {
-                            Console.WriteLine("이미 장착중인 무기입니다.");
-                        }
-                        else
-                        {
-                            player.equipItem[ItemType.HELMET] = temp;
-                        }
-                    }
+                    EquipItem(ItemType.SHOES, temp);
                     break;
                 default:
                     Console.WriteLine("해당되는 장착타입이 없습니다.");
                     break;
             }
             EquipInventory();
+        }
+        private void CheckEquipItem()
+        {
+            if (player.equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player.equipItem[ItemType.WEAPON];
+            else
+                Weapon = null;
+            if (player.equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player.equipItem[ItemType.HELMET];
+            else
+                Helmet = null;
+            if (player.equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player.equipItem[ItemType.ARMOR];
+            else
+                Armor = null;
+            if (player.equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player.equipItem[ItemType.SHOES];
+            else
+                Shoes = null;
+        }
+        private void EquipItem(ItemType type, Item item)
+        {
+            if (!player.equipItem.ContainsKey(type))
+            {
+                player.EquipItem(type, item);
+            }
+            else
+            {
+                Console.Clear();
+                if (Weapon.Equals(item))
+                {
+                    Console.WriteLine("이미 장착중인 무기입니다.");
+                }
+                else
+                {
+                    player.EquipItem(type, item);
+                }
+            }
         }
     }
 }

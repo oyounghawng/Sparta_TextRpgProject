@@ -25,30 +25,35 @@ namespace Sparta_TextRpg
             Init();
         }
         private void Init()
-        {
-            Item item1 = new Item("나무칼", ItemType.WEAPON, ItemRating.COMMON , 5, "나무로 만든칼", 500);
-            Item item2 = new Item("돌칼", ItemType.WEAPON, ItemRating.RARE, 5, "돌로 만든칼", 500);
-            Item item3 = new Item("구리칼", ItemType.WEAPON, ItemRating.UNIQUE, 5, "구리로 만든칼", 500);
-            Item item4 = new Item("다이아칼", ItemType.WEAPON, ItemRating.LEGEND, 5, "다이아로 만든칼", 500);
-            Items.Add(item1);
-            Items.Add(item2);
-            Items.Add(item3);
-            Items.Add(item4);
+        {   
+            #region Gear
+            Items.Add(new Item("나무칼", ItemType.WEAPON, ItemRating.RARE, 10, "나무로 만든칼", 100));
+            Items.Add(new Item("철칼", ItemType.WEAPON, ItemRating.UNIQUE, 20, "철로 만든칼", 200));
+            Items.Add(new Item("다이아칼", ItemType.WEAPON, ItemRating.LEGEND, 30, "다이아로 만든칼", 300));
+            Items.Add(new Item("나무투구", ItemType.HELMET, ItemRating.RARE, 1, "나무로 만든투구", 100));
+            Items.Add(new Item("철투구", ItemType.HELMET, ItemRating.UNIQUE, 3, "철로 만든투구", 200));
+            Items.Add(new Item("다이아투구", ItemType.HELMET, ItemRating.LEGEND, 5, "다이아로 만든투구", 300));
+            Items.Add(new Item("나무갑옷", ItemType.ARMOR, ItemRating.RARE, 1, "나무로 만든갑옷", 100));
+            Items.Add(new Item("철갑옷", ItemType.ARMOR, ItemRating.UNIQUE, 3, "철로 만든갑옷", 200));
+            Items.Add(new Item("다이아갑옷", ItemType.ARMOR, ItemRating.LEGEND, 5, "다이아로 만든갑옷", 300));
+            Items.Add(new Item("나무신발", ItemType.SHOES, ItemRating.RARE, 1, "나무로 만든신발", 100));
+            Items.Add(new Item("철신발", ItemType.SHOES, ItemRating.UNIQUE, 3, "철로 만든신발", 200));
+            Items.Add(new Item("다이아신발", ItemType.SHOES, ItemRating.LEGEND, 5, "다이아로 만든신발", 300));
+            #endregion
 
-            Items.Add(new Item("하급 체력 포션", ItemType.POTION, ItemRating.COMMON, 10, "작은 회복", 50));
+            #region Potion
+            Items.Add(new Item("하급 체력 포션", ItemType.POTION, ItemRating.RARE, 10, "작은 회복", 50));
             Items.Add(new Item("중급 체력 포션", ItemType.POTION, ItemRating.RARE, 20, "중간 회복", 150));
             Items.Add(new Item("상급 체력 포션", ItemType.POTION, ItemRating.UNIQUE, 30, "큰 회복", 250));
-            Items.Add(new Item("하급 마나 포션", ItemType.POTION, ItemRating.COMMON, 10, "작은 회복", 50));
+            Items.Add(new Item("하급 마나 포션", ItemType.POTION, ItemRating.RARE, 10, "작은 회복", 50));
             Items.Add(new Item("중급 마나 포션", ItemType.POTION, ItemRating.RARE, 20, "중간 회복", 150));
             Items.Add(new Item("상급 마나 포션", ItemType.POTION, ItemRating.UNIQUE, 30, "큰 회복", 250));
+            #endregion
 
             Enemys.Add(new Enemy("슬라임"));
             Enemys.Add(new Enemy("스켈레톤"));
             Enemys.Add(new Enemy("오크"));
 
-            Quests.Add(new Quest());
-            Quests[0].Init(new Item("나무칼", ItemType.WEAPON, ItemRating.COMMON, 5, "나무로 만든칼", 500), new Enemy("슬라임"));
-  
         }
     }
 }

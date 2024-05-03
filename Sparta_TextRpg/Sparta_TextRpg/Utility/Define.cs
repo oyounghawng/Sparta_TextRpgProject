@@ -13,6 +13,11 @@ namespace Sparta_TextRpg
         StartScene,
         StatusScene,
         BattleScene,
+        StoreScene,
+        QuestScene,
+        InventoryScene,
+        DungeonScene,
+        RestScene,
         Null,
     }
 }

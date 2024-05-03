@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sparta_TextRpg
 {
-    internal class BattleScene : BaseScene
+    internal class seongsu : BaseScene
     {
         private List<Enemy> enemies;
         private Player player;
@@ -252,7 +252,6 @@ namespace Sparta_TextRpg
             player._defence += 1; // 방어력 1 증가
             Console.WriteLine($"레벨업! 현재 레벨: {player._level}, 공격력: {player._attack}, 방어력: {player._defence}");
         }
-
         /*
         private void Reward()
         {
@@ -276,7 +275,14 @@ namespace Sparta_TextRpg
                     rand = random.Next(1, 101);
                     List<Item> filterItem;
                     ItemRating rating;
-                    #region Item
+
+
+                    //Quest 처리
+                    if (player._quest[0].enemy.name == enemies[0].name)
+                    {
+                        player._quest[0].curcnt++;
+                    }
+                    
                     if (rand <= 70) // 70프로 확률로 물약 획득
                     {
                         filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.POTION).ToList();
@@ -324,9 +330,8 @@ namespace Sparta_TextRpg
                     #endregion
                 }
             }
-        }
-
- */
+        } 
+        */
         private void PlayerAttack(int idx)
         {
             bool critic = false;
@@ -385,20 +390,61 @@ namespace Sparta_TextRpg
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
+                    
                     if (player._currentmp >= 10)
                     {
                         // 알파 스트라이크
-                        player._currentmp -= 10;
-                        if (enemies.Count > 0)
+                       
+                        for (int i = 0; i < enemies.Count; i++)
                         {
-                            int damage = (int)MathF.Round(2 * player._attack);
-                            int preEnemyhp = enemies[0].HP;
-                            enemies[0].HP = damage;
-                            string isDieString = !enemies[0].isDie ? enemies[0].HP.ToString() : "Dead";
-                            Console.WriteLine($"{player._playerjobs.Skill1_Name} 사용!\n");
-                            Console.WriteLine($"Lv.{enemies[0].level} {enemies[0].name} 을(를) 맞췄습니다. [데미지 : {damage}]");
-                            Console.WriteLine($"HP {preEnemyhp} ->{isDieString}\n");
+                            Console.WriteLine($"{i + 1}에게. {player._playerjobs.Skill1_Name}사용하기");
                         }
+                        var key2 = Console.ReadKey(true).Key;
+                        if (key2 >= ConsoleKey.D1 && key2 < ConsoleKey.D1 + enemies.Count)
+                        {
+                            
+                            Console.Clear();
+                            int idx = (int)(key2 - 49);
+                            if (!enemies[idx].isDie)
+                            {
+                                player._currentmp -= 10;
+                                int damage = (int)MathF.Round(2 * player._attack);
+                                int preEnemyhp = enemies[idx].HP;
+                                enemies[idx].HP = damage;
+                                string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
+                               // Console.WriteLine($"{player._playerjobs.Skill1_Name} 사용!\n");
+                                Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 에게 {player._playerjobs.Skill1_Name}을 사용했습니다. [데미지 : {damage}]");
+                                Console.WriteLine($"HP {preEnemyhp} ->{isDieString}\n");
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("이미 죽은 몬스터입니다. 다른 몬스터를 선택해 주세요");
+                                AttackMenu();
+                            }
+                        }
+                        else if (key2 >= ConsoleKey.NumPad1 && key2 < ConsoleKey.NumPad1 + enemies.Count)
+                        {
+                            Console.Clear();
+                            int idx = (int)(key2 - 97);
+                            if (!enemies[idx].isDie)
+                            {
+                                player._currentmp -= 10;
+                                int damage = (int)MathF.Round(2 * player._attack);
+                                int preEnemyhp = enemies[idx].HP;
+                                enemies[idx].HP = damage;
+                                string isDieString = !enemies[idx].isDie ? enemies[idx].HP.ToString() : "Dead";
+                                Console.WriteLine($"{player._playerjobs.Skill1_Name} 사용!\n");
+                                Console.WriteLine($"Lv.{enemies[idx].level} {enemies[idx].name} 을(를) 맞췄습니다. [데미지 : {damage}]");
+                                Console.WriteLine($"HP {preEnemyhp} ->{isDieString}\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("이미 죽은 몬스터입니다. 다른 몬스터를 선택해 주세요");
+                                AttackMenu();
+                            }
+                        }
+                       
                     }
                     else
                     {

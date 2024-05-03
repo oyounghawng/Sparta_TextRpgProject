@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace Sparta_TextRpg
 {
-
-
-    
     internal class StatusScene : BaseScene
     {
+        Player player;
+        Item Weapon;
+        Item Helmet;
+        Item Armor;
+        Item Shoes;
         public override void Enter()
         {
             sceneName = SceneName.StatusScene;
+            player = GameManager.Instance.player;
             ViewMenu();
         }
         public override void Excute()
@@ -25,22 +28,30 @@ namespace Sparta_TextRpg
 
         public override void ViewMenu()
         {
-            string offset = string.Empty;
-            string playerName = GameManager.Instance.player._name;
-            Player player = GameManager.Instance.player;
+            CheckEquipItem();
 
             Console.Clear();
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.WriteLine("이름 : "+player._name);
             Console.WriteLine("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"{playerName}.({player._job})");
-            Console.WriteLine("공격력. " + player._attack + offset);  
-            Console.WriteLine("방어력 " + player._defence + offset);
-            Console.WriteLine("체력 " + player._currenthp);
+            Console.WriteLine($"Chad.( {player._playerjobs._playerjob})");
+
+            string weaponStat = Weapon != null ? $"( +{Weapon._statvalue } )" : string.Empty;
+            Console.WriteLine("공격력. " + player._attack + weaponStat);
+            int totalValue = 0;
+            string HelmetStat = Helmet != null ? $"( { Helmet._name} : +{Helmet._statvalue} )" : string.Empty;
+            string ArmorStat = Armor != null ? $"( { Armor._name} : +{Armor._statvalue} )" : string.Empty;
+            string ShoesStat = Shoes != null ? $"( { Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
+            Console.WriteLine("방어력 " + player._defence + HelmetStat + ArmorStat + ShoesStat);
+            Console.WriteLine($"체력  {player._currenthp} / {player._maxhp}"  );
+            Console.WriteLine($"마나 {player._currentmp} / {player._maxmp}");
             Console.WriteLine("골드 " + player._gold + "\n");
+            Console.WriteLine("크리티컬 확률 : " + player.Critical);
+            Console.WriteLine("회피 확률 : " + player.Dodge + );
+            Console.WriteLine("1. 인벤토리\n");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
-
 
             var key = Console.ReadKey(true).Key;
             switch (key)
@@ -48,19 +59,39 @@ namespace Sparta_TextRpg
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
+                    GameManager.Instance.ChangeScene(SceneName.InventoryScene);
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
                     Console.Clear();
-                    GameManager.Instance.LoadPreScene();
+                    GameManager.Instance.ChangeScene(SceneName.StartScene);
                     break;
                 default:
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    ViewMenu();
                     break;
             }
+        }
+
+        private void CheckEquipItem()
+        {
+            if (player.equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player.equipItem[ItemType.WEAPON];
+            else
+                Weapon = null;
+            if (player.equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player.equipItem[ItemType.HELMET];
+            else
+                Helmet = null;
+            if (player.equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player.equipItem[ItemType.ARMOR];
+            else
+                Armor = null;
+            if (player.equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player.equipItem[ItemType.SHOES];
+            else
+                Shoes = null;
         }
 
     }

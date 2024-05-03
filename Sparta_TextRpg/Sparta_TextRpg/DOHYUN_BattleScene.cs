@@ -142,7 +142,7 @@ namespace Sparta_TextRpg
             Console.WriteLine($"HP {player._maxhp} -> {player._currenthp}");
             Console.WriteLine($"exp: {player._exp} / {player._needlevelexp[player._level - 1]}");
             Console.WriteLine("\n[획득 아이템]");
-            Reward();
+            //Reward();
 
             Console.WriteLine($"\n0. 로비로");
             var key = Console.ReadKey(true).Key;
@@ -307,7 +307,7 @@ namespace Sparta_TextRpg
             player._defence += 2; // 방어력 2 증가
         }
 
- 
+ /*
         private void Reward()
         {
             Random random = new Random();
@@ -378,7 +378,7 @@ namespace Sparta_TextRpg
                 }
             }
         }
-
+ */
         private void Skill()
         {
             Console.WriteLine("Battle!!\n");

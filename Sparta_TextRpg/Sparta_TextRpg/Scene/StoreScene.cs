@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -36,14 +37,13 @@ namespace Sparta_TextRpg.Scene
         {
 
         }
-
         public override void ViewMenu()
         {
-            Console.WriteLine("상점");
+            Utility.PrintTextHighlights(" - ", "상점", " - ", ConsoleColor.Red);
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
             Console.WriteLine("[보유 골드]");
-            Console.WriteLine(player._gold + " G ");
-            Console.WriteLine("\n1. 장비 아이템 구매");
+            Utility.PrintTextHighlights("", $"{player._gold} G", "\n", ConsoleColor.Yellow);
+            Console.WriteLine("1. 장비 아이템 구매");
             Console.WriteLine("2. 소비 아이템 구매");
             Console.WriteLine("3. 보유 아이템 판매");
             Console.WriteLine("0. 나가기");
@@ -80,13 +80,17 @@ namespace Sparta_TextRpg.Scene
         }
         private void BuyGearItem(int startPage = 0)
         {
-            Console.WriteLine("상점 - 아이템 구매");
+            Utility.PrintTextHighlights(" - ", "상점 : 장비구매", " - ", ConsoleColor.Red);
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
             Console.WriteLine("[보유 골드]");
-            Console.WriteLine(player._gold + " G ");
-
+            Utility.PrintTextHighlights("", $"{player._gold} G", "\n", ConsoleColor.Yellow);
             int count = filterGearItem.Count;
             int size = 9;
+            Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
+                + " | " + Utility.PadRightForMixedText($"능력치", 15)
+                + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
+                + " | " + $"가격");
+            Console.WriteLine("---------------------------------------------------------------------------");
             for (int i = startPage * 9; i < int.Min(count, startPage * 9 + size); i++)
             {
                 {
@@ -97,7 +101,10 @@ namespace Sparta_TextRpg.Scene
                     else
                         isBuy = item._price.ToString();
 
-                    Console.WriteLine($"- {i + 1 - startPage * 9}  {item._name}     | {item._itemtype} +{item._statvalue}  | {item._description}    | {isBuy}");
+                    Console.WriteLine(Utility.PadRightForMixedText($"- {i + 1 - startPage * 9}  {item._name}", 20)
+                        + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
+                        + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
+                        + " | " + $"{isBuy}");
                 }
             }
 
@@ -162,7 +169,6 @@ namespace Sparta_TextRpg.Scene
                 BuyGearItem(startPage);
             }
         }
-
         private void BuyconsumableItem()
         {
             Console.WriteLine("상점");

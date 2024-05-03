@@ -26,6 +26,7 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
+            Console.WriteLine("당신의 직업은 무엇입니까?\n");
             Playerjobs[] PlayerJobs =
             {
                 playerjobs.playerjoblist.Warrior,
@@ -40,9 +41,6 @@ namespace Sparta_TextRpg
                 Console.WriteLine($"체력: {PlayerJobs[i]._maxhp}");
                 Console.WriteLine($"마나: {PlayerJobs[i]._maxmp}\n");
             }
-
-            Console.WriteLine("원하시는 캐릭터를 입력해주세요.");
-
             var key = Console.ReadKey(true).Key;
             switch (key)
             {

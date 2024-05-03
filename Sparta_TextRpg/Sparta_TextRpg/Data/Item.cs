@@ -10,7 +10,7 @@ public enum ItemType
     HELMET,
     ARMOR,
     SHOES,
-    POTION     
+    POTION
 }
 public enum ItemRating
 {
@@ -44,6 +44,19 @@ namespace Sparta_TextRpg
             _description = description;
             _price = price;
             _cnt = 0;
+        }
+        public string StatType
+        {
+            get
+            {
+                if (_itemtype == ItemType.WEAPON)
+                    return "공격력";
+                else if (_itemtype == ItemType.POTION)
+                    return "회복량";
+                else
+                    return "방어력";
+            }
+            private set { }
         }
     }
 }

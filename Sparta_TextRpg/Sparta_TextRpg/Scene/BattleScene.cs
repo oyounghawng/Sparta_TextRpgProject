@@ -86,6 +86,7 @@ namespace Sparta_TextRpg
                 Console.WriteLine($"{i + 1}. 공격");
             }
             Console.WriteLine("A. 스킬사용하기");
+            Console.WriteLine("B. 물약사용하기");
             var key = Console.ReadKey(true).Key;
             if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + enemies.Count)
             {
@@ -116,6 +117,36 @@ namespace Sparta_TextRpg
                 Console.Clear();
                 Skill();
             }
+            else if (key == ConsoleKey.B)
+            {
+                Console.Clear();
+                Console.WriteLine("[보유중인 물약]");
+                List<Item> potions = new List<Item>();
+                foreach (Item item in player._inventory)
+                {
+                    if (item._itemtype == ItemType.POTION)
+                    {
+                        potions.Add(item);
+                    }
+                }
+                if (potions.Count == 0)
+                {
+                    Console.WriteLine("보유중인 물약이 없습니다.");
+                }
+                else
+                {
+                    for (int i = 0; i < potions.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {potions[i]._name} 회복량: {potions[i]._statvalue}");     
+                        
+                    }                   
+
+                }
+
+            }
+
+
+
             else
             {
                 Console.Clear();
@@ -488,5 +519,25 @@ namespace Sparta_TextRpg
                 EnemyAttack();
             }
         }
+
+        private void ItemHeal()
+        {
+            List<Item> potions = new List<Item>();
+            foreach (Item item in player._inventory)
+            {
+                if (item._itemtype == ItemType.POTION)
+                {
+                    potions.Add(item);
+                }
+            }
+
+            for (int i = 0; i < potions.Count; i++)
+            {
+
+                player._inventory.Remove(potions[i]);
+            }
+        }
     }
+
+    
 }

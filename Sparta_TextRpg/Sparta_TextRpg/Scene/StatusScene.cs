@@ -29,30 +29,26 @@ namespace Sparta_TextRpg
         public override void ViewMenu()
         {
             CheckEquipItem();
-
             Console.Clear();
-            Console.WriteLine("상태 보기");
+            Utility.PrintTextHighlights(" - ", "상태 보기", " - ", ConsoleColor.Red);
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-            Console.WriteLine("이름 : "+player._name);
-            Console.WriteLine("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"Chad.( {player._playerjobs._playerjob})");
-
-            string weaponStat = Weapon != null ? $"( +{Weapon._statvalue } )" : string.Empty;
-            Console.WriteLine("공격력. " + player._attack + weaponStat);
-            int totalValue = 0;
+            Console.WriteLine(Utility.PadRightForMixedText("이름", 13) + " : " + player._name);
+            Console.WriteLine(Utility.PadRightForMixedText("Lv", 13) + " : " + player._level.ToString("D2"));
+            Console.WriteLine(Utility.PadRightForMixedText("Chad.", 13) + " : " + player._playerjobs._playerjob);
+            string weaponStat = Weapon != null ? $" (+{Weapon._statvalue })" : string.Empty;
+            Console.WriteLine(Utility.PadRightForMixedText("공격력", 13) + " : " + player._attack + weaponStat);
             string HelmetStat = Helmet != null ? $"( { Helmet._name} : +{Helmet._statvalue} )" : string.Empty;
             string ArmorStat = Armor != null ? $"( { Armor._name} : +{Armor._statvalue} )" : string.Empty;
             string ShoesStat = Shoes != null ? $"( { Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
-            Console.WriteLine("방어력 " + player._defence + HelmetStat + ArmorStat + ShoesStat);
-            Console.WriteLine($"체력  {player._currenthp} / {player._maxhp}"  );
-            Console.WriteLine($"마나 {player._currentmp} / {player._maxmp}");
-            Console.WriteLine("골드 " + player._gold + "\n");
-            Console.WriteLine("크리티컬 확률 : " + player.Critical);
-            Console.WriteLine("회피 확률 : " + player.Dodge + );
-            Console.WriteLine("1. 인벤토리\n");
+            Console.WriteLine(Utility.PadRightForMixedText("방어력", 13) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
+            Console.WriteLine(Utility.PadRightForMixedText("체력", 13) + " : " + $"{player._currenthp} / {player._maxhp}");
+            Console.WriteLine(Utility.PadRightForMixedText("마나", 13) + " : " + $"{player._currentmp} / {player._maxmp}");
+            Console.WriteLine(Utility.PadRightForMixedText("골드", 13) + " : " + player._gold);
+            Console.WriteLine(Utility.PadRightForMixedText("크리티컬 확률", 13) + " : " + player.Critical);
+            Console.WriteLine(Utility.PadRightForMixedText("회피 확률", 13) + " : " + player.Dodge);
+            Console.WriteLine("\n1. 인벤토리");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
-
             var key = Console.ReadKey(true).Key;
             switch (key)
             {
@@ -73,7 +69,6 @@ namespace Sparta_TextRpg
                     break;
             }
         }
-
         private void CheckEquipItem()
         {
             if (player.equipItem.ContainsKey(ItemType.WEAPON))
@@ -93,6 +88,5 @@ namespace Sparta_TextRpg
             else
                 Shoes = null;
         }
-
     }
 }

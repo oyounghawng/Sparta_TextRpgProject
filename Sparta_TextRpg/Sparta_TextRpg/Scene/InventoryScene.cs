@@ -27,7 +27,7 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
-            Console.WriteLine("인벤토리");
+            Utility.PrintTextHighlights(" - ", "인벤토리", " - ", ConsoleColor.Red);
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템목록]");
             CheckEquipItem();
@@ -63,10 +63,9 @@ namespace Sparta_TextRpg
         }
         private void EquipInventory()
         {
-            Console.WriteLine("인벤토리 - 장착 관리");
+            Utility.PrintTextHighlights(" - ", "인벤토리 : 장착관리", " - ", ConsoleColor.Red);
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템목록]");
-
             CheckEquipItem();
 
             int cnt = 1;

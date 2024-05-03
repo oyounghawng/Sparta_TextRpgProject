@@ -203,5 +203,17 @@ namespace Sparta_TextRpg
                 _name = value;
             }
         }
+
+        public int HealHP
+        {
+            set
+            {
+                _currenthp += value;
+                if (_currenthp > _maxhp)
+                {
+                    _currenthp = _maxhp;
+                }
+            }
+        }
     }
 }

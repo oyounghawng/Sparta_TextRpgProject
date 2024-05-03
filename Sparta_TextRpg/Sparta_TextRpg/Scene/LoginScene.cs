@@ -11,6 +11,14 @@ namespace Sparta_TextRpg.Scene
         public override void Enter()
         {
             sceneName = SceneName.LoginScene;
+            while (!Console.KeyAvailable)
+            {
+                Console.Clear();
+                Utility.ShowTite();
+                Thread.Sleep(150);
+                Console.Clear();
+                Thread.Sleep(150);
+            }
             ViewMenu();
         }
 
@@ -18,13 +26,11 @@ namespace Sparta_TextRpg.Scene
         {
 
         }
-
         public override void ViewMenu()
         {
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
-            Console.WriteLine("원하시는 이름을 설정해주세요.");
+            Console.WriteLine("딸각무한던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("모험을 떠날 당신의 이름은?");
             Console.Write(">>");
-
             string playerName = Console.ReadLine();
             GameManager.Instance.player.Name = playerName;
             GameManager.Instance.ChangeScene(SceneName.SelectCharScene);

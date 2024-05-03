@@ -17,7 +17,7 @@ namespace Sparta_TextRpg
         public int exp;
 
         public bool isDie = false;
-        public Enemy(string _name)
+        public Enemy(string _name = "")
         {
             name = _name;
             level = 1;
@@ -39,6 +39,18 @@ namespace Sparta_TextRpg
                     hp = 0;
                 }
             }
+        }
+
+        public Enemy DeepCopy(Enemy _enemy)
+        {
+            Enemy enemy = new Enemy();
+            enemy.name = _enemy.name;
+            enemy.hp = 100;
+            enemy.atk = 10;
+            enemy.def = 5;
+            enemy.exp = 5;
+            enemy.isDie = false;
+            return enemy;
         }
         public string PrintEnemy(Enemy enemy)
         {

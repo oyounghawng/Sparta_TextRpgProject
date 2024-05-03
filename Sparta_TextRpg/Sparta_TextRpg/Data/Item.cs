@@ -35,7 +35,7 @@ namespace Sparta_TextRpg
         {
 
         }
-        public Item(string name, ItemType type, ItemRating rType, int statvalue, int _cnt ,string description, int price, bool isbuy = false)
+        public Item(string name, ItemType type, ItemRating rType, int statvalue, int cnt ,string description, int price, bool isbuy = false)
         {
             _name = name;
             _itemtype = type;
@@ -43,7 +43,7 @@ namespace Sparta_TextRpg
             _statvalue = statvalue;
             _description = description;
             _price = price;
-            _cnt = 0;
+            _cnt = cnt;
         }
         public string StatType
         {

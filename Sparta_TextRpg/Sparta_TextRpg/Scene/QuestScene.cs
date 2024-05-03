@@ -16,7 +16,6 @@ namespace Sparta_TextRpg.Scene
             sceneName = SceneName.QuestScene;
             ViewMenu();
         }
-
         public override void Excute()
         {
 

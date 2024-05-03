@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,10 +21,15 @@ namespace Sparta_TextRpg
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currenthp;
             Random random = new Random();
+
+            player._inventory.Add(new Item("하급 체력 포션", ItemType.POTION, ItemRating.RARE, 10, 5, "작은 회복", 50));
+            player._inventory.Add(new Item("중급 체력 포션", ItemType.POTION, ItemRating.RARE, 20, 5, "작은 회복", 50));
+            player.HP = 10;
+
             enemydata = DataManager.Instance.Enemys;
             int enemydatacount = enemydata.Count;
             int count = random.Next(1, 5);
-            for(int i = 0; i< count; i++)
+            for (int i = 0; i < count; i++)
             {
                 int enemyidx = random.Next(1, enemydatacount);
                 Enemy enemy = enemydata[enemyidx].DeepCopy(enemydata[enemyidx]);
@@ -128,29 +134,6 @@ namespace Sparta_TextRpg
             else if (key == ConsoleKey.S)
             {
                 Console.Clear();
-                Console.WriteLine("[보유중인 물약]");
-                List<Item> potions = new List<Item>();
-                foreach (Item item in player._inventory)
-                {
-                    if (item._itemtype == ItemType.POTION)
-                    {
-                        potions.Add(item);
-                    }
-                }
-                if (potions.Count == 0)
-                {
-                    Console.WriteLine("보유중인 물약이 없습니다.");
-                }
-                else
-                {
-                    for (int i = 0; i < potions.Count; i++)
-                    {
-                        Console.WriteLine($"{i + 1}. {potions[i]._name} 회복량: {potions[i]._statvalue}");
-
-                    }
-
-                }
-
                 ViewPotion();
             }
             else
@@ -461,12 +444,11 @@ namespace Sparta_TextRpg
 
 
                 rand = random.Next(1, 101);
-                if (rand <= 20) // 20프로 확률로 아이템 획득
+                if (rand <= 99) // 20프로 확률로 아이템 획득
                 {
                     rand = random.Next(1, 101);
                     List<Item> filterItem;
                     ItemRating rating;
-                    #region Item
                     if (rand <= 70) // 70프로 확률로 물약 획득
                     {
                         filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.POTION).ToList();
@@ -506,12 +488,28 @@ namespace Sparta_TextRpg
                     {
                         int randomIndex = random.Next(0, filterItem.Count);
                         Item randomItem = filterItem[randomIndex];
-                        player._inventory.Add(randomItem);
 
+                        // 물약인 경우 수량 조정
+                        if (randomItem._itemtype == ItemType.POTION)
+                        {
 
+                            Item potion = player._inventory.FirstOrDefault(item => item._name == randomItem._name && item._itemtype == ItemType.POTION);
+                            if (potion != null)
+                            {
+                                potion._cnt += 1;
+                            }
+                            else
+                            {
+                                randomItem._cnt = 1; // 새 물약 추가 시 기본 수량 설정
+                                player._inventory.Add(randomItem);
+                            }
+                        }
+                        else
+                        {
+                            player._inventory.Add(randomItem);
+                        }
                         Console.WriteLine($"[{randomItem._name}]을(를) 획득하였습니다");
                     }
-                    #endregion
                 }
             }
         }
@@ -561,36 +559,58 @@ namespace Sparta_TextRpg
             }
         }
         #endregion
-        private void ItemHeal()
-
+        #region UsePotion
+        private List<Item> potioninventory;
         private void ViewPotion()
         {
-            List<Item> inventory = player._inventory.Where(item => item._itemtype == ItemType.POTION).ToList();
-
+            potioninventory = player._inventory.Where(item => item._itemtype == ItemType.POTION).ToList();
             Console.WriteLine("[보유중인 물약]");
-            for (int i = 0; i < inventory.Count; i++)
+            for (int i = 0; i < potioninventory.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {inventory[i]._name} 회복량 : {inventory[i]._statvalue} 보유갯수 : {inventory[i]._statvalue}");
+                Console.WriteLine($"{i + 1}. {potioninventory[i]._name} 회복량 : {potioninventory[i]._statvalue} 보유갯수 : {potioninventory[i]._cnt}");
             }
 
-        }
+            Console.WriteLine("\n사용할 물약을 선택해주세요\n");
+            Console.WriteLine($"현재 체력: {player._currenthp}");
 
-        private void PotionHeal()
-        {
-            List<Item> potions = new List<Item>();
-            foreach (Item item in player._inventory)
+            // 키 입력받기
+            var key = Console.ReadKey(true).Key;
+            if (key >= ConsoleKey.D1 && key <= ConsoleKey.D1 + potioninventory.Count)
             {
-                if (item._itemtype == ItemType.POTION)
+                Console.Clear();
+                int idx = (int)(key - 49);
+                PotionHeal(idx);
+            }
+            else if (key >= ConsoleKey.NumPad1 && key <= ConsoleKey.NumPad1 + potioninventory.Count)
+            {
+                Console.Clear();
+                int idx = (int)(key - 97);
+                PotionHeal(idx);
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("잘못된 입력입니다.");
+                ViewPotion();
+            }
+        }
+        private void PotionHeal(int idx)
+        {
+            Item potion = potioninventory[idx];
+            if (potion != null)
+            {
+                if (potion._cnt >= 1)
                 {
-                    potions.Add(item);
+                    player.HealHP = potion._statvalue;
+                    potion._cnt--;
+                    Console.WriteLine(player.HP);
                 }
             }
-
-            for (int i = 0; i < potions.Count; i++)
+            else
             {
-
-                player._inventory.Remove(potions[i]);
+                Console.WriteLine("보유중인 포션이 없습니다");
             }
         }
+        #endregion
     }
 }

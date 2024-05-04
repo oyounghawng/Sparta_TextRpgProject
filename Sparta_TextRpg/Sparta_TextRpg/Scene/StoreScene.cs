@@ -184,7 +184,31 @@ namespace Sparta_TextRpg.Scene
                 Console.WriteLine($"-{cnt}. {item._name}     | {item._itemtype} + {item._statvalue}  | {item._description} | {item._price}");
                 cnt++;
             }
+            /*
+            int count = filterGearItem.Count;
+            int size = 9;
+            Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
+                + " | " + Utility.PadRightForMixedText($"능력치", 15)
+                + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
+                + " | " + $"가격");
+            Console.WriteLine("---------------------------------------------------------------------------");
+            for (int i = startPage * 9; i < int.Min(count, startPage * 9 + size); i++)
+            {
+                {
+                    string isBuy = string.Empty;
+                    Item item = filterGearItem[i];
+                    if (item._isbuy)
+                        isBuy = "구매완료";
+                    else
+                        isBuy = item._price.ToString();
 
+                    Console.WriteLine(Utility.PadRightForMixedText($"- {i + 1 - startPage * 9}  {item._name}", 20)
+                        + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
+                        + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
+                        + " | " + $"{isBuy}");
+                }
+            }
+            */
             Console.WriteLine("\n0. 나가기");
             //구매코드
             var key = Console.ReadKey(true).Key;

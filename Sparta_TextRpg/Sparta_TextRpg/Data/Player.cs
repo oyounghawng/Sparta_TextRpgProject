@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -142,6 +143,11 @@ namespace Sparta_TextRpg
                 modifierdefence += equipItem[ItemType.SHOES]._statvalue;
             }
         }
+        public void LevelUP()
+        {
+            _attack += 0.5f; // 공격력 0.5 증가
+            _defence += 1; // 방어력 1 증가
+        }
         public int HP
         {
             get { return _currenthp; }
@@ -155,7 +161,7 @@ namespace Sparta_TextRpg
             }
             set
             {
-                _currenthp = value;
+                _currentmp -= value;
             }
         }
         public float Attack
@@ -182,7 +188,6 @@ namespace Sparta_TextRpg
             }
             private set { }
         }
-
         public int Dodge
         {
             get
@@ -191,7 +196,6 @@ namespace Sparta_TextRpg
             }
             private set { }
         }
-
         public string Name
         {
             get
@@ -203,7 +207,6 @@ namespace Sparta_TextRpg
                 _name = value;
             }
         }
-
         public int HealHP
         {
             set
@@ -215,5 +218,17 @@ namespace Sparta_TextRpg
                 }
             }
         }
+        public int HealMP
+        {
+            set
+            {
+                _currentmp += value;
+                if (_currenthp > _maxhp)
+                {
+                    _currenthp = _maxhp;
+                }
+            }
+        }
+
     }
 }

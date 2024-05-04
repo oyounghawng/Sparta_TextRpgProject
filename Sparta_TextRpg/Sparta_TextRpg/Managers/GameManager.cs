@@ -39,8 +39,6 @@ namespace Sparta_TextRpg
             scenes[(int)SceneName.DungeonScene] = new DungeonScene();
             scenes[(int)SceneName.RestScene] = new RestScene();
 
-            
-
             ChangeScene(SceneName.LoginScene);
 
             Excute();

@@ -45,6 +45,20 @@ namespace Sparta_TextRpg
             _price = price;
             _cnt = cnt;
         }
+        public Item DeepCopy(Item _item)
+        {
+            Item item = new Item();
+            item._name = _item._name;
+            item._itemtype = _item._itemtype;
+            item._statvalue = _item._statvalue;
+            item._description = _item._description;
+            item._itemrating = _item._itemrating;
+            item._isbuy = _item._isbuy;
+            item._price = _item._price;
+            item._cnt = 1;
+            return item;
+        }
+
         public string StatType
         {
             get

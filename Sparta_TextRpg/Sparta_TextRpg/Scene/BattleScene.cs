@@ -27,10 +27,6 @@ namespace Sparta_TextRpg
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currenthp;
             Random random = new Random();
-
-            player._inventory.Add(new Item("하급 체력 포션", ItemType.POTION, ItemRating.RARE, 10, 5, "작은 회복", 50));
-            player._inventory.Add(new Item("하급 마나 포션", ItemType.POTION, ItemRating.RARE, 10, 5, "작은 회복", 50));
-
             enemydata = DataManager.Instance.Enemys;
             int enemydatacount = enemydata.Count;
             int enemycount = random.Next(1, 5);
@@ -115,7 +111,8 @@ namespace Sparta_TextRpg
             string ShoesStat = Shoes != null ? $"( {Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
             Console.WriteLine(Utility.PadRightForMixedText("방어력", 10) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
             Console.WriteLine(Utility.PadRightForMixedText("체력", 10) + " : " + $"{player.HP} / {player._maxhp}");
-            Console.WriteLine(Utility.PadRightForMixedText("마나", 10) + " : " + $"{player.MP} / {player._maxmp}\n");
+            Console.WriteLine(Utility.PadRightForMixedText("마나", 10) + " : " + $"{player.MP} / {player._maxmp}");
+            Console.WriteLine(Utility.PadRightForMixedText("경험치", 10) + " : " + $"{player._exp} / {player._needlevelexp[player._level-1]}\n");
         }
         private void ShowEnemyStat()
         {
@@ -477,7 +474,7 @@ namespace Sparta_TextRpg
                     }
                     else
                     {
-                        Console.Write(Utility.PadRightForMixedText($"{i + 1}. Lv.{enemy.level} {enemy.name}", 20));
+                        Console.Write(Utility.PadRightForMixedText($"{j+ 1}. Lv.{enemy.level} {enemy.name}", 20));
                         Console.WriteLine($"HP : {Diestring}");
                     }
                 }
@@ -617,7 +614,10 @@ namespace Sparta_TextRpg
                     }
                     else // 나머지 30프로 확률로 아이템 획득
                     {
-                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.WEAPON).ToList();
+                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.WEAPON 
+                        || item._itemtype == ItemType.ARMOR
+                        || item._itemtype == ItemType.SHOES
+                        || item._itemtype == ItemType.HELMET).ToList();
                     }
                     rand = random.Next(1, 101);
                     if (rand <= 70)
@@ -662,15 +662,14 @@ namespace Sparta_TextRpg
                             }
                             else
                             {
-                                randomItem._cnt = 1; // 새 물약 추가 시 기본 수량 설정
-                                player._inventory.Add(randomItem);
+                                player._inventory.Add(randomItem.DeepCopy(randomItem));
                             }
                         }
                         else
                         {
-                            player._inventory.Add(randomItem);
+                            player._inventory.Add(randomItem.DeepCopy(randomItem));
                         }
-                        Console.WriteLine($"[{randomItem._name}]을(를) 획득하였습니다");
+                        Console.WriteLine($"[{randomItem._name}]을(를) 획득하였습니다\n");
                     }
                 }
             }
@@ -678,6 +677,7 @@ namespace Sparta_TextRpg
         private void IsEndBattle()
         {
             bool isEndBattle = true;
+            player.HealMP = 50;
             //전투 종료 판단
             foreach (Enemy enemy in enemies)
             {
@@ -692,7 +692,7 @@ namespace Sparta_TextRpg
             //모든 적의 사망확인
             if (isEndBattle)
             {
-                Console.WriteLine("모든적이 사망했습니다.");
+                Console.WriteLine("\n모든적이 사망했습니다.");
                 Console.WriteLine("0. 결과창으로 이동\n");
                 var key = Console.ReadKey(true).Key;
                 while (key != ConsoleKey.D0 && key != ConsoleKey.NumPad0)

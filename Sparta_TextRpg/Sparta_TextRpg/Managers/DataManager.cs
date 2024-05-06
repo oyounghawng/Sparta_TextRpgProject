@@ -43,16 +43,31 @@ namespace Sparta_TextRpg
 
             #region Potion
             Items.Add(new Item("하급 체력 포션", ItemType.POTION, ItemRating.RARE, 10, 0,"작은 회복", 50));
-            Items.Add(new Item("중급 체력 포션", ItemType.POTION, ItemRating.RARE, 20, 0, "중간 회복", 150));
-            Items.Add(new Item("상급 체력 포션", ItemType.POTION, ItemRating.UNIQUE, 30, 0, "큰 회복", 250));
+            Items.Add(new Item("중급 체력 포션", ItemType.POTION, ItemRating.UNIQUE, 20, 0, "중간 회복", 150));
+            Items.Add(new Item("상급 체력 포션", ItemType.POTION, ItemRating.LEGEND, 30, 0, "큰 회복", 250));
             Items.Add(new Item("하급 마나 포션", ItemType.POTION, ItemRating.RARE, 10, 0, "작은 회복", 50));
-            Items.Add(new Item("중급 마나 포션", ItemType.POTION, ItemRating.RARE, 20, 0, "중간 회복", 150));
-            Items.Add(new Item("상급 마나 포션", ItemType.POTION, ItemRating.UNIQUE, 30, 0, "큰 회복", 250));
+            Items.Add(new Item("중급 마나 포션", ItemType.POTION, ItemRating.UNIQUE, 20, 0, "중간 회복", 150));
+            Items.Add(new Item("상급 마나 포션", ItemType.POTION, ItemRating.LEGEND, 30, 0, "큰 회복", 250));
             #endregion
 
+            #region Enemy
             Enemys.Add(new Enemy("슬라임"));
             Enemys.Add(new Enemy("스켈레톤"));
             Enemys.Add(new Enemy("오크"));
+            #endregion
+
+            #region Quest
+            Quests.Add(new Quest("마을을 위협하는 슬라임 처치", "이봐! 마을 근처에 슬라임들이 너무 많아졌다고 생각하지 않나?\n" +
+                          "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
+                          "모험가인 자네가 좀 처치해주게!", "슬라임 5 마리 처치", 500, 5, Enemys[0]));
+            Quests.Add(new Quest("마을을 위협하는 스켈레톤 처치", "이봐! 마을 근처에 스켈레톤 너무 많아졌다고 생각하지 않나?\n" +
+                           "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
+                           "모험가인 자네가 좀 처치해주게!", "스켈레톤 5 마리 처치", 500, 5, Enemys[1]));
+            Quests.Add(new Quest("마을을 위협하는 슬라임 처치", "이봐! 마을 근처에 슬라임들이 너무 많아졌다고 생각하지 않나?\n" +
+                            "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
+                           "모험가인 자네가 좀 처치해주게!", "슬라임 5 마리 처치", 500, 5, Enemys[2]));
+
+            #endregion
 
         }
     }

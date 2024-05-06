@@ -41,7 +41,7 @@ namespace Sparta_TextRpg
         {
             _level = 1;
             _exp = 0;
-            _gold = 1500;
+            _gold = 5000;
             _critical = 15;
             _dodge = 10;
             _inventory = new List<Item>();

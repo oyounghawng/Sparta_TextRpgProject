@@ -11,13 +11,12 @@ namespace Sparta_TextRpg
         public string title;
         public string description;
         public string goal;
-        public Item reward;
         public Enemy enemy;
         public int gold;
         public int curcnt;
         public int goalcnt;
 
-        public Quest()
+        public Quest(string _title, string _description, string _goal, int _gold, int _goalcnt, Enemy _enemy)
         {
             title = "마을을 위협하는 슬라임 처치";
             description = "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\n" +
@@ -27,10 +26,6 @@ namespace Sparta_TextRpg
             gold = 5;
             curcnt = 0;
             goalcnt = 1;
-        }
-        public void Init(Item _item, Enemy _enemy)
-        {
-            reward = _item;
             enemy = _enemy;
         }
         public void cntQuest(Enemy _enemy)

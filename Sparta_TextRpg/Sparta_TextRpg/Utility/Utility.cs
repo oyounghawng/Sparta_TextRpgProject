@@ -39,7 +39,6 @@ namespace Sparta_TextRpg
             Console.ResetColor();
             Console.WriteLine(s3);
         }
-
         public static int GetPrintableLength(string str)
         {
             int length = 0;

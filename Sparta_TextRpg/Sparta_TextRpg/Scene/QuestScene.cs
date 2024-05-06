@@ -37,10 +37,10 @@ namespace Sparta_TextRpg.Scene
                     }
                 }
                 string Acceptment = isAccept ? "[수행중인]" : "";
-                Console.WriteLine($"{cnt}. {Acceptment} {quest.title}");
+                Console.WriteLine(Utility.PadRightForMixedText($"-{cnt}. {Acceptment}", 20)
+                    + Utility.PadRightForMixedText($"{quest.title}", 15));
                 cnt++;
             }
-            Console.WriteLine("");
             Console.WriteLine("\n원하시는 퀘스트를 선택해 주세요.");
             Console.WriteLine("\n0. 나가기");
             var key = Console.ReadKey(true).Key;
@@ -88,7 +88,6 @@ namespace Sparta_TextRpg.Scene
             Console.WriteLine(quest.title);
             Console.WriteLine("\n" + quest.description);
             Console.WriteLine($"\n- {quest.goal} ({quest.curcnt}/{quest.goalcnt})");
-            Console.WriteLine($"\n- 보상 - \n{quest.reward._name} \n {quest.gold}");
 
             Console.WriteLine($"\n1. 수락");
             Console.WriteLine($"2. 거절");
@@ -134,7 +133,6 @@ namespace Sparta_TextRpg.Scene
             Console.WriteLine(quest.title);
             Console.WriteLine("\n" + quest.description);
             Console.WriteLine($"\n- {quest.goal} ({quest.curcnt}/{quest.goalcnt})");
-            Console.WriteLine($"\n- 보상 - \n{quest.reward._name} \n {quest.gold}");
 
             Console.WriteLine($"\n1. 보상받기");
             Console.WriteLine($"2. 돌아가기");
@@ -146,7 +144,6 @@ namespace Sparta_TextRpg.Scene
                     Console.Clear();
                     if (quest.curcnt >= quest.goalcnt)
                     {
-                        GameManager.Instance.player._inventory.Add(quest.reward);
                         GameManager.Instance.player._gold += quest.gold;
                         GameManager.Instance.player._quest.Remove(quest);
                         ViewMenu();

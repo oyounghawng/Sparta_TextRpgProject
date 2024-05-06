@@ -43,7 +43,7 @@ namespace Sparta_TextRpg
             Console.WriteLine(Utility.PadRightForMixedText("방어력", 13) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
             Console.WriteLine(Utility.PadRightForMixedText("체력", 13) + " : " + $"{player._currenthp} / {player._maxhp}");
             Console.WriteLine(Utility.PadRightForMixedText("마나", 13) + " : " + $"{player._currentmp} / {player._maxmp}");
-            Console.WriteLine(Utility.PadRightForMixedText("경험치", 10) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}");
+            Console.WriteLine(Utility.PadRightForMixedText("경험치", 13) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}");
             Console.WriteLine(Utility.PadRightForMixedText("골드", 13) + " : " + player._gold);
             Console.WriteLine(Utility.PadRightForMixedText("크리티컬 확률", 13) + " : " + player.Critical +"%");
             Console.WriteLine(Utility.PadRightForMixedText("회피 확률", 13) + " : " + player.Dodge +"%");

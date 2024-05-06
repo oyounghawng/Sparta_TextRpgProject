@@ -15,6 +15,8 @@ namespace Sparta_TextRpg.Scene
         Player player;
         List<Item> itemdata;
         List<Item> filterGearItem;
+        List<Item> filterConsumableItem;
+
         int Itempagenum;
         Item Weapon;
         Item Helmet;
@@ -29,6 +31,8 @@ namespace Sparta_TextRpg.Scene
             filterGearItem = itemdata.Where(item =>
             item._itemtype == ItemType.WEAPON || item._itemtype == ItemType.HELMET ||
             item._itemtype == ItemType.ARMOR || item._itemtype == ItemType.SHOES).ToList();
+
+            filterConsumableItem = itemdata.Where(item => item._itemtype == ItemType.POTION).ToList();
             Itempagenum = filterGearItem.Count / 9;
             ViewMenu();
         }
@@ -54,17 +58,17 @@ namespace Sparta_TextRpg.Scene
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    BuyGearItem();
+                    BuyGearView();
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
                     Console.Clear();
-                    BuyconsumableItem();
+                    BuyconsumableView();
                     break;
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     Console.Clear();
-                    SellStore();
+                    //SellItemView();
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
@@ -78,7 +82,8 @@ namespace Sparta_TextRpg.Scene
                     break;
             }
         }
-        private void BuyGearItem(int startPage = 0)
+        #region View
+        private void BuyGearView(int startPage = 0)
         {
             Utility.PrintTextHighlights(" - ", "상점 : 장비구매", " - ", ConsoleColor.Red);
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
@@ -90,22 +95,20 @@ namespace Sparta_TextRpg.Scene
                 + " | " + Utility.PadRightForMixedText($"능력치", 15)
                 + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
                 + " | " + $"가격");
-            Console.WriteLine("---------------------------------------------------------------------------");
+            Console.WriteLine("------------------------------------------------------------------------------------------");
             for (int i = startPage * 9; i < int.Min(count, startPage * 9 + size); i++)
             {
-                {
-                    string isBuy = string.Empty;
-                    Item item = filterGearItem[i];
-                    if (item._isbuy)
-                        isBuy = "구매완료";
-                    else
-                        isBuy = item._price.ToString();
+                string isBuy = string.Empty;
+                Item item = filterGearItem[i];
+                if (item._isbuy)
+                    isBuy = "구매완료";
+                else
+                    isBuy = item._price.ToString();
 
-                    Console.WriteLine(Utility.PadRightForMixedText($"- {i + 1 - startPage * 9}  {item._name}", 20)
-                        + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
-                        + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
-                        + " | " + $"{isBuy}");
-                }
+                Console.WriteLine(Utility.PadRightForMixedText($"- {i + 1 - startPage * 9}  {item._name}", 20)
+                    + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
+                    + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
+                    + " | " + $"{isBuy}");
             }
 
             if (Itempagenum >= 1)
@@ -124,12 +127,12 @@ namespace Sparta_TextRpg.Scene
                 {
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    BuyGearItem(startPage);
+                    BuyGearView(startPage);
                 }
                 else
                 {
                     Console.Clear();
-                    BuyGearItem(--startPage);
+                    BuyGearView(--startPage);
                 }
             }
             else if (key == ConsoleKey.D)
@@ -138,12 +141,12 @@ namespace Sparta_TextRpg.Scene
                 {
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    BuyGearItem(startPage);
+                    BuyGearView(startPage);
                 }
                 else
                 {
                     Console.Clear();
-                    BuyGearItem(++startPage);
+                    BuyGearView(++startPage);
                 }
             }
             //구매 코드
@@ -154,13 +157,13 @@ namespace Sparta_TextRpg.Scene
             }
             else if ((key > ConsoleKey.D0 && key <= (ConsoleKey.D0 + int.Min(count - startPage * 9, size))))
             {
-                BuyItem((int)(key - 49) + startPage * 9);
-                BuyGearItem(startPage);
+                BuyGearItem((int)(key - 49) + startPage * 9);
+                BuyGearView(startPage);
             }
             else if ((key > ConsoleKey.NumPad0 && key <= (ConsoleKey.NumPad0 + int.Min(count - startPage * 9, size))))
             {
-                BuyItem((int)(key - 97) + startPage * 9);
-                BuyGearItem(startPage);
+                BuyGearItem((int)(key - 97) + startPage * 9);
+                BuyGearView(startPage);
             }
             else
             {
@@ -169,58 +172,48 @@ namespace Sparta_TextRpg.Scene
                 BuyGearItem(startPage);
             }
         }
-        private void BuyconsumableItem()
+        private void BuyconsumableView()
         {
-            Console.WriteLine("상점");
+            Utility.PrintTextHighlights(" - ", "상점 : 소비아이템 구매", " - ", ConsoleColor.Red);
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
             Console.WriteLine("[보유 골드]");
-            Console.WriteLine(player._gold + " G ");
+            Utility.PrintTextHighlights("", $"{player._gold} G", "\n", ConsoleColor.Yellow);
 
-            List<Item> filterItem = itemdata.Where(item => item._itemtype == ItemType.POTION).ToList();
-            int cnt = 1;
-            foreach (Item item in filterItem)
-            {
-                string isBuy = string.Empty;
-                Console.WriteLine($"-{cnt}. {item._name}     | {item._itemtype} + {item._statvalue}  | {item._description} | {item._price}");
-                cnt++;
-            }
-            /*
-            int count = filterGearItem.Count;
-            int size = 9;
             Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
                 + " | " + Utility.PadRightForMixedText($"능력치", 15)
                 + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
-                + " | " + $"가격");
-            Console.WriteLine("---------------------------------------------------------------------------");
-            for (int i = startPage * 9; i < int.Min(count, startPage * 9 + size); i++)
+                + " | " + Utility.PadRightForMixedText($"가격", 20)
+                + " | " + "보유수량");
+            Console.WriteLine("-----------------------------------------------------------------------------------------");
+            int cnt = 1;
+            foreach (Item filteritem in filterConsumableItem)
             {
-                {
-                    string isBuy = string.Empty;
-                    Item item = filterGearItem[i];
-                    if (item._isbuy)
-                        isBuy = "구매완료";
-                    else
-                        isBuy = item._price.ToString();
+                Item potion = player._inventory.FirstOrDefault(item => item._name == filteritem._name);
+                string potioncnt = string.Empty;
+                if (potion == null)
+                    potioncnt = "0";
+                else
+                    potioncnt = potion._cnt.ToString();
 
-                    Console.WriteLine(Utility.PadRightForMixedText($"- {i + 1 - startPage * 9}  {item._name}", 20)
-                        + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
-                        + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
-                        + " | " + $"{isBuy}");
-                }
+                Console.WriteLine(Utility.PadRightForMixedText($"- {cnt}.  {filteritem._name}", 20)
+            + " | " + Utility.PadRightForMixedText($"{filteritem.StatType} +{filteritem._statvalue}", 15)
+            + " | " + Utility.PadRightForMixedText($"{filteritem._description}", 20)
+            + " | " + Utility.PadRightForMixedText($"{filteritem._price}", 20)
+            + " | " + potioncnt);
+                cnt++;
             }
-            */
             Console.WriteLine("\n0. 나가기");
             //구매코드
             var key = Console.ReadKey(true).Key;
-            if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + filterItem.Count)
+            if (key >= ConsoleKey.D1 && key < ConsoleKey.D1 + filterConsumableItem.Count)
             {
                 Console.Clear();
-                BuyconsumableItem();
+                BuyConsumableItem((int)(key - 49));
             }
-            else if (key >= ConsoleKey.NumPad1 && key < ConsoleKey.NumPad1 + filterItem.Count)
+            else if (key >= ConsoleKey.NumPad1 && key < ConsoleKey.NumPad1 + filterConsumableItem.Count)
             {
                 Console.Clear();
-                BuyconsumableItem();
+                BuyConsumableItem((int)(key - 97));
             }
             else if (key == ConsoleKey.D0 || key == ConsoleKey.NumPad0)
             {
@@ -231,38 +224,11 @@ namespace Sparta_TextRpg.Scene
             {
                 Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
-                BuyconsumableItem();
+                BuyconsumableView();
             }
 
         }
-        private void BuyItem(int idx)
-        {
-            Console.Clear();
-            Item temp = itemdata[idx];
-            if (temp._isbuy)
-            {
-                Console.Clear();
-                Console.WriteLine("이미 구매한 아이템입니다.");
-            }
-            else
-            {
-                if (player._gold >= temp._price)
-                {
-                    player._gold -= temp._price;
-                    temp._isbuy = true;
-                    itemdata[idx] = temp;
-                    player._inventory.Add(temp);
-                    Console.Clear();
-                    Console.WriteLine("구매를 완료했습니다.");
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Gold가 부족합니다.");
-                }
-            }
-        }
-        private void SellStore()
+        private void SellItemView()
         {
             Console.WriteLine("상점 - 아이템 판매");
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
@@ -301,8 +267,61 @@ namespace Sparta_TextRpg.Scene
             {
                 Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
-                SellStore();
             }
+        }
+        #endregion
+
+
+        private void BuyGearItem(int idx)
+        {
+            Console.Clear();
+            Item temp = itemdata[idx].DeepCopy(itemdata[idx]);
+            if (temp._isbuy)
+            {
+                Console.Clear();
+                Console.WriteLine("이미 구매한 아이템입니다.");
+            }
+            else
+            {
+                if (player._gold >= temp._price)
+                {
+                    player._gold -= temp._price;
+                    temp._isbuy = true;
+                    itemdata[idx]._isbuy = true;
+                    player._inventory.Add(temp);
+                    Console.Clear();
+                    Console.WriteLine("구매를 완료했습니다.");
+                }
+                else
+                {
+                    Console.Clear();
+                    Utility.PrintTextHighlights("", "골드가 부족합니다.", "", ConsoleColor.Red);
+                }
+            }
+        }
+        private void BuyConsumableItem(int idx)
+        {
+            List<Item> filterItem = itemdata.Where(item => item._itemtype == ItemType.POTION).ToList();
+            Item temp = filterItem[idx].DeepCopy(filterItem[idx]);
+            if (player._gold < temp._price)
+            {
+                Console.Clear();
+                Utility.PrintTextHighlights("", "골드가 부족합니다.", "", ConsoleColor.Red);
+                BuyconsumableView();
+            }
+            Console.Clear();
+            Console.WriteLine("구매완료");
+            Item potion = player._inventory.FirstOrDefault(item => item._name == temp._name);
+            player._gold -= temp._price;
+            if (potion != null)
+            {
+                potion._cnt += 1;
+            }
+            else
+            {
+                player._inventory.Add(temp);
+            }
+            BuyconsumableView();
         }
         private void SellItem(int idx)
         {
@@ -334,7 +353,8 @@ namespace Sparta_TextRpg.Scene
 
             player._gold += (int)Math.Round(temp._price * 0.85f);
             Console.WriteLine($"{isEquip} {temp._name}을 판매해 {temp._price * 0.85f}G를 획득했습니다.\n");
-            SellStore();
+
         }
+
     }
 }

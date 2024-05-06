@@ -66,7 +66,13 @@ namespace Sparta_TextRpg
                 if (_itemtype == ItemType.WEAPON)
                     return "공격력";
                 else if (_itemtype == ItemType.POTION)
-                    return "회복량";
+                {
+                    if(_name.Contains("체력"))
+                        return "체력 회복량";
+                    else
+                        return "마나 회복량";
+                }
+                    
                 else
                     return "방어력";
             }

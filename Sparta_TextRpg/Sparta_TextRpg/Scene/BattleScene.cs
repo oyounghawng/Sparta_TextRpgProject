@@ -112,7 +112,7 @@ namespace Sparta_TextRpg
             Console.WriteLine(Utility.PadRightForMixedText("방어력", 10) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
             Console.WriteLine(Utility.PadRightForMixedText("체력", 10) + " : " + $"{player.HP} / {player._maxhp}");
             Console.WriteLine(Utility.PadRightForMixedText("마나", 10) + " : " + $"{player.MP} / {player._maxmp}");
-            Console.WriteLine(Utility.PadRightForMixedText("경험치", 10) + " : " + $"{player._exp} / {player._needlevelexp[player._level-1]}\n");
+            Console.WriteLine(Utility.PadRightForMixedText("경험치", 10) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}\n");
         }
         private void ShowEnemyStat()
         {
@@ -266,7 +266,9 @@ namespace Sparta_TextRpg
                     AttackMenu();
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
+                    Skill();
                     break;
             }
             ShowPlayerStat();
@@ -353,7 +355,7 @@ namespace Sparta_TextRpg
         }
         private void Skill2Active()
         {
-            int[] targetidx = new int[2];
+            int[] targetidx = new int[2]{ -1,-1};
             int[] preEnemyhp = new int[2];
             int damage = (int)MathF.Round(1.5f * player._attack);
             Random random = new Random();
@@ -410,14 +412,8 @@ namespace Sparta_TextRpg
                         if (enemy.isDie)
                             continue;
 
-                        if (targetidx[0] == idx)
-                            continue;
-
-                        if (cnt == 0)
-                        {
-                            targetidx[0] = idx;
-                            preEnemyhp[0] = enemy.HP;
-                        }
+                        targetidx[0] = idx;
+                        preEnemyhp[0] = enemy.HP;
                         enemy.HP = damage;
                         cnt++;
                     }
@@ -474,7 +470,7 @@ namespace Sparta_TextRpg
                     }
                     else
                     {
-                        Console.Write(Utility.PadRightForMixedText($"{j+ 1}. Lv.{enemy.level} {enemy.name}", 20));
+                        Console.Write(Utility.PadRightForMixedText($"{j + 1}. Lv.{enemy.level} {enemy.name}", 20));
                         Console.WriteLine($"HP : {Diestring}");
                     }
                 }
@@ -614,7 +610,7 @@ namespace Sparta_TextRpg
                     }
                     else // 나머지 30프로 확률로 아이템 획득
                     {
-                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.WEAPON 
+                        filterItem = DataManager.Instance.Items.Where(item => item._itemtype == ItemType.WEAPON
                         || item._itemtype == ItemType.ARMOR
                         || item._itemtype == ItemType.SHOES
                         || item._itemtype == ItemType.HELMET).ToList();
@@ -669,7 +665,19 @@ namespace Sparta_TextRpg
                         {
                             player._inventory.Add(randomItem.DeepCopy(randomItem));
                         }
-                        Console.WriteLine($"[{randomItem._name}]을(를) 획득하였습니다\n");
+                        if(randomItem._itemrating == ItemRating.RARE)
+                        {
+                            Utility.PrintTextHighlights("", $"[{randomItem._name}]을(를) 획득하였습니다", "", ConsoleColor.White);
+                        }
+                        else if(randomItem._itemrating == ItemRating.UNIQUE)
+                        {
+                            Utility.PrintTextHighlights("", $"[{randomItem._name}]을(를) 획득하였습니다", "", ConsoleColor.Yellow);
+                        }
+                        else if(randomItem._itemrating == ItemRating.LEGEND)
+                        {
+                            Utility.PrintTextHighlights("", $"[{randomItem._name}]을(를) 획득하였습니다", "", ConsoleColor.Green);
+                        }
+                        
                     }
                 }
             }
@@ -779,7 +787,7 @@ namespace Sparta_TextRpg
             int afterHpOrMp = 0;
             if (potion._name.Contains("체력"))
             {
-                if(player._maxhp == player.HP)
+                if (player._maxhp == player.HP)
                 {
                     Console.Clear();
                     Utility.PrintTextHighlights("", "최대 체력입니다.", " - \n", ConsoleColor.Red);

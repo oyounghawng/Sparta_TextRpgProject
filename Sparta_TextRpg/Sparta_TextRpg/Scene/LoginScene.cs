@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Sparta_TextRpg.Scene
 {
+
     internal class LoginScene : BaseScene
     {
         public override void Enter()

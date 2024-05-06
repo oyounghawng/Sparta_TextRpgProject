@@ -68,7 +68,7 @@ namespace Sparta_TextRpg.Scene
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     Console.Clear();
-                    //SellItemView();
+                    ViewMenu();
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:

@@ -35,7 +35,7 @@ namespace Sparta_TextRpg
 
         public List<Item> _inventory;
         public List<Quest> _quest;
-        public Dictionary<ItemType, Item> equipItem;
+        public Dictionary<ItemType, Item> _equipItem;
 
         public Player()
         {
@@ -46,8 +46,9 @@ namespace Sparta_TextRpg
             _dodge = 10;
             _inventory = new List<Item>();
             _needlevelexp = [10, 25, 55, 100, 155, 225, 310, 410, 525];
-            equipItem = new Dictionary<ItemType, Item>();
+            _equipItem = new Dictionary<ItemType, Item>();
             _playerjobs = new Playerjobs();
+            _quest = new List<Quest>();
         }
         public void SetJobStat(Playerjobs playerjob)
         {
@@ -62,13 +63,13 @@ namespace Sparta_TextRpg
         }
         public void EquipItem(ItemType type, Item item)
         {
-            if (!equipItem.ContainsKey(type))
+            if (!_equipItem.ContainsKey(type))
             {
-                equipItem.Add(type, item);
+                _equipItem.Add(type, item);
             }
             else
             {
-                equipItem[type] = item;
+                _equipItem[type] = item;
             }
             ModiferStat();
         }
@@ -77,9 +78,9 @@ namespace Sparta_TextRpg
             modifierattck = 0;
             modifierdefence = 0;
             modifierDodge = 0;
-            if (equipItem.ContainsKey(ItemType.WEAPON))
+            if (_equipItem.ContainsKey(ItemType.WEAPON))
             {
-                switch (equipItem[ItemType.WEAPON]._itemrating)
+                switch (_equipItem[ItemType.WEAPON]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierCritical = 10;
@@ -91,12 +92,12 @@ namespace Sparta_TextRpg
                         modifierCritical = 30;
                         break;
                 }
-                modifierCritical = equipItem[ItemType.WEAPON]._statvalue;
-                modifierattck += equipItem[ItemType.WEAPON]._statvalue;
+                modifierCritical = _equipItem[ItemType.WEAPON]._statvalue;
+                modifierattck += _equipItem[ItemType.WEAPON]._statvalue;
             }
-            if (equipItem.ContainsKey(ItemType.HELMET))
+            if (_equipItem.ContainsKey(ItemType.HELMET))
             {
-                switch (equipItem[ItemType.HELMET]._itemrating)
+                switch (_equipItem[ItemType.HELMET]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierDodge += 5;
@@ -108,11 +109,11 @@ namespace Sparta_TextRpg
                         modifierDodge += 15;
                         break;
                 }
-                modifierdefence += equipItem[ItemType.HELMET]._statvalue;
+                modifierdefence += _equipItem[ItemType.HELMET]._statvalue;
             }
-            if (equipItem.ContainsKey(ItemType.ARMOR))
+            if (_equipItem.ContainsKey(ItemType.ARMOR))
             {
-                switch (equipItem[ItemType.ARMOR]._itemrating)
+                switch (_equipItem[ItemType.ARMOR]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierDodge += 5;
@@ -124,11 +125,11 @@ namespace Sparta_TextRpg
                         modifierDodge += 15;
                         break;
                 }
-                modifierdefence += equipItem[ItemType.ARMOR]._statvalue;
+                modifierdefence += _equipItem[ItemType.ARMOR]._statvalue;
             }
-            if (equipItem.ContainsKey(ItemType.SHOES))
+            if (_equipItem.ContainsKey(ItemType.SHOES))
             {
-                switch (equipItem[ItemType.SHOES]._itemrating)
+                switch (_equipItem[ItemType.SHOES]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierDodge += 5;
@@ -140,7 +141,7 @@ namespace Sparta_TextRpg
                         modifierDodge += 15;
                         break;
                 }
-                modifierdefence += equipItem[ItemType.SHOES]._statvalue;
+                modifierdefence += _equipItem[ItemType.SHOES]._statvalue;
             }
         }
         public void LevelUP()

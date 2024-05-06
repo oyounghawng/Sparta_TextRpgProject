@@ -44,6 +44,11 @@ namespace Sparta_TextRpg
             Utility.PrintTextHighlights(" - ", "인벤토리", " - ", ConsoleColor.Red);
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Utility.PrintTextHighlights("", "[장비아이템 목록]", "", ConsoleColor.Green);
+            Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
+    + " | " + Utility.PadRightForMixedText($"능력치", 15)
+    + " | " + Utility.PadRightForMixedText($"아이템 정보", 20));
+            Console.WriteLine("------------------------------------------------------------------------------------------");
+
             CheckEquipItem();
             foreach (Item item in filterGearItem)
             {
@@ -57,6 +62,11 @@ namespace Sparta_TextRpg
             }
 
             Utility.PrintTextHighlights("", "[소비아이템 목록]", "", ConsoleColor.Cyan);
+            Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
+    + " | " + Utility.PadRightForMixedText($"능력치", 15)
+    + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
+    + " | " + Utility.PadRightForMixedText($"가격", 20)
+    + " | " + "보유수량");
             foreach (Item item in filterConsumableItem)
             {
                 Console.WriteLine(Utility.PadRightForMixedText($"- {item._name}", 20)
@@ -196,26 +206,26 @@ namespace Sparta_TextRpg
         }
         private void CheckEquipItem()
         {
-            if (player.equipItem.ContainsKey(ItemType.WEAPON))
-                Weapon = player.equipItem[ItemType.WEAPON];
+            if (player._equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player._equipItem[ItemType.WEAPON];
             else
                 Weapon = null;
-            if (player.equipItem.ContainsKey(ItemType.HELMET))
-                Helmet = player.equipItem[ItemType.HELMET];
+            if (player._equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player._equipItem[ItemType.HELMET];
             else
                 Helmet = null;
-            if (player.equipItem.ContainsKey(ItemType.ARMOR))
-                Armor = player.equipItem[ItemType.ARMOR];
+            if (player._equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player._equipItem[ItemType.ARMOR];
             else
                 Armor = null;
-            if (player.equipItem.ContainsKey(ItemType.SHOES))
-                Shoes = player.equipItem[ItemType.SHOES];
+            if (player._equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player._equipItem[ItemType.SHOES];
             else
                 Shoes = null;
         }
         private void EquipItem(ItemType type, Item item)
         {
-            if (!player.equipItem.ContainsKey(type))
+            if (!player._equipItem.ContainsKey(type))
             {
                 player.EquipItem(type, item);
             }

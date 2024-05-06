@@ -10,10 +10,12 @@ namespace Sparta_TextRpg.Scene
     internal class QuestScene : BaseScene
     {
         private List<Quest> quests;
+        private List<Quest> playerquest;
         public override void Enter()
         {
             quests = DataManager.Instance.Quests;
             sceneName = SceneName.QuestScene;
+            playerquest = GameManager.Instance.player._quest;
             ViewMenu();
         }
         public override void Excute()
@@ -22,22 +24,25 @@ namespace Sparta_TextRpg.Scene
         }
         public override void ViewMenu()
         {
-            Console.WriteLine("Quest!!\n");
+            Utility.PrintTextHighlights("- ", "Quest !", " - \n", ConsoleColor.Red);
             int cnt = 1;
             //수행중 표시여부
             foreach (Quest quest in quests)
             {
                 bool isAccept = false;
-                foreach (Quest playerQuest in GameManager.Instance.player._quest)
+                if(playerquest.Count>0)
                 {
-                    if (playerQuest.title == quest.title)
+                    foreach (Quest playerQuest in GameManager.Instance.player._quest)
                     {
-                        isAccept = true;
-                        break;
+                        if (playerQuest.title == quest.title)
+                        {
+                            isAccept = true;
+                            break;
+                        }
                     }
                 }
                 string Acceptment = isAccept ? "[수행중인]" : "";
-                Console.WriteLine(Utility.PadRightForMixedText($"-{cnt}. {Acceptment}", 20)
+                Console.WriteLine(Utility.PadRightForMixedText($"-{cnt}. {Acceptment}", 8)
                     + Utility.PadRightForMixedText($"{quest.title}", 15));
                 cnt++;
             }

@@ -40,7 +40,7 @@ namespace Sparta_TextRpg
             string HelmetStat = Helmet != null ? $"( { Helmet._name} : +{Helmet._statvalue} )" : string.Empty;
             string ArmorStat = Armor != null ? $"( { Armor._name} : +{Armor._statvalue} )" : string.Empty;
             string ShoesStat = Shoes != null ? $"( { Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
-            Console.WriteLine(Utility.PadRightForMixedText("방어력", 13) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
+            Console.WriteLine(Utility.PadRightForMixedText("방어력 ", 13) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
             Console.WriteLine(Utility.PadRightForMixedText("체력", 13) + " : " + $"{player._currenthp} / {player._maxhp}");
             Console.WriteLine(Utility.PadRightForMixedText("마나", 13) + " : " + $"{player._currentmp} / {player._maxmp}");
             Console.WriteLine(Utility.PadRightForMixedText("경험치", 13) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}");
@@ -72,20 +72,20 @@ namespace Sparta_TextRpg
         }
         private void CheckEquipItem()
         {
-            if (player.equipItem.ContainsKey(ItemType.WEAPON))
-                Weapon = player.equipItem[ItemType.WEAPON];
+            if (player._equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player._equipItem[ItemType.WEAPON];
             else
                 Weapon = null;
-            if (player.equipItem.ContainsKey(ItemType.HELMET))
-                Helmet = player.equipItem[ItemType.HELMET];
+            if (player._equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player._equipItem[ItemType.HELMET];
             else
                 Helmet = null;
-            if (player.equipItem.ContainsKey(ItemType.ARMOR))
-                Armor = player.equipItem[ItemType.ARMOR];
+            if (player._equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player._equipItem[ItemType.ARMOR];
             else
                 Armor = null;
-            if (player.equipItem.ContainsKey(ItemType.SHOES))
-                Shoes = player.equipItem[ItemType.SHOES];
+            if (player._equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player._equipItem[ItemType.SHOES];
             else
                 Shoes = null;
         }

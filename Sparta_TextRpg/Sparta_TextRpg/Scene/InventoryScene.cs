@@ -44,7 +44,7 @@ namespace Sparta_TextRpg
             Utility.PrintTextHighlights(" - ", "인벤토리", " - ", ConsoleColor.Red);
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Utility.PrintTextHighlights("", "[장비아이템 목록]", "", ConsoleColor.Green);
-            Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
+            Console.WriteLine(Utility.PadRightForMixedText("  아이템 이름", 20)
     + " | " + Utility.PadRightForMixedText($"능력치", 15)
     + " | " + Utility.PadRightForMixedText($"아이템 정보", 20));
             Console.WriteLine("------------------------------------------------------------------------------------------");
@@ -56,17 +56,17 @@ namespace Sparta_TextRpg
                 if (item.Equals(Weapon) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
                     equip = "[E]";
 
-                Console.WriteLine(Utility.PadRightForMixedText($"- {item._name}", 20)
+                Console.WriteLine(Utility.PadRightForMixedText($"- {equip}{item._name}", 20)
                 + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
                 + " | " + Utility.PadRightForMixedText($"{item._description}", 20));
             }
 
-            Utility.PrintTextHighlights("", "[소비아이템 목록]", "", ConsoleColor.Cyan);
-            Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
+            Utility.PrintTextHighlights("\n", "[소비아이템 목록]", "", ConsoleColor.Cyan);
+            Console.WriteLine(Utility.PadRightForMixedText("  아이템 이름", 20)
     + " | " + Utility.PadRightForMixedText($"능력치", 15)
     + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
-    + " | " + Utility.PadRightForMixedText($"가격", 20)
     + " | " + "보유수량");
+            Console.WriteLine("------------------------------------------------------------------------------------------");
             foreach (Item item in filterConsumableItem)
             {
                 Console.WriteLine(Utility.PadRightForMixedText($"- {item._name}", 20)
@@ -101,7 +101,7 @@ namespace Sparta_TextRpg
         {
             Utility.PrintTextHighlights(" - ", "인벤토리 : 장착관리", " - ", ConsoleColor.Red);
             Console.WriteLine("보유 중인 아이템을 장착할 수 있습니다.\n");
-            Console.WriteLine("[장비 아이템목록]");
+            Utility.PrintTextHighlights("", "[장비아이템 목록]", "", ConsoleColor.Green);
             CheckEquipItem();
 
             int count = filterGearItem.Count;
@@ -182,7 +182,7 @@ namespace Sparta_TextRpg
         }
         private void Equip(int idx)
         {
-            Item temp = inventory[idx];
+            Item temp = filterGearItem[idx];
             CheckEquipItem();
             switch (temp._itemtype)
             {

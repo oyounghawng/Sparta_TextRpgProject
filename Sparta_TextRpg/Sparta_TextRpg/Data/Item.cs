@@ -17,6 +17,7 @@ public enum ItemRating
     LEGEND,
     UNIQUE,
     RARE,
+    UNKOWN,
 }
 
 namespace Sparta_TextRpg

@@ -1,3 +1,4 @@
+using Sparta_TextRpg.Scene;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace Sparta_TextRpg
     {
         private List<Enemy> enemies;
         private List<Enemy> enemydata;
+        private List<Quest> quests;
         private Player player;
         private int playerpreBattleHp;
         private bool IsBattle = false;
@@ -23,19 +25,23 @@ namespace Sparta_TextRpg
         public override void Enter()
         {
             sceneName = SceneName.BattleScene;
-            enemies = new List<Enemy>();
+            Random random = new Random();
+
             player = GameManager.Instance.player;
             playerpreBattleHp = player._currenthp;
-            Random random = new Random();
+            quests = player._quest;
+
             enemydata = DataManager.Instance.Enemys;
+            enemies = new List<Enemy>();
             int enemydatacount = enemydata.Count;
             int enemycount = random.Next(1, 5);
             for (int i = 0; i < enemycount; i++)
             {
-                int enemyidx = random.Next(1, enemydatacount);
+                int enemyidx = random.Next(0, enemydatacount);
                 Enemy enemy = enemydata[enemyidx].DeepCopy(enemydata[enemyidx]);
                 enemies.Add(enemy);
             }
+
             player._attack = 100;
             ViewMenu();
         }
@@ -105,14 +111,16 @@ namespace Sparta_TextRpg
             Console.WriteLine(Utility.PadRightForMixedText("Lv", 10) + " : " + player._level.ToString("D2"));
             Console.WriteLine(Utility.PadRightForMixedText("Chad", 10) + " : " + player._playerjobs._playerjob);
             string weaponStat = Weapon != null ? $" (+{Weapon._statvalue})" : string.Empty;
-            Console.WriteLine(Utility.PadRightForMixedText("공격력", 10) + " : " + player._attack + weaponStat);
+            Console.WriteLine(Utility.PadRightForMixedText("공격력", 10) + " : " + player.Attack + weaponStat);
             string HelmetStat = Helmet != null ? $"( {Helmet._name} : +{Helmet._statvalue} )" : string.Empty;
             string ArmorStat = Armor != null ? $"( {Armor._name} : +{Armor._statvalue} )" : string.Empty;
             string ShoesStat = Shoes != null ? $"( {Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
-            Console.WriteLine(Utility.PadRightForMixedText("방어력 ", 10) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
+            Console.WriteLine(Utility.PadRightForMixedText("방어력", 10) + " : " + player.Deffence + HelmetStat + ArmorStat + ShoesStat);
             Console.WriteLine(Utility.PadRightForMixedText("체력", 10) + " : " + $"{player.HP} / {player._maxhp}");
             Console.WriteLine(Utility.PadRightForMixedText("마나", 10) + " : " + $"{player.MP} / {player._maxmp}");
-            Console.WriteLine(Utility.PadRightForMixedText("경험치", 10) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}\n");
+            Console.WriteLine(Utility.PadRightForMixedText("경험치", 10) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}");
+            Console.WriteLine(Utility.PadRightForMixedText("크리티컬 확률", 13) + " : " + player.Critical + "%");
+            Console.WriteLine(Utility.PadRightForMixedText("회피 확률", 13) + " : " + player.Dodge + "%\n");
         }
         private void ShowEnemyStat()
         {
@@ -120,7 +128,7 @@ namespace Sparta_TextRpg
             foreach (Enemy enemy in enemies)
             {
                 string Diestring = !enemy.isDie ? enemy.hp.ToString() : "Dead";
-                Console.Write(Utility.PadRightForMixedText($"{cnt}. Lv.{enemy.level} {enemy.name}", 20) + "HP :");
+                Console.Write(Utility.PadRightForMixedText($"{cnt}. Lv.{enemy.level} {enemy.name}", 20) + "HP : ");
                 if (enemy.isDie)
                     Utility.PrintTextHighlights("", Diestring, " ", ConsoleColor.Red);
                 else
@@ -221,7 +229,7 @@ namespace Sparta_TextRpg
                 if (idx == i)
                 {
                     Console.Write(Utility.PadRightForMixedText($"- Lv.{enemies[i].level} {enemies[i].name}", 20));
-                    Utility.PrintTextHighlights($"HP {preEnemiseHp} - > ", Diestring, "", ConsoleColor.Red); ;
+                    Utility.PrintTextHighlights($"HP {preEnemiseHp} -> ", Diestring, "", ConsoleColor.Red); ;
                 }
                 else
                 {
@@ -344,7 +352,7 @@ namespace Sparta_TextRpg
                 if (idx == i)
                 {
                     Console.Write(Utility.PadRightForMixedText($"- Lv.{enemies[i].level} {enemies[i].name}", 20));
-                    Utility.PrintTextHighlights($"HP {preEnemyhp} - > ", Diestring, "", ConsoleColor.Red); ;
+                    Utility.PrintTextHighlights($"HP {preEnemyhp} -> ", Diestring, "", ConsoleColor.Red); ;
                 }
                 else
                 {
@@ -427,12 +435,12 @@ namespace Sparta_TextRpg
                     if (targetidx[0] == i)
                     {
                         Console.Write(Utility.PadRightForMixedText($"- Lv.{enemies[i].level} {enemies[i].name}", 20));
-                        Utility.PrintTextHighlights($"HP {preEnemyhp[0]} - > ", Diestring, "", ConsoleColor.Red); ;
+                        Utility.PrintTextHighlights($"HP {preEnemyhp[0]} -> ", Diestring, "", ConsoleColor.Red); ;
                     }
                     else if (targetidx[1] == i)
                     {
                         Console.Write(Utility.PadRightForMixedText($"- Lv.{enemies[i].level} {enemies[i].name}", 20));
-                        Utility.PrintTextHighlights($"HP {preEnemyhp[1]} - > ", Diestring, "", ConsoleColor.Red); ;
+                        Utility.PrintTextHighlights($"HP {preEnemyhp[1]} -> ", Diestring, "", ConsoleColor.Red); ;
                     }
                     else
                     {
@@ -470,8 +478,16 @@ namespace Sparta_TextRpg
                     }
                     else
                     {
-                        Console.Write(Utility.PadRightForMixedText($"{j + 1}. Lv.{enemy.level} {enemy.name}", 20));
-                        Console.WriteLine($"HP : {Diestring}");
+                        if (enemy.isDie)
+                        {
+                            Console.Write(Utility.PadRightForMixedText($"{j + 1}. Lv.{enemy.level} {enemy.name}", 20) + "HP : ");
+                            Utility.PrintTextHighlights("", Diestring, " ", ConsoleColor.Red);
+                        }
+                        else
+                        {
+                            Console.Write(Utility.PadRightForMixedText($"{j + 1}. Lv.{enemy.level} {enemy.name}", 20) + $"HP : {Diestring}");
+                        }
+                        
                     }
                 }
                 bool avoidance = false;
@@ -492,10 +508,10 @@ namespace Sparta_TextRpg
                     Utility.PrintTextHighlights("\n", "'느려'", "", ConsoleColor.Yellow);
                     avoidance = false;
                 }
-                int preEnemyAttackHp = player.HP;
-                player.HP = eatk;
+                int preEnemyAttackHp = player.HP;             
                 Console.WriteLine($"\n[데미지 : {eatk}]를 입었습니다.");
                 Console.WriteLine($"HP {preEnemyAttackHp} ->{player.HP} \n");
+                player.HP = eatk;
                 Console.WriteLine("0. 다음");
 
                 var key = Console.ReadKey(true).Key;
@@ -515,7 +531,7 @@ namespace Sparta_TextRpg
             foreach (Enemy enemy in enemies)
             {
                 string Diestring = !enemy.isDie ? enemy.hp.ToString() : "Dead";
-                Console.Write(Utility.PadRightForMixedText($"{cnt}. Lv.{enemy.level} {enemy.name}", 20) + "HP :");
+                Console.Write(Utility.PadRightForMixedText($"{cnt}. Lv.{enemy.level} {enemy.name}", 20) + "HP : ");
                 if (enemy.isDie)
                     Utility.PrintTextHighlights("", Diestring, " ", ConsoleColor.Red);
                 else
@@ -547,6 +563,13 @@ namespace Sparta_TextRpg
                 {
                     player._exp += enemy.exp;
                     AllExp += enemy.exp;
+                }
+                if (quests.Count > 0)
+                {
+                    foreach(Quest quest in quests)
+                    {
+                        quest.cntQuest(enemy);
+                    }
                 }
             }
             Utility.PrintTextHighlights("경험치를 ", AllExp.ToString(), " 획득하였습니다.", ConsoleColor.Magenta);
@@ -726,15 +749,6 @@ namespace Sparta_TextRpg
             }
         }
         #endregion
-        private void GameOver()
-        {
-            Console.WriteLine("Battle!! - Result\n");
-            Console.WriteLine("You Lose\n");
-            Console.Write("Lv. " + player._level.ToString("D2"));
-            Console.WriteLine($"   Chad.( {player._playerjobs._playerjob}");
-            Console.WriteLine($"HP {player._currenthp} -> 0 \n");
-            return; //다시할수도?
-        }
 
         #region UsePotion
         private List<Item> potioninventory;

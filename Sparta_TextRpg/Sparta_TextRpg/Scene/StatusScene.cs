@@ -35,12 +35,12 @@ namespace Sparta_TextRpg
             Console.WriteLine(Utility.PadRightForMixedText("이름", 13) + " : " + player._name);
             Console.WriteLine(Utility.PadRightForMixedText("Lv", 13) + " : " + player._level.ToString("D2"));
             Console.WriteLine(Utility.PadRightForMixedText("Chad", 13) + " : " + player._playerjobs._playerjob);
-            string weaponStat = Weapon != null ? $" (+{Weapon._statvalue })" : string.Empty;
-            Console.WriteLine(Utility.PadRightForMixedText("공격력", 13) + " : " + player._attack + weaponStat);
-            string HelmetStat = Helmet != null ? $"( { Helmet._name} : +{Helmet._statvalue} )" : string.Empty;
-            string ArmorStat = Armor != null ? $"( { Armor._name} : +{Armor._statvalue} )" : string.Empty;
-            string ShoesStat = Shoes != null ? $"( { Shoes._name} : +{Shoes._statvalue} )" : string.Empty;
-            Console.WriteLine(Utility.PadRightForMixedText("방어력 ", 13) + " : " + player._defence + HelmetStat + ArmorStat + ShoesStat);
+            string weaponStat = Weapon != null ? $" ({Weapon._name} : +{Weapon._statvalue })" : string.Empty;
+            Console.WriteLine(Utility.PadRightForMixedText("공격력", 13) + " : " + player.Attack + weaponStat);
+            string HelmetStat = Helmet != null ? $" ({ Helmet._name} : +{Helmet._statvalue})" : string.Empty;
+            string ArmorStat = Armor != null ? $" ({ Armor._name} : +{Armor._statvalue})" : string.Empty;
+            string ShoesStat = Shoes != null ? $" ({ Shoes._name} : +{Shoes._statvalue})" : string.Empty;
+            Console.WriteLine(Utility.PadRightForMixedText("방어력", 13) + " : " + player.Deffence + HelmetStat + ArmorStat + ShoesStat);
             Console.WriteLine(Utility.PadRightForMixedText("체력", 13) + " : " + $"{player._currenthp} / {player._maxhp}");
             Console.WriteLine(Utility.PadRightForMixedText("마나", 13) + " : " + $"{player._currentmp} / {player._maxmp}");
             Console.WriteLine(Utility.PadRightForMixedText("경험치", 13) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}");

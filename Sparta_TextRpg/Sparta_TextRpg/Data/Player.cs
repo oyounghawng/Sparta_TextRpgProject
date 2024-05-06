@@ -76,9 +76,10 @@ namespace Sparta_TextRpg
         private void ModiferStat()
         {
             modifierattck = 0;
+            modifierCritical = 0;
             modifierdefence = 0;
             modifierDodge = 0;
-            if (_equipItem.ContainsKey(ItemType.WEAPON))
+            if (_equipItem.ContainsKey(ItemType.WEAPON) && _equipItem[ItemType.WEAPON] != null)
             {
                 switch (_equipItem[ItemType.WEAPON]._itemrating)
                 {
@@ -92,10 +93,9 @@ namespace Sparta_TextRpg
                         modifierCritical = 30;
                         break;
                 }
-                modifierCritical = _equipItem[ItemType.WEAPON]._statvalue;
                 modifierattck += _equipItem[ItemType.WEAPON]._statvalue;
             }
-            if (_equipItem.ContainsKey(ItemType.HELMET))
+            if (_equipItem.ContainsKey(ItemType.HELMET) && _equipItem[ItemType.HELMET] != null)
             {
                 switch (_equipItem[ItemType.HELMET]._itemrating)
                 {
@@ -111,7 +111,7 @@ namespace Sparta_TextRpg
                 }
                 modifierdefence += _equipItem[ItemType.HELMET]._statvalue;
             }
-            if (_equipItem.ContainsKey(ItemType.ARMOR))
+            if (_equipItem.ContainsKey(ItemType.ARMOR) && _equipItem[ItemType.ARMOR] != null)
             {
                 switch (_equipItem[ItemType.ARMOR]._itemrating)
                 {
@@ -127,7 +127,7 @@ namespace Sparta_TextRpg
                 }
                 modifierdefence += _equipItem[ItemType.ARMOR]._statvalue;
             }
-            if (_equipItem.ContainsKey(ItemType.SHOES))
+            if (_equipItem.ContainsKey(ItemType.SHOES) && _equipItem[ItemType.SHOES] != null)
             {
                 switch (_equipItem[ItemType.SHOES]._itemrating)
                 {
@@ -149,10 +149,37 @@ namespace Sparta_TextRpg
             _attack += 0.5f; // 공격력 0.5 증가
             _defence += 1; // 방어력 1 증가
         }
+        public bool AddQuest()
+        {
+            if (_quest.Count >= 3)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         public int HP
         {
             get { return _currenthp; }
-            set { _currenthp -= value; }
+            set 
+            { 
+                _currenthp -= value;
+                if(_currenthp <= 0)
+                {
+                    Utility.PrintTextHighlights("- ", "GAME OVER!", " - \n", ConsoleColor.Red);
+                    Console.WriteLine("다시 하려면 아무키나 누르세요");
+                    var key = Console.ReadKey(true).Key;
+                    switch (key)
+                    {
+                        default:
+                            Console.Clear();
+                            GameManager.Instance.RestartGame();
+                            break;
+                    }
+                }
+            }
         }
         public int MP
         {
@@ -224,9 +251,9 @@ namespace Sparta_TextRpg
             set
             {
                 _currentmp += value;
-                if (_currenthp > _maxhp)
+                if (_currentmp > _maxmp)
                 {
-                    _currenthp = _maxhp;
+                    _currentmp = _maxmp;
                 }
             }
         }

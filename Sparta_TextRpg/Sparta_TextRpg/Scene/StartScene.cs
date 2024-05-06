@@ -20,6 +20,7 @@ namespace Sparta_TextRpg
         }
         public override void ViewMenu()
         {
+            Utility.ShowStartLogo();
             Console.WriteLine("딸깍 마을에 오신 여러분 환영합니다");
             Console.WriteLine("딸각으로 다양한 활동을 할 수 있습니다.\n");
             Console.WriteLine("1. 상태 보기");
@@ -27,9 +28,8 @@ namespace Sparta_TextRpg
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 퀘스트");
             Console.WriteLine("5. 던전입장");
-            Console.WriteLine("5. 휴식하기\n");
+            Console.WriteLine("6. 휴식하기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-
             var key = Console.ReadKey(true).Key;
             switch (key)
             {

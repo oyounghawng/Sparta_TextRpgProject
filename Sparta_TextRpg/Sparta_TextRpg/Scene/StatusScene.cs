@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace Sparta_TextRpg
 {
-
-
-    
     internal class StatusScene : BaseScene
     {
+        Player player;
+        Item Weapon;
+        Item Helmet;
+        Item Armor;
+        Item Shoes;
         public override void Enter()
         {
             sceneName = SceneName.StatusScene;
+            player = GameManager.Instance.player;
             ViewMenu();
         }
         public override void Excute()
@@ -25,41 +28,66 @@ namespace Sparta_TextRpg
 
         public override void ViewMenu()
         {
-            string offset = string.Empty;
-            Player _player = GameManager.Instance.player;
+            CheckEquipItem();
             Console.Clear();
-            Console.WriteLine("상태 보기");
+            Utility.PrintTextHighlights(" - ", "상태 보기", " - ", ConsoleColor.Red);
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-            Console.WriteLine("Lv. " + _player._level.ToString("D2"));
-            Console.WriteLine($"Chad.( {_player._job})");
-            Console.WriteLine("공격력. " + _player._attack + offset);  
-            Console.WriteLine("방어력 " + _player._defence + offset);
-            Console.WriteLine("체력 " + _player._currnthp);
-            Console.WriteLine("골드 " + _player._gold + "\n");
+            Console.WriteLine(Utility.PadRightForMixedText("이름", 13) + " : " + player._name);
+            Console.WriteLine(Utility.PadRightForMixedText("Lv", 13) + " : " + player._level.ToString("D2"));
+            Console.WriteLine(Utility.PadRightForMixedText("Chad", 13) + " : " + player._playerjobs._playerjob);
+            string weaponStat = Weapon != null ? $" ({Weapon._name} : +{Weapon._statvalue })" : string.Empty;
+            Console.WriteLine(Utility.PadRightForMixedText("공격력", 13) + " : " + player.Attack + weaponStat);
+            string HelmetStat = Helmet != null ? $" ({ Helmet._name} : +{Helmet._statvalue})" : string.Empty;
+            string ArmorStat = Armor != null ? $" ({ Armor._name} : +{Armor._statvalue})" : string.Empty;
+            string ShoesStat = Shoes != null ? $" ({ Shoes._name} : +{Shoes._statvalue})" : string.Empty;
+            Console.WriteLine(Utility.PadRightForMixedText("방어력", 13) + " : " + player.Deffence + HelmetStat + ArmorStat + ShoesStat);
+            Console.WriteLine(Utility.PadRightForMixedText("체력", 13) + " : " + $"{player._currenthp} / {player._maxhp}");
+            Console.WriteLine(Utility.PadRightForMixedText("마나", 13) + " : " + $"{player._currentmp} / {player._maxmp}");
+            Console.WriteLine(Utility.PadRightForMixedText("경험치", 13) + " : " + $"{player._exp} / {player._needlevelexp[player._level - 1]}");
+            Console.WriteLine(Utility.PadRightForMixedText("골드", 13) + " : " + player._gold);
+            Console.WriteLine(Utility.PadRightForMixedText("크리티컬 확률", 13) + " : " + player.Critical +"%");
+            Console.WriteLine(Utility.PadRightForMixedText("회피 확률", 13) + " : " + player.Dodge +"%");
+            Console.WriteLine("\n1. 인벤토리");
             Console.WriteLine("0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해 주세요");
-
-
             var key = Console.ReadKey(true).Key;
             switch (key)
             {
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
                     Console.Clear();
-                    GameManager.Instance.ChangeScene(SceneName.StatusScene);
+                    GameManager.Instance.ChangeScene(SceneName.InventoryScene);
                     break;
                 case ConsoleKey.D0:
                 case ConsoleKey.NumPad0:
                     Console.Clear();
-                    GameManager.Instance.LoadPreScene();
+                    GameManager.Instance.ChangeScene(SceneName.StartScene);
                     break;
                 default:
                     Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
-                    GameManager.Instance.ChangeScene(SceneName.StartScene);
+                    ViewMenu();
                     break;
             }
         }
-
+        private void CheckEquipItem()
+        {
+            if (player._equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player._equipItem[ItemType.WEAPON];
+            else
+                Weapon = null;
+            if (player._equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player._equipItem[ItemType.HELMET];
+            else
+                Helmet = null;
+            if (player._equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player._equipItem[ItemType.ARMOR];
+            else
+                Armor = null;
+            if (player._equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player._equipItem[ItemType.SHOES];
+            else
+                Shoes = null;
+        }
     }
 }

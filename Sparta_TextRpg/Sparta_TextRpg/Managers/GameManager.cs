@@ -1,4 +1,7 @@
-﻿using System.Numerics;
+using Sparta_TextRpg.Scene;
+using System.Numerics;
+using System.Reflection.Emit;
+using System.Xml.Linq;
 
 namespace Sparta_TextRpg
 {
@@ -7,11 +10,10 @@ namespace Sparta_TextRpg
         static void Main(string[] args)
         {
             GameManager gameManager = new GameManager();
-            gameManager.ChangeScene(SceneName.StartScene);
         }
 
         public static GameManager Instance;
-        public Player player = new Player(1, "르탄", PlayerJob.전사, 50, 5, 100, 1500);
+        public Player player;
         public DataManager datamanager;
         BaseScene[] scenes;
         BaseScene preScene;
@@ -20,16 +22,23 @@ namespace Sparta_TextRpg
         public GameManager()
         {
             Instance = this;
+            player = new Player();
+            datamanager = new DataManager();
+
             int SceneNum = System.Enum.GetValues(typeof(SceneName)).Length;
             scenes = new BaseScene[SceneNum];
 
+            scenes[(int)SceneName.LoginScene] = new LoginScene();
+            scenes[(int)SceneName.SelectCharScene] = new SelectCharScene();
             scenes[(int)SceneName.StartScene] = new StartScene();
             scenes[(int)SceneName.StatusScene] = new StatusScene();
-            scenes[(int)SceneName.BattleScene] = new BattleScne_oyoung();
-
-            datamanager = new DataManager();
-            ChangeScene(SceneName.StartScene);
-
+            scenes[(int)SceneName.BattleScene] = new BattleScene();
+            scenes[(int)SceneName.StoreScene] = new StoreScene();
+            scenes[(int)SceneName.QuestScene] = new QuestScene();
+            scenes[(int)SceneName.InventoryScene] = new InventoryScene();
+            scenes[(int)SceneName.DungeonScene] = new DungeonScene();
+            scenes[(int)SceneName.RestScene] = new RestScene();
+            ChangeScene(SceneName.LoginScene);
             Excute();
         }
         public void Excute()
@@ -59,6 +68,11 @@ namespace Sparta_TextRpg
             // 새로운 씬으로 변경 및 시작 처리
             curScene = scenes[idx];
             curScene.Enter();
+        }
+        public void RestartGame()
+        {
+            player = new Player();
+            ChangeScene(SceneName.LoginScene);
         }
     }
 }

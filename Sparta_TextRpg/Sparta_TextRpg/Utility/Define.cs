@@ -8,9 +8,16 @@ namespace Sparta_TextRpg
 {
     public enum SceneName
     {
+        LoginScene,
+        SelectCharScene,
         StartScene,
         StatusScene,
         BattleScene,
+        StoreScene,
+        QuestScene,
+        InventoryScene,
+        DungeonScene,
+        RestScene,
         Null,
     }
 }

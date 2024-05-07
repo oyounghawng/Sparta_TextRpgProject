@@ -10,20 +10,36 @@ namespace Sparta_TextRpg
     internal class Enemy
     {
         public string name;
-        public int level = 0;
-        public int hp = 100;
-        public int atk = 10;
-        public int def = 5;
+        public int level;
+        public int hp;
+        public int atk;
+        public int def;
+        public int exp;
 
         public bool isDie = false;
+
         public Enemy()
         {
-            name = "슬라임";
-            level = 0;
-            hp = 100;
-            atk = 10;
-            def = 5;
+
+        }
+        public Enemy(string _name, int _hp, int _atk, int _def)
+        {
+            name = _name;
+            level = 1;
+            hp = _hp;
+            atk = _atk;
+            def = _def;
+            exp = 5;
             isDie = false;
+        }
+        public void SetLevelStat(int _level)
+        {
+            level = _level;
+            _level--;
+            hp += 5 * _level;
+            atk += _level * 2;
+            def += _level;
+            exp += _level * 3;
         }
         public int HP
         {
@@ -32,13 +48,23 @@ namespace Sparta_TextRpg
             {
                 hp -= value;
                 if (hp <= 0)
+                {
                     isDie = true;
+                    hp = 0;
+                }
             }
         }
-        public string PrintEnemy(Enemy enemy)
+
+        public Enemy DeepCopy(Enemy _enemy)
         {
-            string Diestring = !enemy.isDie ? enemy.hp.ToString() : "Dead";
-            return $"Lv.{enemy.level} {enemy.name}   HP  {Diestring}";
+            Enemy enemy = new Enemy();
+            enemy.name = _enemy.name;
+            enemy.hp = _enemy.hp;
+            enemy.atk = _enemy.atk;
+            enemy.def = _enemy.def;
+            enemy.exp = _enemy.exp;
+            enemy.isDie = false;
+            return enemy;
         }
     }
 }

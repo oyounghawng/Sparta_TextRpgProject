@@ -37,12 +37,12 @@ namespace Sparta_TextRpg
             int enemycount = random.Next(1, 5);
             for (int i = 0; i < enemycount; i++)
             {
-                int enemyidx = random.Next(0, enemydatacount);
+                int enemyidx = random.Next(0, 3);
                 Enemy enemy = enemydata[enemyidx].DeepCopy(enemydata[enemyidx]);
+                enemy.SetLevelStat(player._level);
                 enemies.Add(enemy);
-            }
 
-            player._attack = 100;
+            }
             ViewMenu();
         }
         public override void Excute()
@@ -363,7 +363,7 @@ namespace Sparta_TextRpg
         }
         private void Skill2Active()
         {
-            int[] targetidx = new int[2]{ -1,-1};
+            int[] targetidx = new int[2] { -1, -1 };
             int[] preEnemyhp = new int[2];
             int damage = (int)MathF.Round(1.5f * player._attack);
             Random random = new Random();
@@ -485,9 +485,9 @@ namespace Sparta_TextRpg
                         }
                         else
                         {
-                            Console.Write(Utility.PadRightForMixedText($"{j + 1}. Lv.{enemy.level} {enemy.name}", 20) + $"HP : {Diestring}");
+                            Console.WriteLine(Utility.PadRightForMixedText($"{j + 1}. Lv.{enemy.level} {enemy.name}", 20) + $"HP : {Diestring}");
                         }
-                        
+
                     }
                 }
                 bool avoidance = false;
@@ -504,11 +504,11 @@ namespace Sparta_TextRpg
 
                 if (avoidance == true)
                 {
-                    eatk = 0 * (enemies[0].atk);
+                    eatk = 0 * (enemies[i].atk);
                     Utility.PrintTextHighlights("\n", "'느려'", "", ConsoleColor.Yellow);
                     avoidance = false;
                 }
-                int preEnemyAttackHp = player.HP;             
+                int preEnemyAttackHp = player.HP;
                 Console.WriteLine($"\n[데미지 : {eatk}]를 입었습니다.");
                 Console.WriteLine($"HP {preEnemyAttackHp} ->{player.HP} \n");
                 player.HP = eatk;
@@ -566,7 +566,7 @@ namespace Sparta_TextRpg
                 }
                 if (quests.Count > 0)
                 {
-                    foreach(Quest quest in quests)
+                    foreach (Quest quest in quests)
                     {
                         quest.cntQuest(enemy);
                     }
@@ -688,19 +688,19 @@ namespace Sparta_TextRpg
                         {
                             player._inventory.Add(randomItem.DeepCopy(randomItem));
                         }
-                        if(randomItem._itemrating == ItemRating.RARE)
+                        if (randomItem._itemrating == ItemRating.RARE)
                         {
                             Utility.PrintTextHighlights("", $"[{randomItem._name}]을(를) 획득하였습니다", "\n", ConsoleColor.White);
                         }
-                        else if(randomItem._itemrating == ItemRating.UNIQUE)
+                        else if (randomItem._itemrating == ItemRating.UNIQUE)
                         {
                             Utility.PrintTextHighlights("", $"[{randomItem._name}]을(를) 획득하였습니다", "\n", ConsoleColor.Yellow);
                         }
-                        else if(randomItem._itemrating == ItemRating.LEGEND)
+                        else if (randomItem._itemrating == ItemRating.LEGEND)
                         {
                             Utility.PrintTextHighlights("", $"[{randomItem._name}]을(를) 획득하였습니다", "\n", ConsoleColor.Green);
                         }
-                        
+
                     }
                 }
             }
@@ -708,7 +708,6 @@ namespace Sparta_TextRpg
         private void IsEndBattle()
         {
             bool isEndBattle = true;
-            player.HealMP = 50;
             //전투 종료 판단
             foreach (Enemy enemy in enemies)
             {

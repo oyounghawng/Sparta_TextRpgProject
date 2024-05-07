@@ -23,6 +23,7 @@ namespace Sparta_TextRpg
         public int _currentmp;
         public int _gold;
         public int[] _needlevelexp;
+        public int _currentdungeonlevel;
         public Playerjobs _playerjobs;
 
         public int _critical;
@@ -41,7 +42,7 @@ namespace Sparta_TextRpg
         {
             _level = 1;
             _exp = 0;
-            _gold = 5000;
+            _gold = 500;
             _critical = 15;
             _dodge = 10;
             _inventory = new List<Item>();
@@ -49,6 +50,7 @@ namespace Sparta_TextRpg
             _equipItem = new Dictionary<ItemType, Item>();
             _playerjobs = new Playerjobs();
             _quest = new List<Quest>();
+            _currentdungeonlevel = 1;
         }
         public void SetJobStat(Playerjobs playerjob)
         {

@@ -14,8 +14,6 @@ namespace Sparta_TextRpg.Scene
         {
             sceneName = SceneName.RestScene;
             player = GameManager.Instance.player;
-            player.HP = 30;
-            player.MP = 20;
             ViewMenu();
         }
 
@@ -76,6 +74,7 @@ namespace Sparta_TextRpg.Scene
             }
             Utility.PrintTextHighlights("", "휴식을 완료했습니다.", "", ConsoleColor.Magenta);
             Utility.PrintTextHighlights("체력을 ", $"{player._maxhp - player._currenthp}", " 회복했습니다.", ConsoleColor.Green);
+            player._gold -= 500;
             player.HealHP = player._maxhp;
             Utility.PrintTextHighlights("마나를 ", $"{player._maxmp - player._currentmp}", " 회복했습니다.\n", ConsoleColor.Green);
             player.HealMP = player._maxmp;

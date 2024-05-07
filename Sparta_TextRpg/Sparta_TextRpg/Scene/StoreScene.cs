@@ -252,7 +252,10 @@ namespace Sparta_TextRpg.Scene
         }
         private void SellItemView(int startPage = 0)
         {
-            List<Item> playerinventory = player._inventory;
+            List<Item> playerinventory = player._inventory.Where(item =>
+            item._itemtype == ItemType.WEAPON || item._itemtype == ItemType.HELMET ||
+            item._itemtype == ItemType.ARMOR || item._itemtype == ItemType.SHOES).ToList(); ;
+
             Utility.PrintTextHighlights(" - ", "상점 : 장비판매", " - ", ConsoleColor.Red);
             Console.WriteLine("필요한 아이템을 판매 할 수 있는 상점입니다.\n");
             Console.WriteLine("[보유 골드]");
@@ -271,7 +274,7 @@ namespace Sparta_TextRpg.Scene
                 string equip = string.Empty;
                 if (playerinventory[i].Equals(Weapon) || playerinventory[i].Equals(Helmet) || playerinventory[i].Equals(Armor) || playerinventory[i].Equals(Shoes))
                     equip = "[E]";
-                Item item = filterGearItem[i];
+                Item item = playerinventory[i];
 
                 Console.WriteLine(Utility.PadRightForMixedText($"- {i + 1 - startPage * 9} {equip}{item._name}", 20)
                     + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
@@ -422,9 +425,9 @@ namespace Sparta_TextRpg.Scene
                 isEquip = "착용한";
             }
             player._inventory.Remove(item);
-            foreach(Item _item in itemdata)
+            foreach (Item _item in itemdata)
             {
-                if(_item._name == item._name)
+                if (_item._name == item._name)
                 {
                     _item._isbuy = false;
                 }

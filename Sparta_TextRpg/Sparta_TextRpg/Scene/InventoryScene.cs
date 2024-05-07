@@ -176,6 +176,7 @@ namespace Sparta_TextRpg
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
                 EquipInventory();
             }

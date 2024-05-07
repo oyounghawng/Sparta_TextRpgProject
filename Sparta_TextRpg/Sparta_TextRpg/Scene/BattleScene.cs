@@ -358,7 +358,7 @@ namespace Sparta_TextRpg
         {
             int[] targetidx = new int[2] { -1, -1 };
             int[] preEnemyhp = new int[2];
-            int damage = (int)MathF.Round(1.5f * player.Attack];
+            int damage = (int)MathF.Round(1.5f * player.Attack);
             Random random = new Random();
             int liveEnemyCount = 0;
             foreach (Enemy enemy in enemies)

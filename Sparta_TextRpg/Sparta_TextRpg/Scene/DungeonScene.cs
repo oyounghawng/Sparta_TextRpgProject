@@ -755,18 +755,15 @@ namespace Sparta_TextRpg.Scene
             }
             player._currentdungeonlevel++;
 
-            Console.WriteLine($"\n0. 로비로");
+            Console.WriteLine($"\n 로비로 이동하시려면 아무키나 누르세요");
             var key = Console.ReadKey(true).Key;
             switch (key)
             {
-                case ConsoleKey.D0:
-                case ConsoleKey.NumPad0:
+                default :
                     Console.Clear();
                     GameManager.Instance.ChangeScene(SceneName.StartScene);
                     break;
-                default:
-                    Console.WriteLine("잘못된 입력입니다.");
-                    break;
+
             }
         }
         private void Reward(bool isGear)

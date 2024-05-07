@@ -510,8 +510,8 @@ namespace Sparta_TextRpg
                 }
                 int preEnemyAttackHp = player.HP;
                 Console.WriteLine($"\n[데미지 : {eatk}]를 입었습니다.");
-                Console.WriteLine($"HP {preEnemyAttackHp} ->{player.HP} \n");
                 player.HP = eatk;
+                Console.WriteLine($"HP {preEnemyAttackHp} -> {player.HP} \n");
                 Console.WriteLine("0. 다음");
 
                 var key = Console.ReadKey(true).Key;

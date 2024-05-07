@@ -232,9 +232,9 @@ namespace Sparta_TextRpg
             else
             {
                 Console.Clear();
-                if (Weapon.Equals(item))
+                if (item.Equals(Weapon) || item.Equals(Helmet)|| item.Equals(Armor)|| item.Equals(Shoes))
                 {
-                    Console.WriteLine("이미 장착중인 무기입니다.");
+                    Console.WriteLine("이미 장착중인 장비입니다.");
                 }
                 else
                 {

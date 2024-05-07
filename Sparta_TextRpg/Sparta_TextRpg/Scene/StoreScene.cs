@@ -191,7 +191,7 @@ namespace Sparta_TextRpg.Scene
             {
                 Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
-                BuyGearItem(startPage);
+                BuyGearView(startPage);
             }
         }
         private void BuyconsumableView()
@@ -340,7 +340,6 @@ namespace Sparta_TextRpg.Scene
             }
         }
         #endregion
-
 
         private void BuyGearItem(int idx)
         {

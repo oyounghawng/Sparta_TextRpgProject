@@ -11,10 +11,12 @@ namespace Sparta_TextRpg
     internal class SelectCharScene : BaseScene
     {
         Playerjobs playerjobs;
+        Playerjobs[] playerjobsList;
         public override void Enter()
         {
             sceneName = SceneName.SelectCharScene;
             playerjobs = GameManager.Instance.player._playerjobs;
+            playerjobsList = [playerjobs.playerjoblist.Warrior, playerjobs.playerjoblist.Magician, playerjobs.playerjoblist.Archer];
             ViewMenu();
         }
 
@@ -27,19 +29,14 @@ namespace Sparta_TextRpg
         public override void ViewMenu()
         {
             Console.WriteLine("당신의 직업은 무엇입니까?\n");
-            Playerjobs[] PlayerJobs =
+            for (int i = 0; i < playerjobsList.Length; i++)
             {
-                playerjobs.playerjoblist.Warrior,
-                playerjobs.playerjoblist.Magician,
-                playerjobs.playerjoblist.Archer
-            };
-            for (int i = 0; i < PlayerJobs.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {PlayerJobs[i]._playerjob.ToString()}");
-                Console.WriteLine($"공격력: {PlayerJobs[i]._attack}");
-                Console.WriteLine($"방어력: {PlayerJobs[i]._defence}");
-                Console.WriteLine($"체력: {PlayerJobs[i]._maxhp}");
-                Console.WriteLine($"마나: {PlayerJobs[i]._maxmp}\n");
+                Utility.PrintTextHighlights("", $"{i + 1}. {playerjobsList[i]._playerjob.ToString()}", 
+                    "", ConsoleColor.Red);
+                Console.WriteLine($"공격력: {playerjobsList[i]._attack}");
+                Console.WriteLine($"방어력: {playerjobsList[i]._defence}");
+                Console.WriteLine($"체력: {playerjobsList[i]._maxhp}");
+                Console.WriteLine($"마나: {playerjobsList[i]._maxmp}\n");
             }
             var key = Console.ReadKey(true).Key;
             switch (key)

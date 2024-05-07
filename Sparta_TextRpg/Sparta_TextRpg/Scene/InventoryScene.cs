@@ -11,15 +11,29 @@ namespace Sparta_TextRpg
     {
         private List<Item> inventory;
         private Player player;
+
+        List<Item> filterGearItem;
+        List<Item> filterConsumableItem;
+
         Item Weapon;
         Item Helmet;
         Item Armor;
         Item Shoes;
+
+        private int Itempagenum;
         public override void Enter()
         {
             sceneName = SceneName.InventoryScene;
             inventory = GameManager.Instance.player._inventory;
             player = GameManager.Instance.player;
+
+            filterGearItem = inventory.Where(item =>
+                item._itemtype == ItemType.WEAPON || item._itemtype == ItemType.HELMET ||
+                item._itemtype == ItemType.ARMOR || item._itemtype == ItemType.SHOES).ToList();
+
+            filterConsumableItem = inventory.Where(item => item._itemtype == ItemType.POTION).ToList();
+            Itempagenum = filterGearItem.Count / 9;
+
             ViewMenu();
         }
         public override void Excute()
@@ -29,14 +43,36 @@ namespace Sparta_TextRpg
         {
             Utility.PrintTextHighlights(" - ", "인벤토리", " - ", ConsoleColor.Red);
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템목록]");
+            Utility.PrintTextHighlights("", "[장비아이템 목록]", "", ConsoleColor.Green);
+            Console.WriteLine(Utility.PadRightForMixedText("  아이템 이름", 20)
+    + " | " + Utility.PadRightForMixedText($"능력치", 15)
+    + " | " + Utility.PadRightForMixedText($"아이템 정보", 20));
+            Console.WriteLine("------------------------------------------------------------------------------------------");
+
             CheckEquipItem();
-            foreach (Item item in inventory)
+            foreach (Item item in filterGearItem)
             {
                 string equip = string.Empty;
                 if (item.Equals(Weapon) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
                     equip = "[E]";
-                Console.WriteLine($"- {equip}{item._name}     | {item._itemtype} +{item._statvalue}  | {item._description}");
+
+                Console.WriteLine(Utility.PadRightForMixedText($"- {equip}{item._name}", 20)
+                + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
+                + " | " + Utility.PadRightForMixedText($"{item._description}", 20));
+            }
+
+            Utility.PrintTextHighlights("\n", "[소비아이템 목록]", "", ConsoleColor.Cyan);
+            Console.WriteLine(Utility.PadRightForMixedText("  아이템 이름", 20)
+    + " | " + Utility.PadRightForMixedText($"능력치", 20)
+    + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
+    + " | " + "보유수량");
+            Console.WriteLine("------------------------------------------------------------------------------------------");
+            foreach (Item item in filterConsumableItem)
+            {
+                Console.WriteLine(Utility.PadRightForMixedText($"- {item._name}", 20)
+                + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 20)
+                + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
+                + " | " + item._cnt);
             }
 
             Console.WriteLine("\n1. 장착 관리");
@@ -61,50 +97,93 @@ namespace Sparta_TextRpg
                     break;
             }
         }
-        private void EquipInventory()
+        private void EquipInventory(int startPage = 0)
         {
             Utility.PrintTextHighlights(" - ", "인벤토리 : 장착관리", " - ", ConsoleColor.Red);
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템목록]");
+            Console.WriteLine("보유 중인 아이템을 장착할 수 있습니다.\n");
+            Utility.PrintTextHighlights("", "[장비아이템 목록]", "", ConsoleColor.Green);
             CheckEquipItem();
 
+            int count = filterGearItem.Count;
+            int size = 9;
+
             int cnt = 1;
-            foreach (Item item in inventory)
+            for (int i = startPage * 9; i < int.Min(count, startPage * 9 + size); i++)
             {
                 string equip = string.Empty;
+                Item item = filterGearItem[i];
                 if (item.Equals(Weapon) || item.Equals(Helmet) || item.Equals(Armor) || item.Equals(Shoes))
                     equip = "[E]";
-                Console.WriteLine($"-{cnt} {equip}{item._name}     | {item._itemtype} +{item._statvalue}  | {item._description}");
+
+                Console.WriteLine(Utility.PadRightForMixedText($"-{cnt} {equip}{item._name}", 20)
+                + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
+                + " | " + Utility.PadRightForMixedText($"{item._description}", 20));
                 cnt++;
             }
+
+            if (Itempagenum >= 1)
+            {
+                Console.WriteLine("\nA. 이전 페이지");
+                Console.WriteLine("D. 다음 페이지");
+            }
+
             Console.WriteLine("\n0. 나가기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
 
             var key = Console.ReadKey(true).Key;
-            if (key == ConsoleKey.D0 || key == ConsoleKey.NumPad0)
+            if (key == ConsoleKey.A)
+            {
+                if (startPage == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("잘못된 입력입니다.");
+                    EquipInventory(startPage);
+                }
+                else
+                {
+                    Console.Clear();
+                    EquipInventory(--startPage);
+                }
+            }
+            else if (key == ConsoleKey.D)
+            {
+                if (startPage == Itempagenum)
+                {
+                    Console.Clear();
+                    Console.WriteLine("잘못된 입력입니다.");
+                    EquipInventory(startPage);
+                }
+                else
+                {
+                    Console.Clear();
+                    EquipInventory(++startPage);
+                }
+            }
+            else if (key == ConsoleKey.D0 || key == ConsoleKey.NumPad0)
             {
                 Console.Clear();
                 ViewMenu();
             }
-            else if (key > ConsoleKey.D0 && key <= (ConsoleKey.D0 + inventory.Count))
+            else if (key > ConsoleKey.D0 && key <= (ConsoleKey.D0 + int.Min(count - startPage * 9, size)))
             {
                 Console.Clear();
-                Equip((int)(key - 49));
+                Equip((int)(key - 49) + startPage * 9);
             }
-            else if ((key > ConsoleKey.NumPad0 && key <= (ConsoleKey.NumPad0 + inventory.Count)))
+            else if ((key > ConsoleKey.NumPad0 && key <= (ConsoleKey.NumPad0 + int.Min(count - startPage * 9, size))))
             {
                 Console.Clear();
-                Equip((int)(key - 97));
+                Equip((int)(key - 97) + startPage * 9);
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
                 EquipInventory();
             }
         }
         private void Equip(int idx)
         {
-            Item temp = inventory[idx];
+            Item temp = filterGearItem[idx];
             CheckEquipItem();
             switch (temp._itemtype)
             {
@@ -128,35 +207,35 @@ namespace Sparta_TextRpg
         }
         private void CheckEquipItem()
         {
-            if (player.equipItem.ContainsKey(ItemType.WEAPON))
-                Weapon = player.equipItem[ItemType.WEAPON];
+            if (player._equipItem.ContainsKey(ItemType.WEAPON))
+                Weapon = player._equipItem[ItemType.WEAPON];
             else
                 Weapon = null;
-            if (player.equipItem.ContainsKey(ItemType.HELMET))
-                Helmet = player.equipItem[ItemType.HELMET];
+            if (player._equipItem.ContainsKey(ItemType.HELMET))
+                Helmet = player._equipItem[ItemType.HELMET];
             else
                 Helmet = null;
-            if (player.equipItem.ContainsKey(ItemType.ARMOR))
-                Armor = player.equipItem[ItemType.ARMOR];
+            if (player._equipItem.ContainsKey(ItemType.ARMOR))
+                Armor = player._equipItem[ItemType.ARMOR];
             else
                 Armor = null;
-            if (player.equipItem.ContainsKey(ItemType.SHOES))
-                Shoes = player.equipItem[ItemType.SHOES];
+            if (player._equipItem.ContainsKey(ItemType.SHOES))
+                Shoes = player._equipItem[ItemType.SHOES];
             else
                 Shoes = null;
         }
         private void EquipItem(ItemType type, Item item)
         {
-            if (!player.equipItem.ContainsKey(type))
+            if (!player._equipItem.ContainsKey(type))
             {
                 player.EquipItem(type, item);
             }
             else
             {
                 Console.Clear();
-                if (Weapon.Equals(item))
+                if (item.Equals(Weapon) || item.Equals(Helmet)|| item.Equals(Armor)|| item.Equals(Shoes))
                 {
-                    Console.WriteLine("이미 장착중인 무기입니다.");
+                    Console.WriteLine("이미 장착중인 장비입니다.");
                 }
                 else
                 {

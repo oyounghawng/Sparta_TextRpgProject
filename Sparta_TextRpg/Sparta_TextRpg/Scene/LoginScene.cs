@@ -4,22 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Sparta_TextRpg.Scene
 {
+
     internal class LoginScene : BaseScene
     {
         public override void Enter()
         {
             sceneName = SceneName.LoginScene;
-            while (!Console.KeyAvailable)
+
+            while (true)
             {
                 Console.Clear();
                 Utility.ShowTite();
-                Thread.Sleep(150);
+                Thread.Sleep(100);
+                if (Console.KeyAvailable)
+                {
+                    Console.Clear();
+                    break;
+                }
                 Console.Clear();
-                Thread.Sleep(150);
+                Thread.Sleep(100);
             }
-            ViewMenu();
+            var key = Console.ReadKey(true).Key;
+            switch (key)
+            {
+                default:
+                    Console.Clear();
+                    ViewMenu();
+                    break;
+            }
         }
 
         public override void Excute()

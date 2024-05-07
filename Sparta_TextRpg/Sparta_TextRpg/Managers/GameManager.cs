@@ -38,11 +38,7 @@ namespace Sparta_TextRpg
             scenes[(int)SceneName.InventoryScene] = new InventoryScene();
             scenes[(int)SceneName.DungeonScene] = new DungeonScene();
             scenes[(int)SceneName.RestScene] = new RestScene();
-
-            
-
             ChangeScene(SceneName.LoginScene);
-
             Excute();
         }
         public void Excute()
@@ -72,6 +68,11 @@ namespace Sparta_TextRpg
             // 새로운 씬으로 변경 및 시작 처리
             curScene = scenes[idx];
             curScene.Enter();
+        }
+        public void RestartGame()
+        {
+            player = new Player();
+            ChangeScene(SceneName.LoginScene);
         }
     }
 }

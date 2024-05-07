@@ -17,6 +17,7 @@ public enum ItemRating
     LEGEND,
     UNIQUE,
     RARE,
+    UNKOWN,
 }
 
 namespace Sparta_TextRpg
@@ -45,6 +46,20 @@ namespace Sparta_TextRpg
             _price = price;
             _cnt = cnt;
         }
+        public Item DeepCopy(Item _item)
+        {
+            Item item = new Item();
+            item._name = _item._name;
+            item._itemtype = _item._itemtype;
+            item._statvalue = _item._statvalue;
+            item._description = _item._description;
+            item._itemrating = _item._itemrating;
+            item._isbuy = _item._isbuy;
+            item._price = _item._price;
+            item._cnt = 1;
+            return item;
+        }
+
         public string StatType
         {
             get
@@ -52,7 +67,13 @@ namespace Sparta_TextRpg
                 if (_itemtype == ItemType.WEAPON)
                     return "공격력";
                 else if (_itemtype == ItemType.POTION)
-                    return "회복량";
+                {
+                    if(_name.Contains("체력"))
+                        return "체력 회복량";
+                    else
+                        return "마나 회복량";
+                }
+                    
                 else
                     return "방어력";
             }

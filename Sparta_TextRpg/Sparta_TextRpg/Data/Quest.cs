@@ -10,8 +10,9 @@ namespace Sparta_TextRpg
     {
         public string title;
         public string description;
+        public string difficulty;
+        public string reward;
         public string goal;
-        public Item reward;
         public Enemy enemy;
         public int gold;
         public int curcnt;
@@ -19,23 +20,38 @@ namespace Sparta_TextRpg
 
         public Quest()
         {
-            title = "마을을 위협하는 슬라임 처치";
-            description = "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\n" +
-                          "마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\n" +
-                          "모험가인 자네가 좀 처치해주게!";
-            goal = "스켈레톤 5 마리 처치";
-            gold = 5;
-            curcnt = 0;
-            goalcnt = 1;
+
         }
-        public void Init(Item _item, Enemy _enemy)
+        public Quest(string _title, string _description, string _difficulty, string _reward, string _goal, int _gold, int _goalcnt, Enemy _enemy)
         {
-            reward = _item;
+            title = _title;
+            description = _description;
+            difficulty = _difficulty;
+            reward = _reward;
+            goal = _goal;
+            gold = _gold;
+            curcnt = 0;
+            goalcnt = _goalcnt;
             enemy = _enemy;
+        }
+        public Quest DeepCopy(Quest _quest)
+        {
+            Quest quest = new Quest();
+            quest.title =  _quest.title;
+            quest.description = _quest.description;
+            quest.difficulty = _quest.difficulty;
+            quest.reward = _quest.reward;
+            quest.goal = _quest.goal;
+            quest.gold = _quest.gold;
+            quest.curcnt = 0;
+            quest.goalcnt = _quest.goalcnt;
+            quest.enemy = _quest.enemy;
+
+            return quest;
         }
         public void cntQuest(Enemy _enemy)
         {
-            if(enemy.name == _enemy.name)
+            if (enemy.name == _enemy.name)
             {
                 curcnt++;
             }

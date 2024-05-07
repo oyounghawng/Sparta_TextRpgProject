@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -22,6 +23,7 @@ namespace Sparta_TextRpg
         public int _currentmp;
         public int _gold;
         public int[] _needlevelexp;
+        public int _currentdungeonlevel;
         public Playerjobs _playerjobs;
 
         public int _critical;
@@ -34,19 +36,21 @@ namespace Sparta_TextRpg
 
         public List<Item> _inventory;
         public List<Quest> _quest;
-        public Dictionary<ItemType, Item> equipItem;
+        public Dictionary<ItemType, Item> _equipItem;
 
         public Player()
         {
             _level = 1;
             _exp = 0;
-            _gold = 1500;
+            _gold = 500;
             _critical = 15;
             _dodge = 10;
             _inventory = new List<Item>();
             _needlevelexp = [10, 25, 55, 100, 155, 225, 310, 410, 525];
-            equipItem = new Dictionary<ItemType, Item>();
+            _equipItem = new Dictionary<ItemType, Item>();
             _playerjobs = new Playerjobs();
+            _quest = new List<Quest>();
+            _currentdungeonlevel = 1;
         }
         public void SetJobStat(Playerjobs playerjob)
         {
@@ -61,24 +65,25 @@ namespace Sparta_TextRpg
         }
         public void EquipItem(ItemType type, Item item)
         {
-            if (!equipItem.ContainsKey(type))
+            if (!_equipItem.ContainsKey(type))
             {
-                equipItem.Add(type, item);
+                _equipItem.Add(type, item);
             }
             else
             {
-                equipItem[type] = item;
+                _equipItem[type] = item;
             }
             ModiferStat();
         }
         private void ModiferStat()
         {
             modifierattck = 0;
+            modifierCritical = 0;
             modifierdefence = 0;
             modifierDodge = 0;
-            if (equipItem.ContainsKey(ItemType.WEAPON))
+            if (_equipItem.ContainsKey(ItemType.WEAPON) && _equipItem[ItemType.WEAPON] != null)
             {
-                switch (equipItem[ItemType.WEAPON]._itemrating)
+                switch (_equipItem[ItemType.WEAPON]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierCritical = 10;
@@ -90,12 +95,11 @@ namespace Sparta_TextRpg
                         modifierCritical = 30;
                         break;
                 }
-                modifierCritical = equipItem[ItemType.WEAPON]._statvalue;
-                modifierattck += equipItem[ItemType.WEAPON]._statvalue;
+                modifierattck += _equipItem[ItemType.WEAPON]._statvalue;
             }
-            if (equipItem.ContainsKey(ItemType.HELMET))
+            if (_equipItem.ContainsKey(ItemType.HELMET) && _equipItem[ItemType.HELMET] != null)
             {
-                switch (equipItem[ItemType.HELMET]._itemrating)
+                switch (_equipItem[ItemType.HELMET]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierDodge += 5;
@@ -107,11 +111,11 @@ namespace Sparta_TextRpg
                         modifierDodge += 15;
                         break;
                 }
-                modifierdefence += equipItem[ItemType.HELMET]._statvalue;
+                modifierdefence += _equipItem[ItemType.HELMET]._statvalue;
             }
-            if (equipItem.ContainsKey(ItemType.ARMOR))
+            if (_equipItem.ContainsKey(ItemType.ARMOR) && _equipItem[ItemType.ARMOR] != null)
             {
-                switch (equipItem[ItemType.ARMOR]._itemrating)
+                switch (_equipItem[ItemType.ARMOR]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierDodge += 5;
@@ -123,11 +127,11 @@ namespace Sparta_TextRpg
                         modifierDodge += 15;
                         break;
                 }
-                modifierdefence += equipItem[ItemType.ARMOR]._statvalue;
+                modifierdefence += _equipItem[ItemType.ARMOR]._statvalue;
             }
-            if (equipItem.ContainsKey(ItemType.SHOES))
+            if (_equipItem.ContainsKey(ItemType.SHOES) && _equipItem[ItemType.SHOES] != null)
             {
-                switch (equipItem[ItemType.SHOES]._itemrating)
+                switch (_equipItem[ItemType.SHOES]._itemrating)
                 {
                     case ItemRating.RARE:
                         modifierDodge += 5;
@@ -139,13 +143,45 @@ namespace Sparta_TextRpg
                         modifierDodge += 15;
                         break;
                 }
-                modifierdefence += equipItem[ItemType.SHOES]._statvalue;
+                modifierdefence += _equipItem[ItemType.SHOES]._statvalue;
+            }
+        }
+        public void LevelUP()
+        {
+            _attack += 0.5f; // 공격력 0.5 증가
+            _defence += 1; // 방어력 1 증가
+        }
+        public bool AddQuest()
+        {
+            if (_quest.Count >= 3)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
         public int HP
         {
             get { return _currenthp; }
-            set { _currenthp -= value; }
+            set 
+            { 
+                _currenthp -= value;
+                if(_currenthp <= 0)
+                {
+                    Utility.PrintTextHighlights("- ", "GAME OVER!", " - \n", ConsoleColor.Red);
+                    Console.WriteLine("다시 하려면 아무키나 누르세요");
+                    var key = Console.ReadKey(true).Key;
+                    switch (key)
+                    {
+                        default:
+                            Console.Clear();
+                            GameManager.Instance.RestartGame();
+                            break;
+                    }
+                }
+            }
         }
         public int MP
         {
@@ -155,7 +191,7 @@ namespace Sparta_TextRpg
             }
             set
             {
-                _currenthp = value;
+                _currentmp -= value;
             }
         }
         public float Attack
@@ -182,7 +218,6 @@ namespace Sparta_TextRpg
             }
             private set { }
         }
-
         public int Dodge
         {
             get
@@ -191,7 +226,6 @@ namespace Sparta_TextRpg
             }
             private set { }
         }
-
         public string Name
         {
             get
@@ -203,7 +237,6 @@ namespace Sparta_TextRpg
                 _name = value;
             }
         }
-
         public int HealHP
         {
             set
@@ -215,5 +248,17 @@ namespace Sparta_TextRpg
                 }
             }
         }
+        public int HealMP
+        {
+            set
+            {
+                _currentmp += value;
+                if (_currentmp > _maxmp)
+                {
+                    _currentmp = _maxmp;
+                }
+            }
+        }
+
     }
 }

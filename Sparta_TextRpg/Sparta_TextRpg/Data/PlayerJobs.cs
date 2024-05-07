@@ -46,7 +46,7 @@ namespace Sparta_TextRpg
                     return new Playerjobs();
             }
         }
-        private Playerjobs(Playerjob playerjob, int attack, int defence, int hp, int mp, string skill1, string skill2)
+        private Playerjobs(Playerjob playerjob, float attack, int defence, int hp, int mp, string skill1, string skill2)
         {
             _playerjob = playerjob;
             _attack = attack;
@@ -68,7 +68,7 @@ namespace Sparta_TextRpg
             {
                 Warrior = new Playerjobs(Playerjob.전사, 10, 5, 150, 50, "베쉬", "볼링베쉬");
                 Magician = new Playerjobs(Playerjob.마법사, 10, 5, 100, 100, "파이어볼", "메테오");
-                Archer = new Playerjobs(Playerjob.궁수, 10, 5, 100, 50, "집중사격", "멀티에로우");
+                Archer = new Playerjobs(Playerjob.궁수, 15, 5, 100, 50, "집중사격", "멀티에로우");
             }
         }
     }

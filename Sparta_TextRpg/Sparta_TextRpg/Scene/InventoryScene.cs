@@ -63,14 +63,14 @@ namespace Sparta_TextRpg
 
             Utility.PrintTextHighlights("\n", "[소비아이템 목록]", "", ConsoleColor.Cyan);
             Console.WriteLine(Utility.PadRightForMixedText("  아이템 이름", 20)
-    + " | " + Utility.PadRightForMixedText($"능력치", 15)
+    + " | " + Utility.PadRightForMixedText($"능력치", 20)
     + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
     + " | " + "보유수량");
             Console.WriteLine("------------------------------------------------------------------------------------------");
             foreach (Item item in filterConsumableItem)
             {
                 Console.WriteLine(Utility.PadRightForMixedText($"- {item._name}", 20)
-                + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 15)
+                + " | " + Utility.PadRightForMixedText($"{item.StatType} +{item._statvalue}", 20)
                 + " | " + Utility.PadRightForMixedText($"{item._description}", 20)
                 + " | " + item._cnt);
             }

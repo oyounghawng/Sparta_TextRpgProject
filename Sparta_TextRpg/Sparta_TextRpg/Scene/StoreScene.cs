@@ -202,7 +202,7 @@ namespace Sparta_TextRpg.Scene
             Utility.PrintTextHighlights("", $"{player._gold} G", "\n", ConsoleColor.Yellow);
 
             Console.WriteLine(Utility.PadRightForMixedText("- 아이템 이름", 20)
-                + " | " + Utility.PadRightForMixedText($"능력치", 15)
+                + " | " + Utility.PadRightForMixedText($"능력치", 20)
                 + " | " + Utility.PadRightForMixedText($"아이템 정보", 20)
                 + " | " + Utility.PadRightForMixedText($"가격", 20)
                 + " | " + "보유수량");
@@ -218,7 +218,7 @@ namespace Sparta_TextRpg.Scene
                     potioncnt = potion._cnt.ToString();
 
                 Console.WriteLine(Utility.PadRightForMixedText($"- {cnt}.  {filteritem._name}", 20)
-            + " | " + Utility.PadRightForMixedText($"{filteritem.StatType} +{filteritem._statvalue}", 15)
+            + " | " + Utility.PadRightForMixedText($"{filteritem.StatType} +{filteritem._statvalue}", 20)
             + " | " + Utility.PadRightForMixedText($"{filteritem._description}", 20)
             + " | " + Utility.PadRightForMixedText($"{filteritem._price}", 20)
             + " | " + potioncnt);

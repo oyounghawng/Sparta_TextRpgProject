@@ -206,7 +206,7 @@ namespace Sparta_TextRpg
             {
                 critic = false;
             }
-            float damage = player._attack;
+            float damage = player.Attack;
             float offset = MathF.Round(damage * 0.1f);
             int offsetdamage = random.Next((int)(damage - offset), (int)(damage + offset + 1));
             int preEnemiseHp = enemies[idx].HP;
@@ -285,14 +285,7 @@ namespace Sparta_TextRpg
         private void Skill1Target()
         {
             Utility.PrintTextHighlights("- ", "Battle - PlayerTurn!", " - \n", ConsoleColor.Red);
-            int cnt = 1;
-            foreach (Enemy enemy in enemies)
-            {
-                string Diestring = !enemy.isDie ? enemy.hp.ToString() : "Dead";
-                Console.WriteLine(Utility.PadRightForMixedText($"{cnt}. Lv.{enemy.level} {enemy.name}", 20)
-                + " | " + Utility.PadRightForMixedText($"HP : {Diestring}", 15));
-                cnt++;
-            }
+            ShowEnemyStat();
             Console.WriteLine("\n타겟을 선택하세요\n");
             if (player._currentmp >= 10)
             {
@@ -336,7 +329,7 @@ namespace Sparta_TextRpg
                 Console.WriteLine("이미 죽은 몬스터입니다. 다른 몬스터를 선택해 주세요");
                 Skill1Target();
             }
-            int damage = (int)MathF.Round(2 * player._attack);
+            int damage = (int)MathF.Round(2 * player.Attack);
             int preEnemyhp = enemies[idx].HP;
             enemies[idx].HP = damage;
             player.MP = 10;
@@ -365,7 +358,7 @@ namespace Sparta_TextRpg
         {
             int[] targetidx = new int[2] { -1, -1 };
             int[] preEnemyhp = new int[2];
-            int damage = (int)MathF.Round(1.5f * player._attack);
+            int damage = (int)MathF.Round(1.5f * player.Attack];
             Random random = new Random();
             int liveEnemyCount = 0;
             foreach (Enemy enemy in enemies)

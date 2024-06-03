@@ -103,7 +103,7 @@ namespace Sparta_TextRpg.Scene
             {
                 Console.Clear();
                 Console.WriteLine("잘못된 입력입니다.");
-                GameManager.Instance.LoadPreScene();
+                ViewMenu();
             }
         }
         private void CheckQuestCondition(int idx)
